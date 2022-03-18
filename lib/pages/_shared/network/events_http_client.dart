@@ -4,6 +4,7 @@ import 'package:sparta/pages/_shared/models/event_json.dart';
 import 'package:sparta/pages/_shared/network/_http_client.dart';
 import 'package:sparta/pages/_shared/util/safe_map.dart';
 
+/*
 final _example = {
   'events': [
     {
@@ -23,6 +24,7 @@ final _example = {
     }
   ]
 };
+*/
 
 class EventsHttpClient extends HttpClient {
   Future<List<EventsJson>> fetchEvents() async {

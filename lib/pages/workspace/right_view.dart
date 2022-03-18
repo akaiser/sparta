@@ -11,7 +11,6 @@ class RightView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD_RightView');
     return Stack(
       children: [
         Column(

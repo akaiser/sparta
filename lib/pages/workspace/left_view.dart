@@ -7,7 +7,6 @@ class LeftView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD_LeftView');
     return Column(
       children: const [
         DatePicker(),

@@ -1,0 +1,19 @@
+{
+  "app_name": "Sparta",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "monday_short": "Mo",
+  "tuesday_short": "Tu",
+  "wednesday_short": "We",
+  "thursday_short": "Th",
+  "friday_short": "Fr",
+  "saturday_short": "Sa",
+  "sunday_short": "Su",
+  "week": "Full week",
+  "work_week": "Work week"
+}

@@ -1,0 +1,33 @@
+import 'package:flutter/widgets.dart';
+import 'package:sparta/l10n/mappers/week_day.dart';
+import 'package:sparta/pages/_shared/extensions/build_context.dart';
+import 'package:sparta/pages/_shared/state/value_connector.dart';
+
+class DayNames extends StatelessWidget {
+  const DayNames({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ValueConnector<bool>(
+        converter: (state) => state.settingsState.isWorkWeek,
+        builder: (context, isWorkWeek) => Row(
+          children: [
+            ...WeekDay.values.take(isWorkWeek ? 5 : 7).map(
+                  (weekDay) => Expanded(
+                    child: Center(
+                      child: Text(
+                        weekDay.l10n(context.l10n),
+                        overflow: TextOverflow.ellipsis,
+                        style: context.tt.subtitle2,
+                      ),
+                    ),
+                  ),
+                ),
+          ],
+        ),
+      ),
+    );
+  }
+}

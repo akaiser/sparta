@@ -12,17 +12,19 @@ class WorkspacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ValueConnector<bool>(
-        converter: (state) => state.settingsState.isLeftViewVisible,
-        builder: (context, isLeftViewVisible) {
-          return SimpleSplitView(
-            left: const LeftView(),
-            right: const RightView(),
-            dividerWidth: splitDividerWidth,
-            dividerColor: context.td.dividerColor,
-            leftViewVisible: isLeftViewVisible,
-          );
-        },
+      body: SafeArea(
+        child: ValueConnector<bool>(
+          converter: (state) => state.settingsState.isLeftViewVisible,
+          builder: (context, isLeftViewVisible) {
+            return SimpleSplitView(
+              left: const LeftView(),
+              right: const RightView(),
+              dividerWidth: splitDividerWidth,
+              dividerColor: context.td.dividerColor,
+              leftViewVisible: isLeftViewVisible,
+            );
+          },
+        ),
       ),
     );
   }

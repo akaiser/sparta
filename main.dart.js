@@ -17867,21 +17867,21 @@ vV(){var s=0,r=A.aa(t.H),q
 var $async$vV=A.ab(function(a,b){if(a===1)return A.a7(b,r)
 while(true)switch(s){case 0:q=$.p4
 s=2
-return A.ac(A.ahI("is_light_theme",!0),$async$vV)
+return A.ac(A.ahI("de.kaiserv.sparta.is_light_theme",!0),$async$vV)
 case 2:q.b=b
 q=$.p3
 s=3
-return A.ac(A.ahI("is_left_view_visible",!0),$async$vV)
+return A.ac(A.ahI("de.kaiserv.sparta.is_left_view_visible",!0),$async$vV)
 case 3:q.b=b
 q=$.p5
 s=4
-return A.ac(A.asA("week_view","week"),$async$vV)
+return A.ac(A.asA("de.kaiserv.sparta.week_view","week"),$async$vV)
 case 4:q.b=b
 return A.a8(null,r)}})
 return A.a9($async$vV,r)},
-asD(a){return A.ahJ("is_light_theme",a).aN(0,new A.ZJ(a),t.H)},
-asC(a){return A.ahJ("is_left_view_visible",a).aN(0,new A.ZI(a),t.H)},
-asE(a){return A.asB("week_view",a).aN(0,new A.ZK(a),t.H)},
+asD(a){return A.ahJ("de.kaiserv.sparta.is_light_theme",a).aN(0,new A.ZJ(a),t.H)},
+asC(a){return A.ahJ("de.kaiserv.sparta.is_left_view_visible",a).aN(0,new A.ZI(a),t.H)},
+asE(a){return A.asB("de.kaiserv.sparta.week_view",a).aN(0,new A.ZK(a),t.H)},
 ahI(a,b){return A.pw().aN(0,new A.ZD(a,!0),t.y)},
 asA(a,b){return A.pw().aN(0,new A.ZF(a,b),t.N)},
 ahJ(a,b){return A.pw().aN(0,new A.ZG(a,b),t.H)},

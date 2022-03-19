@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sparta/pages/_shared/extensions/build_context.dart';
-import 'package:sparta/pages/workspace/left/date_picker.dart';
+import 'package:sparta/_themes.dart';
+import 'package:sparta/pages/workspace/left/calendars/calendars.dart';
+import 'package:sparta/pages/workspace/left/date_picker/date_controls.dart';
+import 'package:sparta/pages/workspace/left/notes/notes.dart';
+import 'package:sparta/pages/workspace/left/team/team.dart';
 
 class LeftView extends StatelessWidget {
   const LeftView({Key? key}) : super(key: key);
@@ -8,46 +11,22 @@ class LeftView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        DatePicker(),
-        SizedBox(height: 30),
-        _ExpansionTile('Kalender'),
-        _ExpansionTile('Team'),
-        _ExpansionTile('Globale Notizen'),
-        // Calendars(),
-        // Chat(),
-      ],
-    );
-  }
-}
-
-class _ExpansionTile extends StatelessWidget {
-  const _ExpansionTile(this.title, {Key? key}) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      tilePadding: const EdgeInsets.only(left: 16, right: 10),
-      expandedAlignment: Alignment.centerLeft,
-      collapsedTextColor: context.td.disabledColor,
-      collapsedIconColor: context.td.disabledColor,
-      textColor: context.td.hintColor,
-      iconColor: context.td.hintColor,
-      title: Text(
-        title,
-        style: TextStyle(fontSize: context.tt.bodyLarge.fontSize),
-      ),
-      children: const [
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text('This is tile number 1'),
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8),
+          child: DateControls(),
         ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text('This is tile number 2'),
-        )
+        const Divider(height: 1, thickness: sectionsDividerThickness),
+        const SizedBox(height: 30),
+        Expanded(
+          child: ListView(
+            children: const [
+              Calendars(),
+              Team(),
+              Notes(),
+            ],
+          ),
+        ),
       ],
     );
   }

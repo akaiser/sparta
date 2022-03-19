@@ -19,40 +19,37 @@ class TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-      child: ValueConnector<DateTime>(
-        converter: (state) => state.eventsState.refDate,
-        builder: (context, refDate) {
-          void fetch(date) => context.dispatch(FetchEventsAction(date));
-          return Row(
-            children: [
-              const ToggleLeftViewButton(),
-              const BarItemsSeparator(),
-              BaseIconButton(
-                Icons.keyboard_arrow_up,
-                onPressed: () => fetch(refDate.subtract(_baseFetchDuration)),
-              ),
-              const SizedBox(width: 4),
-              BaseIconButton(
-                Icons.fiber_manual_record_outlined,
-                onPressed: refDate.isSameDay(now) ? null : () => fetch(now),
-              ),
-              const SizedBox(width: 4),
-              BaseIconButton(
-                Icons.keyboard_arrow_down,
-                onPressed: () => fetch(refDate.add(_baseFetchDuration)),
-              ),
-              const Spacer(),
-              const WeekViewDropdown(),
-              const BarItemsSeparator(),
-              const ToggleThemeModeButton(),
-              const SizedBox(width: 8),
-              const UserMenu(),
-            ],
-          );
-        },
-      ),
+    return ValueConnector<DateTime>(
+      converter: (state) => state.eventsState.refDate,
+      builder: (context, refDate) {
+        void fetch(date) => context.dispatch(FetchEventsAction(date));
+        return Row(
+          children: [
+            const ToggleLeftViewButton(),
+            const BarItemsSeparator(),
+            BaseIconButton(
+              Icons.keyboard_arrow_up,
+              onPressed: () => fetch(refDate.subtract(_baseFetchDuration)),
+            ),
+            const SizedBox(width: 4),
+            BaseIconButton(
+              Icons.fiber_manual_record_outlined,
+              onPressed: refDate.isSameDay(now) ? null : () => fetch(now),
+            ),
+            const SizedBox(width: 4),
+            BaseIconButton(
+              Icons.keyboard_arrow_down,
+              onPressed: () => fetch(refDate.add(_baseFetchDuration)),
+            ),
+            const Spacer(),
+            const WeekViewDropdown(),
+            const BarItemsSeparator(),
+            const ToggleThemeModeButton(),
+            const SizedBox(width: 8),
+            const UserMenu(),
+          ],
+        );
+      },
     );
   }
 }

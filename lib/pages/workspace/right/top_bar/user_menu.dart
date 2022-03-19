@@ -6,21 +6,30 @@ class UserMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      tooltip: '',
-      itemBuilder: (context) {
-        final textStyle = context.tt.bodyMedium;
-        return [
-          PopupMenuItem(child: Text('Admin', style: textStyle)),
-          PopupMenuItem(child: Text('Logout', style: textStyle)),
-        ];
-      },
-      child: const SizedBox(
-        width: 30,
-        height: 30,
-        child: ColoredBox(
-          color: Colors.lightBlue,
-          child: Center(child: Text('AK')),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+      ),
+      child: PopupMenuButton(
+        tooltip: '',
+        itemBuilder: (context) {
+          final textStyle = context.tt.bodyMedium;
+          return [
+            PopupMenuItem(child: Text('Admin', style: textStyle)),
+            PopupMenuItem(child: Text('Logout', style: textStyle)),
+          ];
+        },
+        child: Container(
+          width: 28,
+          height: 28,
+          decoration: const BoxDecoration(
+            //shape: BoxShape.circle,
+            color: Colors.lightBlue,
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+          ),
+          child: const Center(child: Text('AK')),
         ),
       ),
     );

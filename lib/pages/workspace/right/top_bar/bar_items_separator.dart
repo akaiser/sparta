@@ -13,7 +13,7 @@ class BarItemsSeparator extends StatelessWidget {
         color: context.td.dividerColor,
         child: const SizedBox(
           width: sectionsDividerThickness,
-          height: 30,
+          height: 28,
         ),
       ),
     );

@@ -15,5 +15,8 @@
   "saturday_short": "Sa",
   "sunday_short": "So",
   "week": "Ganze Woche",
-  "work_week": "Arbeitswoche"
+  "work_week": "Arbeitswoche",
+  "calendars": "Kalender",
+  "team": "Team",
+  "notes": "Notizen"
 }

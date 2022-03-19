@@ -15,7 +15,10 @@ class RightView extends StatelessWidget {
       children: [
         Column(
           children: const [
-            TopBar(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(9, 8, 8, 8),
+              child: TopBar(),
+            ),
             Divider(height: 1, thickness: sectionsDividerThickness),
             DayNames(),
             Expanded(child: Days()),

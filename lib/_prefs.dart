@@ -2,9 +2,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparta/l10n/mappers/week_view.dart';
 
-const _isLightThemeKey = 'is_light_theme';
-const _isLeftViewVisibleKey = 'is_left_view_visible';
-const _weekViewKey = 'week_view';
+const _keyPrefix = 'de.kaiserv.sparta';
+const _isLightThemeKey = '$_keyPrefix.is_light_theme';
+const _isLeftViewVisibleKey = '$_keyPrefix.is_left_view_visible';
+const _weekViewKey = '$_keyPrefix.week_view';
 
 class Prefs {
   Prefs._();
@@ -34,7 +35,7 @@ class Prefs {
         .then((_) => Prefs.weekView = weekView);
   }
 
-  // get //
+  // getOrSet //
 
   static Future<bool> _getOrSetBool(String key, bool initValue) {
     return _instance(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/workspace/left/calendars/calendars.dart';
-import 'package:sparta/pages/workspace/left/date_picker/date_controls.dart';
+import 'package:sparta/pages/workspace/left/date_controls.dart';
+import 'package:sparta/pages/workspace/left/date_picker.dart';
 import 'package:sparta/pages/workspace/left/notes/notes.dart';
 import 'package:sparta/pages/workspace/left/team/team.dart';
 
@@ -16,13 +17,16 @@ class LeftView extends StatelessWidget {
           padding: EdgeInsets.all(8),
           child: DateControls(),
         ),
-        const Divider(height: 1, thickness: sectionsDividerThickness),
-        const SizedBox(height: 30),
+        verticalDivider,
+        const DatePicker(),
+        verticalDivider,
         Expanded(
           child: ListView(
             children: const [
               Calendars(),
+              verticalDivider,
               Team(),
+              verticalDivider,
               Notes(),
             ],
           ),

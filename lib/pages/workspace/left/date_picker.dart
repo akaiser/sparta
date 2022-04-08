@@ -6,6 +6,6 @@ class DatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO cols: 7, rows: 5
-    return Column();
+    return const SizedBox(height: 180);
   }
 }

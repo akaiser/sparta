@@ -1,36 +1,42 @@
 import 'package:flutter/material.dart';
 
+const _fontFamily = 'OpenSans';
+
 const _black = Color.fromRGBO(0, 0, 0, 1);
 const _white = Color.fromRGBO(255, 255, 255, 1);
 
+const accentColor = Colors.lightBlue;
+
 const gridBackgroundColor = Color.fromRGBO(0, 0, 0, 0.70);
 
-const splitDividerWidth = 3.0;
-const sectionsDividerThickness = 2.0;
+const sectionsDividerThickness = 1.0;
+
+const verticalDivider = Divider(height: 1, thickness: sectionsDividerThickness);
 
 class Themes {
   static ThemeData get lightTheme {
     const primary = Color.fromRGBO(215, 215, 215, 1);
     return ThemeData(
-      //primarySwatch: Colors.blueGrey,
+      fontFamily: _fontFamily,
       brightness: Brightness.light,
       cardColor: _white,
       dividerColor: primary,
       highlightColor: _white,
-      primaryColor: primary,
       primaryColorLight: const Color.fromRGBO(238, 238, 238, 1),
+      primaryColorDark: Colors.black26,
     );
   }
 
   static ThemeData get darkTheme {
     const primary = Color.fromRGBO(30, 30, 30, 1);
     return ThemeData(
+      fontFamily: _fontFamily,
       brightness: Brightness.dark,
       cardColor: const Color.fromRGBO(47, 47, 47, 1),
       dividerColor: primary,
       highlightColor: _black,
-      primaryColor: primary,
       primaryColorLight: const Color.fromRGBO(37, 37, 37, 1),
+      primaryColorDark: Colors.black26,
     );
   }
 }

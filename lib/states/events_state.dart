@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:sparta/_epics.dart';
-import 'package:sparta/pages/_shared/models/event_json.dart';
+import 'package:sparta/pages/_shared/extensions/date_time.dart';
+import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/pages/_shared/util/try_and_catch.dart';
 
@@ -23,7 +24,7 @@ class FetchEventsAction extends _EventsAction {
 class ResultFetchEventsAction extends _EventsAction {
   const ResultFetchEventsAction(this.data);
 
-  final List<EventsJson> data;
+  final Map<DateTime, List<EventModel>> data;
 
   @override
   List<Object?> get props => [data];
@@ -41,7 +42,11 @@ class ErrorFetchEventsAction extends _EventsAction {
 EventsState eventsStateReducer(EventsState old, dynamic action) {
   if (action is _EventsAction) {
     if (action is FetchEventsAction) {
-      return EventsState(isLoading: true, refDate: action.refDate);
+      return EventsState(
+        refDate: action.refDate.truncate, // TODO verify truncate
+        data: old.data,
+        isLoading: true,
+      );
     } else if (action is ResultFetchEventsAction) {
       return EventsState(refDate: old.refDate, data: action.data);
     } else if (action is ErrorFetchEventsAction) {
@@ -55,7 +60,17 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
   return TypedAppEpic<FetchEventsAction>(
     (actions, _) => actions.asyncMap(
       (action) => tryAndCatch(
-        () => http.fetchEvents().then((data) => ResultFetchEventsAction(data)),
+        () => http
+            .fetchEvents()
+            .then(
+              (eventsList) => {
+                for (final events in eventsList)
+                  events.day.truncate: events.items // TODO verify truncate
+                      .map((event) => EventModel.fromJson(event))
+                      .toList(growable: false),
+              },
+            )
+            .then((events) => ResultFetchEventsAction(events)),
         (exception) => ErrorFetchEventsAction(exception),
       ),
     ),
@@ -65,13 +80,13 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
 class EventsState extends Equatable {
   const EventsState({
     DateTime? refDate,
-    this.data = const [],
+    this.data = const {},
     this.exception,
     this.isLoading = false,
   }) : _refDate = refDate;
 
   final DateTime? _refDate;
-  final List<EventsJson> data;
+  final Map<DateTime, List<EventModel>> data;
   final Exception? exception;
   final bool isLoading;
 

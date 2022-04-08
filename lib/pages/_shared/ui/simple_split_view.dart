@@ -1,34 +1,29 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
 class SimpleSplitView extends StatelessWidget {
   const SimpleSplitView({
     required this.left,
     required this.right,
-    this.dividerWidth = 4,
-    this.dividerColor = const Color.fromRGBO(78, 74, 82, 1),
-    this.leftViewVisible = true,
+    required this.leftViewVisible,
     Key? key,
   }) : super(key: key);
 
   final Widget left;
   final Widget right;
-
-  final double dividerWidth;
-  final Color dividerColor;
-
   final bool leftViewVisible;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constrains) => _SimpleSplitView(
-        left: left,
-        right: right,
-        dividerWidth: dividerWidth,
-        dividerColor: dividerColor,
-        leftViewVisible: leftViewVisible,
-        leftWidthMax: constrains.maxWidth - dividerWidth,
-      ),
+      builder: (context, constrains) {
+        return _SimpleSplitView(
+          left: left,
+          right: right,
+          maxWidth: constrains.maxWidth,
+          leftViewVisible: leftViewVisible,
+        );
+      },
     );
   }
 }
@@ -37,22 +32,15 @@ class _SimpleSplitView extends StatefulWidget {
   const _SimpleSplitView({
     required this.left,
     required this.right,
-    required this.dividerWidth,
-    required this.dividerColor,
+    required this.maxWidth,
     required this.leftViewVisible,
-    required this.leftWidthMax,
     Key? key,
-  })  : leftWidthOnInit = leftWidthMax / 3.5,
-        super(key: key);
+  }) : super(key: key);
 
   final Widget left;
   final Widget right;
-  final double dividerWidth;
-  final Color dividerColor;
+  final double maxWidth;
   final bool leftViewVisible;
-  final double leftWidthMax;
-
-  final double leftWidthOnInit;
 
   @override
   _SimpleSplitViewState createState() => _SimpleSplitViewState();
@@ -64,7 +52,7 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
   @override
   void initState() {
     super.initState();
-    _leftWidthNotifier = ValueNotifier(widget.leftWidthOnInit);
+    _leftWidthNotifier = ValueNotifier(widget.maxWidth / 3.5);
   }
 
   @override
@@ -74,9 +62,7 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
   }
 
   double _leftWidthCalculated(double leftWidth) {
-    return widget.leftWidthMax - leftWidth < 0
-        ? widget.leftWidthMax
-        : leftWidth;
+    return widget.maxWidth - leftWidth < 0 ? widget.maxWidth : leftWidth;
   }
 
   @override
@@ -86,45 +72,63 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
         Visibility(
           maintainState: true,
           visible: widget.leftViewVisible,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Stack(
             children: [
               ValueListenableBuilder<double>(
                 valueListenable: _leftWidthNotifier,
                 builder: (context, leftWidth, child) {
-                  final leftWidthCalculated = _leftWidthCalculated(leftWidth);
                   return SizedBox(
-                    width: leftWidthCalculated,
-                    child: leftWidthCalculated > 0 ? child : null,
+                    width: _leftWidthCalculated(leftWidth),
+                    child: child,
                   );
                 },
                 child: widget.left,
               ),
-              MouseRegion(
-                cursor: SystemMouseCursors.resizeLeftRight,
-                child: GestureDetector(
-                  onPanUpdate: (details) {
-                    final leftWidthCurrent = _leftWidthNotifier.value;
-                    var leftWidthTemp = leftWidthCurrent + details.delta.dx;
-                    if (leftWidthTemp < 0) {
-                      leftWidthTemp = 0;
-                    } else if (leftWidthTemp > widget.leftWidthMax) {
-                      leftWidthTemp = widget.leftWidthMax;
-                    }
-                    if (leftWidthCurrent != leftWidthTemp) {
-                      _leftWidthNotifier.value = leftWidthTemp;
-                    }
-                  },
-                  child: ColoredBox(
-                    color: widget.dividerColor,
-                    child: SizedBox(width: widget.dividerWidth),
+              Positioned(
+                top: 0,
+                right: 0,
+                bottom: 0,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeLeftRight,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      final leftWidthCurrent = _leftWidthNotifier.value;
+                      var leftWidthTemp = leftWidthCurrent + details.delta.dx;
+                      if (leftWidthTemp < 0) {
+                        leftWidthTemp = 0;
+                      } else if (leftWidthTemp > widget.maxWidth) {
+                        leftWidthTemp = widget.maxWidth;
+                      }
+                      if (leftWidthCurrent != leftWidthTemp) {
+                        _leftWidthNotifier.value = leftWidthTemp;
+                      }
+                    },
+                    child: const ColoredBox(
+                      color: Colors.transparent,
+                      child: SizedBox(width: 8),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        Expanded(child: widget.right),
+        Expanded(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              boxShadow: widget.leftViewVisible
+                  ? [
+                      BoxShadow(
+                        blurRadius: 10,
+                        offset: const Offset(-4, 0),
+                        color: context.td.primaryColorDark,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: widget.right,
+          ),
+        ),
       ],
     );
   }

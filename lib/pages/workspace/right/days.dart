@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
-import 'package:sparta/pages/_shared/models/event_json.dart';
+import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/simple_grid_view.dart';
 import 'package:sparta/states/events_state.dart';
@@ -31,27 +31,38 @@ class _DaysState extends State<Days> {
     super.dispose();
   }
 
+  Iterable<MapEntry<DateTime, List<EventModel>>> _filterEvents(
+    DateTime startDate,
+    Map<DateTime, List<EventModel>> events,
+  ) sync* {
+    for (var i = 0; i < 14; i++) {
+      final day = startDate.add(Duration(days: i));
+      yield events.entries.singleWhere(
+        (entry) => entry.key == day,
+        orElse: () => MapEntry(day, const []),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueConnector<_State>(
       onInit: (state, dispatch) => dispatch(
         FetchEventsAction(state.eventsState.refDate),
       ),
-      converter: (state) => _State(
-        state.eventsState.refDate,
-        state.eventsState.data,
-      ),
+      converter: (state) {
+        final refDate = state.eventsState.refDate;
+        final startDate = refDate.add(Duration(days: 1 - refDate.weekday));
+        final filtered = _filterEvents(startDate, state.eventsState.data);
+        return _State(startDate, Map.fromEntries(filtered));
+      },
       builder: (context, state) {
         final now = DateTime.now();
         final dateFormat = DateFormat.MMMd(context.lc);
 
-        final refDate = state.refDate;
-        final startDate = refDate.add(Duration(days: 1 - refDate.weekday));
+        final startDate = state.startDate;
         final lastDayOfMonth = startDate.lastDayOfMonth.day;
-        final dates = List.generate(
-          14,
-          (it) => startDate.add(Duration(days: it)),
-        );
+        final dates = state.events.keys;
 
         return ValueConnector<bool>(
           converter: (state) => state.settingsState.isWorkWeek,
@@ -63,8 +74,7 @@ class _DaysState extends State<Days> {
               gridBackgroundColor: gridBackgroundColor,
               cellBuilder: (context, xIndex, yIndex) {
                 final dateListIndex = xIndex + yIndex * 7;
-                final date = dates[dateListIndex];
-                final isCurrentDay = date.isSameDay(now);
+                final date = dates.elementAt(dateListIndex);
                 final printMonth = date.day == 1 ||
                     date.day == lastDayOfMonth ||
                     dateListIndex == 0 ||
@@ -74,19 +84,16 @@ class _DaysState extends State<Days> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _DayDate(
+                    _DayHeader(
                       '${printMonth ? dateFormat.format(date) : date.day}',
-                      isCurrentDay: isCurrentDay,
+                      isCurrentDay: date.isSameDay(now),
                     ),
                     const SizedBox(height: 0.2),
                     Expanded(
-                      child: _Day(
+                      child: _DayBody(
                         date,
-                        state.events.isNotEmpty
-                            ? state.events[dateListIndex].items
-                            : [],
+                        state.events[date]!,
                         _focusedDateNotifier,
-                        isCurrentDay: isCurrentDay,
                       ),
                     ),
                   ],
@@ -100,8 +107,8 @@ class _DaysState extends State<Days> {
   }
 }
 
-class _DayDate extends StatelessWidget {
-  const _DayDate(
+class _DayHeader extends StatelessWidget {
+  const _DayHeader(
     this.text, {
     required this.isCurrentDay,
     Key? key,
@@ -112,35 +119,37 @@ class _DayDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fWeight = isCurrentDay ? FontWeight.bold : FontWeight.normal;
-    return ColoredBox(
-      color: context.td.highlightColor,
+    final fontWeight = isCurrentDay ? FontWeight.bold : FontWeight.normal;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.td.highlightColor,
+        border: isCurrentDay
+            ? const Border(bottom: BorderSide(width: 2, color: accentColor))
+            : null,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: Text(
           text,
           textAlign: TextAlign.end,
-          style: context.tt.labelSmall.copyWith(fontWeight: fWeight),
+          style: context.tt.labelSmall.copyWith(fontWeight: fontWeight),
         ),
       ),
     );
   }
 }
 
-class _Day extends StatelessWidget {
-  const _Day(
+class _DayBody extends StatelessWidget {
+  const _DayBody(
     this.date,
     this.events,
     this.focusedDateNotifier, {
-    required this.isCurrentDay,
     Key? key,
   }) : super(key: key);
 
   final DateTime date;
-  final List<EventJson> events;
+  final List<EventModel> events;
   final ValueNotifier<DateTime?> focusedDateNotifier;
-
-  final bool isCurrentDay;
 
   @override
   Widget build(BuildContext context) {
@@ -156,9 +165,7 @@ class _Day extends StatelessWidget {
           child: ColoredBox(
             color: focusedDate == date
                 ? context.td.primaryColorLight
-                : isCurrentDay
-                    ? context.td.primaryColor
-                    : context.td.cardColor,
+                : context.td.cardColor,
             child: child,
           ),
         );
@@ -178,7 +185,7 @@ class _Event extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final EventJson event;
+  final EventModel event;
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +196,14 @@ class _Event extends StatelessWidget {
 }
 
 class _State extends Equatable {
-  const _State(this.refDate, this.events);
+  const _State(
+    this.startDate,
+    this.events,
+  );
 
-  final DateTime refDate;
-  final List<EventsJson> events;
+  final DateTime startDate;
+  final Map<DateTime, List<EventModel>> events;
 
   @override
-  List<Object?> get props => [refDate, events];
+  List<Object?> get props => [startDate, events];
 }

@@ -15,22 +15,25 @@ class ExpandableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      tilePadding: const EdgeInsets.only(left: 16, right: 10),
-      expandedAlignment: Alignment.centerLeft,
-      expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      collapsedTextColor: context.td.disabledColor,
-      collapsedIconColor: context.td.disabledColor,
-      textColor: context.td.hintColor,
-      iconColor: context.td.hintColor,
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: context.tt.subtitle2.fontSize,
-          fontWeight: context.tt.subtitle2.fontWeight,
+    return Theme(
+      data: context.td.copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.only(left: 16, right: 10),
+        expandedAlignment: Alignment.centerLeft,
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        collapsedTextColor: context.td.disabledColor,
+        collapsedIconColor: context.td.disabledColor,
+        textColor: context.td.hintColor,
+        iconColor: context.td.hintColor,
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: context.tt.subtitle2.fontSize,
+            fontWeight: context.tt.subtitle2.fontWeight,
+          ),
         ),
+        children: children,
       ),
-      children: children,
     );
   }
 }

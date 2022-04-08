@@ -14,6 +14,8 @@ class _HttpException extends Equatable implements Exception {
 }
 
 class HttpClient {
+  const HttpClient();
+
   Future<String> get(String endpoint) async {
     final response = await http.get(Uri.parse(endpoint));
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
 class UserMenu extends StatelessWidget {
@@ -26,7 +27,7 @@ class UserMenu extends StatelessWidget {
           height: 28,
           decoration: const BoxDecoration(
             //shape: BoxShape.circle,
-            color: Colors.lightBlue,
+            color: accentColor,
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
           child: const Center(child: Text('AK')),

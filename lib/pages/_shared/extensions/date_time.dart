@@ -15,6 +15,8 @@ extension DateTimeEx on DateTime {
 
   //DateTime get endOfNextWeek => endOfWeek.add(const Duration(days: 7));
 
+  DateTime get truncate => DateTime(year, month, day);
+
   DateTime get lastDayOfMonth => DateTime(year, month + 1, 0);
 
   bool isSameDay(DateTime other) =>

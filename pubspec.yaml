@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   equatable: ^2.0.3
-  flutter_redux: ^0.8.2
+  flutter_redux: ^0.9.0
   http: ^0.13.4
   intl: ^0.17.0
   redux_epics: ^0.15.1
@@ -26,5 +26,14 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  assets:
+    - google_fonts/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: google_fonts/OpenSans-Bold.ttf
+          weight: 700
+        - asset: google_fonts/OpenSans-Regular.ttf
+          weight: 400
   generate: true
   uses-material-design: true

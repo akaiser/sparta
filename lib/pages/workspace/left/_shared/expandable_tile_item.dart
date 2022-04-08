@@ -20,7 +20,10 @@ class ExpandableTileItem extends StatelessWidget {
 }
 
 class _ExpandableTileItemText extends StatelessWidget {
-  const _ExpandableTileItemText(this.title, {Key? key}) : super(key: key);
+  const _ExpandableTileItemText(
+    this.title, {
+    Key? key,
+  }) : super(key: key);
 
   final String title;
 

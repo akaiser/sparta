@@ -1,5 +1,6 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:sparta/_states.dart';
+import 'package:sparta/pages/_shared/network/_http_client.dart';
 import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/states/events_state.dart';
 
@@ -14,7 +15,8 @@ class TypedAppEpic<Action> extends TypedEpic<AppState, Action> {
 }
 
 Epic<AppState> appEpics() {
+  const httpClient = HttpClient();
   return combineEpics<AppState>([
-    fetchEventsEpic(EventsHttpClient()),
+    fetchEventsEpic(const EventsHttpClient(httpClient)),
   ]);
 }

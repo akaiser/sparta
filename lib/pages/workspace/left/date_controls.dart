@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
-import 'package:sparta/pages/_shared/ui/base_icon_button.dart';
+import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 
 class DateControls extends StatelessWidget {
   const DateControls({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class DateControls extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            BaseIconButton(Icons.chevron_left, onPressed: () {}),
+            HoverIconButton(Icons.chevron_left, onPressed: () {}),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 2),
@@ -23,12 +23,12 @@ class DateControls extends StatelessWidget {
                 ),
               ),
             ),
-            BaseIconButton(Icons.chevron_right, onPressed: () {}),
-            BaseIconButton(
+            HoverIconButton(Icons.chevron_right, onPressed: () {}),
+            HoverIconButton(
               Icons.fiber_manual_record_outlined,
               onPressed: () {},
             ),
-            BaseIconButton(Icons.chevron_left, onPressed: () {}),
+            HoverIconButton(Icons.chevron_left, onPressed: () {}),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 2),
@@ -39,7 +39,7 @@ class DateControls extends StatelessWidget {
                 ),
               ),
             ),
-            BaseIconButton(Icons.chevron_right, onPressed: () {}),
+            HoverIconButton(Icons.chevron_right, onPressed: () {}),
           ],
         ),
       ],

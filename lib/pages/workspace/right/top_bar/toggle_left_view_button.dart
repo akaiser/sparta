@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
-import 'package:sparta/pages/_shared/ui/base_icon_button.dart';
+import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/settings_state.dart';
 
 class ToggleLeftViewButton extends StatelessWidget {
@@ -11,7 +11,7 @@ class ToggleLeftViewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
       converter: (state) => state.settingsState.isLeftViewVisible,
-      builder: (context, isLeftViewVisible) => BaseIconButton(
+      builder: (context, isLeftViewVisible) => HoverIconButton(
         isLeftViewVisible ? Icons.menu_open : Icons.menu,
         onPressed: () => context.dispatch(
           const ToggleLeftViewVisibilityAction(),

@@ -29,14 +29,23 @@ class RightView extends StatelessWidget {
           ),
           VisibilityConnector(
             visible: (state) => state.eventsState.isLoading,
-            builder: (context) => const FadeIn(
-              child: ColoredBox(
-                color: Color.fromRGBO(0, 0, 0, 0.3),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            ),
+            builder: (context) => const _LoadingOverlay(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _LoadingOverlay extends StatelessWidget {
+  const _LoadingOverlay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const FadeIn(
+      child: ColoredBox(
+        color: Color.fromRGBO(0, 0, 0, 0.3),
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }

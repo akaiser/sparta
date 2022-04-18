@@ -32,13 +32,13 @@ class _DaysState extends State<Days> {
   }
 
   Iterable<MapEntry<DateTime, List<EventModel>>> _filterEvents(
-    DateTime startDate,
+    DateTime startOfWeek,
     Map<DateTime, List<EventModel>> events,
   ) sync* {
     for (var i = 0; i < 14; i++) {
-      final day = startDate.add(Duration(days: i));
+      final day = startOfWeek.add(Duration(days: i));
       yield events.entries.singleWhere(
-        (entry) => entry.key == day,
+        (entry) => entry.key.isSameDay(day),
         orElse: () => MapEntry(day, const []),
       );
     }
@@ -47,22 +47,20 @@ class _DaysState extends State<Days> {
   @override
   Widget build(BuildContext context) {
     return ValueConnector<_State>(
-      onInit: (state, dispatch) => dispatch(
-        FetchEventsAction(state.eventsState.refDate),
+      onInit: (_) => context.dispatch(
+        const FetchEventsAction(EventsFetchType.init),
       ),
       converter: (state) {
-        final refDate = state.eventsState.refDate;
-        final startDate = refDate.add(Duration(days: 1 - refDate.weekday));
-        final filtered = _filterEvents(startDate, state.eventsState.data);
-        return _State(startDate, Map.fromEntries(filtered));
+        final startOfWeek = state.eventsState.refDate.startOfWeek;
+        final filtered = _filterEvents(startOfWeek, state.eventsState.data);
+        return _State(startOfWeek, Map.fromEntries(filtered));
       },
       builder: (context, state) {
         final now = DateTime.now();
         final dateFormat = DateFormat.MMMd(context.lc);
 
-        final startDate = state.startDate;
-        final lastDayOfMonth = startDate.lastDayOfMonth.day;
         final dates = state.events.keys;
+        final lastDayOfMonth = state.startOfWeek.lastDayOfMonth.day;
 
         return ValueConnector<bool>(
           converter: (state) => state.settingsState.isWorkWeek,
@@ -190,20 +188,25 @@ class _Event extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [Text('${event.id}')],
+      children: [
+        Text(
+          '${event.id}',
+          style: context.tt.labelSmall,
+        ),
+      ],
     );
   }
 }
 
 class _State extends Equatable {
   const _State(
-    this.startDate,
+    this.startOfWeek,
     this.events,
   );
 
-  final DateTime startDate;
+  final DateTime startOfWeek;
   final Map<DateTime, List<EventModel>> events;
 
   @override
-  List<Object?> get props => [startDate, events];
+  List<Object?> get props => [startOfWeek, events];
 }

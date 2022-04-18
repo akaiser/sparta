@@ -4,6 +4,13 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/pages/_shared/util/try_and_catch.dart';
+import 'package:sparta/states/events_ref_date_ex.dart';
+
+enum EventsFetchType {
+  init,
+  nextWeek,
+  previousWeek,
+}
 
 abstract class _EventsAction extends Equatable {
   const _EventsAction();
@@ -13,12 +20,12 @@ abstract class _EventsAction extends Equatable {
 }
 
 class FetchEventsAction extends _EventsAction {
-  const FetchEventsAction(this.refDate);
+  const FetchEventsAction(this.fetchType);
 
-  final DateTime refDate;
+  final EventsFetchType fetchType;
 
   @override
-  List<Object?> get props => [refDate];
+  List<Object?> get props => [fetchType];
 }
 
 class ResultFetchEventsAction extends _EventsAction {
@@ -39,17 +46,37 @@ class ErrorFetchEventsAction extends _EventsAction {
   List<Object?> get props => [exception];
 }
 
+bool _shouldLoadAndFetch(
+  DateTime? refDate,
+  EventsFetchType fetchType,
+  Map<DateTime, List<EventModel>> data,
+) {
+  if (refDate != null) {
+    final fetchStartDate = refDate.toFetchStartDate(fetchType).midDay;
+    final fetchEndDate = refDate.toFetchEndDate(fetchType).midDay;
+    if (data[fetchStartDate] != null && data[fetchEndDate] != null) {
+      return false;
+    }
+  }
+  return true;
+}
+
 EventsState eventsStateReducer(EventsState old, dynamic action) {
   if (action is _EventsAction) {
     if (action is FetchEventsAction) {
+      final newRefDate = old.refDate.toNewRefDate(action.fetchType)?.midDay;
       return EventsState(
-        refDate: action.refDate.truncate, // TODO verify truncate
+        refDate: newRefDate,
         data: old.data,
-        isLoading: true,
+        isLoading: _shouldLoadAndFetch(newRefDate, action.fetchType, old.data),
       );
     } else if (action is ResultFetchEventsAction) {
-      return EventsState(refDate: old.refDate, data: action.data);
+      return EventsState(
+        refDate: old.refDate,
+        data: {...old.data, ...action.data},
+      );
     } else if (action is ErrorFetchEventsAction) {
+      // TODO handle errors in views
       return EventsState(refDate: old.refDate, exception: action.exception);
     }
   }
@@ -58,22 +85,28 @@ EventsState eventsStateReducer(EventsState old, dynamic action) {
 
 TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
   return TypedAppEpic<FetchEventsAction>(
-    (actions, _) => actions.asyncMap(
-      (action) => tryAndCatch(
-        () => http
-            .fetchEvents()
-            .then(
-              (eventsList) => {
-                for (final events in eventsList)
-                  events.day.truncate: events.items // TODO verify truncate
+    (actions, store) => actions
+        .where((_) => store.state.eventsState.isLoading)
+        .map((action) => action.fetchType)
+        .asyncMap(
+          (fetchType) => tryAndCatch(
+            () async {
+              final refDate = store.state.eventsState.refDate;
+              final eventsJson = await http.fetchEvents(
+                from: refDate.toFetchStartDate(fetchType),
+                to: refDate.toFetchEndDate(fetchType),
+              );
+              final eventsModel = {
+                for (final events in eventsJson)
+                  events.day.midDay: events.items
                       .map((event) => EventModel.fromJson(event))
                       .toList(growable: false),
-              },
-            )
-            .then((events) => ResultFetchEventsAction(events)),
-        (exception) => ErrorFetchEventsAction(exception),
-      ),
-    ),
+              };
+              return ResultFetchEventsAction(eventsModel);
+            },
+            (exception) => ErrorFetchEventsAction(exception),
+          ),
+        ),
   );
 }
 
@@ -90,7 +123,7 @@ class EventsState extends Equatable {
   final Exception? exception;
   final bool isLoading;
 
-  DateTime get refDate => _refDate ?? DateTime.now();
+  DateTime get refDate => (_refDate ?? DateTime.now()).midDay;
 
   @override
   List<Object?> get props => [

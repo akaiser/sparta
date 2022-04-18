@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:sparta/pages/_shared/ui/_legacy/clickable_region.dart';
+import 'package:sparta/pages/_shared/ui/clickable_region.dart';
 
 class HoverRegion extends StatefulWidget {
   const HoverRegion({

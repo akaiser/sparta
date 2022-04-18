@@ -1,24 +1,22 @@
+import 'package:intl/intl.dart';
+
 extension DateTimeEx on DateTime {
-  // DateTime get startOfDay => DateTime(year, month, day);
-
-  //DateTime get endOfDay => startOfDay
-  // .add(const Duration(days: 1, milliseconds: -1));
-
-  //DateTime get startOfWeek => startOfDay
-  // .subtract(Duration(days: startOfDay.weekday - 1));
-
-  //DateTime get startOfPreviousWeek => startOfWeek
-  // .subtract(const Duration(days: 7));
-
-  //DateTime get endOfWeek => endOfDay
-  // .add(Duration(days: 7 - endOfDay.weekday));
-
-  //DateTime get endOfNextWeek => endOfWeek.add(const Duration(days: 7));
+  DateTime get midDay => DateTime(year, month, day, 12);
 
   DateTime get truncate => DateTime(year, month, day);
 
+  DateTime get startOfWeek => add(Duration(days: 1 - weekday));
+
+  DateTime get endOfWeek => add(Duration(days: 7 - weekday));
+
   DateTime get lastDayOfMonth => DateTime(year, month + 1, 0);
+
+  DateTime get addWeek => add(const Duration(days: 7));
+
+  DateTime get subtractWeek => subtract(const Duration(days: 7));
 
   bool isSameDay(DateTime other) =>
       year == other.year && month == other.month && day == other.day;
+
+  String get toCommonIsoDate => DateFormat('yyyy-MM-dd').format(this);
 }

@@ -17,7 +17,7 @@ class Days extends StatefulWidget {
 }
 
 class _DaysState extends State<Days> {
-  late ValueNotifier<DateTime?> _focusedDateNotifier;
+  late final ValueNotifier<DateTime?> _focusedDateNotifier;
 
   @override
   void initState() {
@@ -169,9 +169,10 @@ class _DayBody extends StatelessWidget {
         );
       },
       child: ListView.builder(
+        key: PageStorageKey(date.truncate),
         controller: ScrollController(),
         itemCount: events.length,
-        itemBuilder: (context, index) => _Event(events[index]),
+        itemBuilder: (_, index) => _Event(events[index]),
       ),
     );
   }

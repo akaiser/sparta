@@ -47,7 +47,7 @@ class _SimpleSplitView extends StatefulWidget {
 }
 
 class _SimpleSplitViewState extends State<_SimpleSplitView> {
-  late ValueNotifier<double> _leftWidthNotifier;
+  late final ValueNotifier<double> _leftWidthNotifier;
 
   @override
   void initState() {

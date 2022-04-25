@@ -5,6 +5,8 @@ class SimpleGridView extends StatelessWidget {
     required this.columnCount,
     required this.rowCount,
     required this.cellBuilder,
+    this.expandColumns = true,
+    this.expandRows = true,
     this.cellPadding,
     this.gridBackgroundColor,
     this.cellBackgroundColor,
@@ -21,6 +23,8 @@ class SimpleGridView extends StatelessWidget {
     int yIndex,
   ) cellBuilder;
 
+  final bool expandColumns;
+  final bool expandRows;
   final double? cellPadding;
   final Color? gridBackgroundColor;
   final Color? cellBackgroundColor;
@@ -30,8 +34,8 @@ class SimpleGridView extends StatelessWidget {
     final grid = Column(
       children: List.generate(
         rowCount,
-        (yIndex) => Expanded(
-          child: Row(
+        (yIndex) {
+          final row = Row(
             children: List.generate(
               columnCount,
               (xIndex) {
@@ -43,18 +47,18 @@ class SimpleGridView extends StatelessWidget {
                       )
                     : cell;
 
-                return Expanded(
-                  child: cellPadding != null
-                      ? Padding(
-                          padding: EdgeInsets.all(cellPadding!),
-                          child: coloredCell,
-                        )
-                      : coloredCell,
-                );
+                final paddedCell = cellPadding != null
+                    ? Padding(
+                        padding: EdgeInsets.all(cellPadding!),
+                        child: coloredCell,
+                      )
+                    : coloredCell;
+                return expandColumns ? Expanded(child: paddedCell) : paddedCell;
               },
             ),
-          ),
-        ),
+          );
+          return expandRows ? Expanded(child: row) : row;
+        },
       ),
     );
     final paddedGrid = cellPadding != null

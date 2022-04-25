@@ -1,5 +1,10 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+enum WeekView {
+  week,
+  workWeek,
+}
+
 extension StringEx on String {
   WeekView get fromString => WeekView.values.firstWhere((e) => e.name == this);
 }
@@ -13,9 +18,4 @@ extension WeekViewEx on WeekView {
         return l10n.work_week;
     }
   }
-}
-
-enum WeekView {
-  week,
-  workWeek,
 }

@@ -9,51 +9,23 @@ import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/simple_grid_view.dart';
 import 'package:sparta/states/events_state.dart';
 
-class Days extends StatefulWidget {
+class Days extends StatelessWidget {
   const Days({Key? key}) : super(key: key);
-
-  @override
-  State<Days> createState() => _DaysState();
-}
-
-class _DaysState extends State<Days> {
-  late final ValueNotifier<DateTime?> _focusedDateNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusedDateNotifier = ValueNotifier(null);
-  }
-
-  @override
-  void dispose() {
-    _focusedDateNotifier.dispose();
-    super.dispose();
-  }
-
-  Iterable<MapEntry<DateTime, List<EventModel>>> _filterEvents(
-    DateTime startOfWeek,
-    Map<DateTime, List<EventModel>> events,
-  ) sync* {
-    for (var i = 0; i < 14; i++) {
-      final day = startOfWeek.add(Duration(days: i));
-      yield events.entries.singleWhere(
-        (entry) => entry.key.isSameDay(day),
-        orElse: () => MapEntry(day, const []),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return ValueConnector<_State>(
       onInit: (_) => context.dispatch(
-        const FetchEventsAction(EventsFetchType.init),
+        const FetchEventsAction(EventsActionType.init),
       ),
       converter: (state) {
         final startOfWeek = state.eventsState.refDate.startOfWeek;
-        final filtered = _filterEvents(startOfWeek, state.eventsState.data);
-        return _State(startOfWeek, Map.fromEntries(filtered));
+        final filtered = _filteredEvents(startOfWeek, state.eventsState.data);
+        return _State(
+          startOfWeek,
+          state.eventsState.focusedDate,
+          Map.fromEntries(filtered),
+        );
       },
       builder: (context, state) {
         final now = DateTime.now();
@@ -71,13 +43,13 @@ class _DaysState extends State<Days> {
               cellPadding: 0.1,
               gridBackgroundColor: gridBackgroundColor,
               cellBuilder: (context, xIndex, yIndex) {
-                final dateListIndex = xIndex + yIndex * 7;
-                final date = dates.elementAt(dateListIndex);
+                final cellIndex = xIndex + yIndex * 7;
+                final date = dates.elementAt(cellIndex);
                 final printMonth = date.day == 1 ||
                     date.day == lastDayOfMonth ||
-                    dateListIndex == 0 ||
-                    (!isWorkWeek && dateListIndex == 13) ||
-                    (isWorkWeek && dateListIndex == 11);
+                    cellIndex == 0 ||
+                    (!isWorkWeek && cellIndex == 13) ||
+                    (isWorkWeek && cellIndex == 11);
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,8 +62,8 @@ class _DaysState extends State<Days> {
                     Expanded(
                       child: _DayBody(
                         date,
+                        state.focusedDate,
                         state.events[date]!,
-                        _focusedDateNotifier,
                       ),
                     ),
                   ],
@@ -102,6 +74,19 @@ class _DaysState extends State<Days> {
         );
       },
     );
+  }
+
+  Iterable<MapEntry<DateTime, Iterable<EventModel>>> _filteredEvents(
+    DateTime startOfWeek,
+    Map<DateTime, Iterable<EventModel>> events,
+  ) sync* {
+    for (var i = 0; i < 14; i++) {
+      final day = startOfWeek.add(Duration(days: i));
+      yield events.entries.singleWhere(
+        (entry) => entry.key.isSameDay(day),
+        orElse: () => MapEntry(day, const []),
+      );
+    }
   }
 }
 
@@ -121,9 +106,7 @@ class _DayHeader extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.td.highlightColor,
-        border: isCurrentDay
-            ? const Border(bottom: BorderSide(width: 2, color: accentColor))
-            : null,
+        border: isCurrentDay ? currentDayBorder : null,
       ),
       child: Padding(
         padding: const EdgeInsets.all(4),
@@ -140,39 +123,39 @@ class _DayHeader extends StatelessWidget {
 class _DayBody extends StatelessWidget {
   const _DayBody(
     this.date,
-    this.events,
-    this.focusedDateNotifier, {
+    this.focusedDate,
+    this.events, {
     Key? key,
   }) : super(key: key);
 
   final DateTime date;
-  final List<EventModel> events;
-  final ValueNotifier<DateTime?> focusedDateNotifier;
+  final DateTime? focusedDate;
+  final Iterable<EventModel> events;
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<DateTime?>(
-      valueListenable: focusedDateNotifier,
-      builder: (context, focusedDate, child) {
-        return GestureDetector(
-          onTap: () {
-            if (focusedDateNotifier.value != date) {
-              focusedDateNotifier.value = date;
-            }
-          },
-          child: ColoredBox(
-            color: focusedDate == date
-                ? context.td.primaryColorLight
-                : context.td.cardColor,
-            child: child,
-          ),
-        );
+    return GestureDetector(
+      onTap: () {
+        if (focusedDate != date) {
+          context.dispatch(
+            FetchEventsAction(
+              EventsActionType.picker,
+              focusedDate: date,
+              shouldOverrideRefDate: false,
+            ),
+          );
+        }
       },
-      child: ListView.builder(
-        key: PageStorageKey(date.truncate),
-        controller: ScrollController(),
-        itemCount: events.length,
-        itemBuilder: (_, index) => _Event(events[index]),
+      child: ColoredBox(
+        color: focusedDate == date
+            ? context.td.primaryColorLight
+            : context.td.cardColor,
+        child: ListView.builder(
+          key: PageStorageKey(date.truncate),
+          controller: ScrollController(),
+          itemCount: events.length,
+          itemBuilder: (_, index) => _Event(events.elementAt(index)),
+        ),
       ),
     );
   }
@@ -202,12 +185,14 @@ class _Event extends StatelessWidget {
 class _State extends Equatable {
   const _State(
     this.startOfWeek,
+    this.focusedDate,
     this.events,
   );
 
   final DateTime startOfWeek;
-  final Map<DateTime, List<EventModel>> events;
+  final DateTime? focusedDate;
+  final Map<DateTime, Iterable<EventModel>> events;
 
   @override
-  List<Object?> get props => [startOfWeek, events];
+  List<Object?> get props => [startOfWeek, focusedDate, events];
 }

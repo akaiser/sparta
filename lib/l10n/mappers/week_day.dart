@@ -1,5 +1,15 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+enum WeekDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
 extension WeekDayEx on WeekDay {
   String l10n(AppLocalizations l10n) {
     switch (this) {
@@ -38,14 +48,4 @@ extension WeekDayEx on WeekDay {
         return l10n.sunday_short;
     }
   }
-}
-
-enum WeekDay {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
 }

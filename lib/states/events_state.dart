@@ -6,8 +6,9 @@ import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/pages/_shared/util/try_and_catch.dart';
 import 'package:sparta/states/events_ref_date_ex.dart';
 
-enum EventsFetchType {
+enum EventsActionType {
   init,
+  picker,
   nextWeek,
   previousWeek,
 }
@@ -20,18 +21,24 @@ abstract class _EventsAction extends Equatable {
 }
 
 class FetchEventsAction extends _EventsAction {
-  const FetchEventsAction(this.fetchType);
+  const FetchEventsAction(
+    this.actionType, {
+    this.focusedDate,
+    this.shouldOverrideRefDate = true,
+  });
 
-  final EventsFetchType fetchType;
+  final EventsActionType actionType;
+  final DateTime? focusedDate;
+  final bool shouldOverrideRefDate;
 
   @override
-  List<Object?> get props => [fetchType];
+  List<Object?> get props => [actionType, focusedDate, shouldOverrideRefDate];
 }
 
 class ResultFetchEventsAction extends _EventsAction {
   const ResultFetchEventsAction(this.data);
 
-  final Map<DateTime, List<EventModel>> data;
+  final Map<DateTime, Iterable<EventModel>> data;
 
   @override
   List<Object?> get props => [data];
@@ -48,12 +55,12 @@ class ErrorFetchEventsAction extends _EventsAction {
 
 bool _shouldLoadAndFetch(
   DateTime? refDate,
-  EventsFetchType fetchType,
-  Map<DateTime, List<EventModel>> data,
+  EventsActionType actionType,
+  Map<DateTime, Iterable<EventModel>> data,
 ) {
   if (refDate != null) {
-    final fetchStartDate = refDate.toFetchStartDate(fetchType).midDay;
-    final fetchEndDate = refDate.toFetchEndDate(fetchType).midDay;
+    final fetchStartDate = refDate.toFetchStartDate(actionType).midDay;
+    final fetchEndDate = refDate.toFetchEndDate(actionType).midDay;
     if (data[fetchStartDate] != null && data[fetchEndDate] != null) {
       return false;
     }
@@ -64,20 +71,33 @@ bool _shouldLoadAndFetch(
 EventsState eventsStateReducer(EventsState old, dynamic action) {
   if (action is _EventsAction) {
     if (action is FetchEventsAction) {
-      final newRefDate = old.refDate.toNewRefDate(action.fetchType)?.midDay;
+      final newRefDate =
+          (action.shouldOverrideRefDate ? action.focusedDate : null) ??
+              old.refDate.toNewRefDate(action.actionType)?.midDay;
+
+      final focusedDate = action.actionType != EventsActionType.init
+          ? action.focusedDate ?? old.focusedDate
+          : null;
+
       return EventsState(
         refDate: newRefDate,
+        focusedDate: focusedDate,
         data: old.data,
-        isLoading: _shouldLoadAndFetch(newRefDate, action.fetchType, old.data),
+        isLoading: _shouldLoadAndFetch(newRefDate, action.actionType, old.data),
       );
     } else if (action is ResultFetchEventsAction) {
       return EventsState(
         refDate: old.refDate,
+        focusedDate: old.focusedDate,
         data: {...old.data, ...action.data},
       );
     } else if (action is ErrorFetchEventsAction) {
       // TODO handle errors in views
-      return EventsState(refDate: old.refDate, exception: action.exception);
+      return EventsState(
+        refDate: old.refDate,
+        focusedDate: old.focusedDate,
+        exception: action.exception,
+      );
     }
   }
   return old;
@@ -87,20 +107,19 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
   return TypedAppEpic<FetchEventsAction>(
     (actions, store) => actions
         .where((_) => store.state.eventsState.isLoading)
-        .map((action) => action.fetchType)
+        .map((action) => action.actionType)
         .asyncMap(
-          (fetchType) => tryAndCatch(
+          (actionType) => tryAndCatch(
             () async {
               final refDate = store.state.eventsState.refDate;
               final eventsJson = await http.fetchEvents(
-                from: refDate.toFetchStartDate(fetchType),
-                to: refDate.toFetchEndDate(fetchType),
+                from: refDate.toFetchStartDate(actionType),
+                to: refDate.toFetchEndDate(actionType),
               );
+
               final eventsModel = {
                 for (final events in eventsJson)
-                  events.day.midDay: events.items
-                      .map((event) => EventModel.fromJson(event))
-                      .toList(growable: false),
+                  events.day.midDay: events.items.map(EventModel.fromJson),
               };
               return ResultFetchEventsAction(eventsModel);
             },
@@ -113,13 +132,15 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
 class EventsState extends Equatable {
   const EventsState({
     DateTime? refDate,
+    this.focusedDate,
     this.data = const {},
     this.exception,
     this.isLoading = false,
   }) : _refDate = refDate;
 
   final DateTime? _refDate;
-  final Map<DateTime, List<EventModel>> data;
+  final DateTime? focusedDate;
+  final Map<DateTime, Iterable<EventModel>> data;
   final Exception? exception;
   final bool isLoading;
 
@@ -128,6 +149,7 @@ class EventsState extends Equatable {
   @override
   List<Object?> get props => [
         refDate,
+        focusedDate,
         data,
         exception,
         isLoading,

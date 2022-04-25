@@ -16,30 +16,30 @@ class HoverIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return onPressed == null
-        ? Padding(
-            padding: _iconPadding,
-            child: Icon(
-              iconData,
-              color: context.td.disabledColor,
-            ),
-          )
-        : GestureDetector(
-            onTap: onPressed,
-            child: HoverRegion(
-              builder: (context, isHovering, child) {
-                return AnimatedContainer(
-                  padding: _iconPadding,
-                  duration: const Duration(milliseconds: 150),
-                  decoration: BoxDecoration(
-                    color: isHovering ? context.td.focusColor : null,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: child!,
-                );
-              },
-              child: Icon(iconData),
-            ),
-          );
+    if (onPressed == null) {
+      return Padding(
+        padding: _iconPadding,
+        child: Icon(
+          iconData,
+          color: context.td.disabledColor,
+        ),
+      );
+    }
+    return GestureDetector(
+      onTap: onPressed,
+      child: HoverRegion(
+        builder: (context, isHovering, child) => DecoratedBox(
+          decoration: BoxDecoration(
+            color: isHovering ? context.td.focusColor : null,
+            shape: BoxShape.circle,
+          ),
+          child: child!,
+        ),
+        child: Padding(
+          padding: _iconPadding,
+          child: Icon(iconData),
+        ),
+      ),
+    );
   }
 }

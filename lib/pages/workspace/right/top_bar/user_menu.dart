@@ -22,15 +22,17 @@ class UserMenu extends StatelessWidget {
             PopupMenuItem(child: Text('Logout', style: textStyle)),
           ];
         },
-        child: Container(
+        child: const SizedBox(
           width: 28,
           height: 28,
-          decoration: const BoxDecoration(
-            //shape: BoxShape.circle,
-            color: accentColor,
-            borderRadius: BorderRadius.all(Radius.circular(2)),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              //shape: BoxShape.circle,
+              color: accentColor,
+              borderRadius: BorderRadius.all(Radius.circular(2)),
+            ),
+            child: Center(child: Text('AK')),
           ),
-          child: const Center(child: Text('AK')),
         ),
       ),
     );

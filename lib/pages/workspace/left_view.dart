@@ -16,17 +16,17 @@ class LeftView extends StatefulWidget {
 }
 
 class _LeftViewState extends State<LeftView> {
-  late final ValueNotifier<DateTime> _refDateNotifier;
+  late final ValueNotifier<DateTime> _pickerDateNotifier;
 
   @override
   void initState() {
     super.initState();
-    _refDateNotifier = ValueNotifier(DateTime.now().midDay);
+    _pickerDateNotifier = ValueNotifier(DateTime.now().midDay);
   }
 
   @override
   void dispose() {
-    _refDateNotifier.dispose();
+    _pickerDateNotifier.dispose();
     super.dispose();
   }
 
@@ -36,15 +36,15 @@ class _LeftViewState extends State<LeftView> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
-          child: DateControls(_refDateNotifier),
+          child: DateControls(_pickerDateNotifier),
         ),
         verticalDivider,
         const SizedBox(height: 8),
         const DayNamesShort(),
         const SizedBox(height: 8),
         ValueListenableBuilder<DateTime>(
-          valueListenable: _refDateNotifier,
-          builder: (_, refDate, __) => DatePicker(refDate),
+          valueListenable: _pickerDateNotifier,
+          builder: (_, pickerDate, __) => DatePicker(pickerDate),
         ),
         Expanded(
           child: ListView(

@@ -62,8 +62,8 @@ class Days extends StatelessWidget {
                     Expanded(
                       child: _DayBody(
                         date,
-                        state.focusedDate,
                         state.events[date]!,
+                        isFocussedDay: date.isSameDay(state.focusedDate),
                       ),
                     ),
                   ],
@@ -123,33 +123,32 @@ class _DayHeader extends StatelessWidget {
 class _DayBody extends StatelessWidget {
   const _DayBody(
     this.date,
-    this.focusedDate,
     this.events, {
+    required this.isFocussedDay,
     Key? key,
   }) : super(key: key);
 
   final DateTime date;
-  final DateTime? focusedDate;
+  final bool isFocussedDay;
   final Iterable<EventModel> events;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (focusedDate != date) {
-          context.dispatch(
-            FetchEventsAction(
-              EventsActionType.picker,
-              focusedDate: date,
-              shouldOverrideRefDate: false,
-            ),
-          );
-        }
-      },
+      onTap: isFocussedDay
+          ? null
+          : () {
+              context.dispatch(
+                FetchEventsAction(
+                  EventsActionType.picker,
+                  focusedDate: date,
+                  shouldOverrideRefDate: false,
+                ),
+              );
+            },
       child: ColoredBox(
-        color: focusedDate == date
-            ? context.td.primaryColorLight
-            : context.td.cardColor,
+        color:
+            isFocussedDay ? context.td.primaryColorLight : context.td.cardColor,
         child: ListView.builder(
           key: PageStorageKey(date.truncate),
           controller: ScrollController(),

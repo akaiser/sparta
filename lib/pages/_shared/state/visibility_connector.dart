@@ -15,7 +15,7 @@ class VisibilityConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
-      converter: (state) => visible(state),
+      converter: visible,
       builder: (context, shouldShow) {
         return shouldShow ? builder(context) : const SizedBox();
       },
@@ -38,7 +38,7 @@ class VisibilityConnector2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueConnector2<bool>(
-      converter: (state) => visible(state),
+      converter: visible,
       builder: (context, shouldShow, child) {
         return shouldShow ? builder(context, child) : const SizedBox();
       },

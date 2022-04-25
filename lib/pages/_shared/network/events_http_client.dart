@@ -40,13 +40,17 @@ class EventsHttpClient {
     required DateTime from,
     required DateTime to,
   }) async {
+    //print('###############');
+    //print('from: ${from.toCommonIsoDate}');
+    //print('to: ${to.toCommonIsoDate}');
+    //print('###############');
     await Future.delayed(const Duration(seconds: 1)); // TODO remove
 
     //final response = await client.get(
     //  '$_host/$_path?from=${from.toCommonIsoDate}&to=${to.toCommonIsoDate}',
     //);
 
-    return safeMap(_dummyEvents(from, to), (item) => EventsJson.fromJson(item));
+    return safeMap(_dummyEvents(from, to), EventsJson.fromJson);
   }
 
   Iterable<Map<String, dynamic>> _dummyEvents(

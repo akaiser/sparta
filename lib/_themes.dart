@@ -13,6 +13,10 @@ const sectionsDividerThickness = 1.0;
 
 const verticalDivider = Divider(height: 1, thickness: sectionsDividerThickness);
 
+const currentDayBorder = Border(
+  bottom: BorderSide(width: 2, color: accentColor),
+);
+
 class Themes {
   static ThemeData get lightTheme {
     const primary = Color.fromRGBO(215, 215, 215, 1);

@@ -4,6 +4,7 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/pages/workspace/right/top_bar/bar_items_separator.dart';
+import 'package:sparta/pages/workspace/right/top_bar/shown_range_text.dart';
 import 'package:sparta/pages/workspace/right/top_bar/toggle_left_view_button.dart';
 import 'package:sparta/pages/workspace/right/top_bar/toggle_theme_mode_button.dart';
 import 'package:sparta/pages/workspace/right/top_bar/user_menu.dart';
@@ -15,6 +16,7 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     return Row(
       children: [
         const ToggleLeftViewButton(),
@@ -22,7 +24,7 @@ class TopBar extends StatelessWidget {
         HoverIconButton(
           Icons.keyboard_arrow_up,
           onPressed: () => context
-              .dispatch(const FetchEventsAction(EventsFetchType.previousWeek)),
+              .dispatch(const FetchEventsAction(EventsActionType.previousWeek)),
         ),
         const SizedBox(width: 4),
         ValueConnector<DateTime>(
@@ -30,12 +32,10 @@ class TopBar extends StatelessWidget {
           builder: (context, refDate) {
             return HoverIconButton(
               Icons.fiber_manual_record_outlined,
-              onPressed: refDate.isSameDay(DateTime.now())
+              onPressed: refDate.isSameDay(now)
                   ? null
-                  : () {
-                      context.dispatch(
-                          const FetchEventsAction(EventsFetchType.init));
-                    },
+                  : () => context
+                      .dispatch(const FetchEventsAction(EventsActionType.init)),
             );
           },
         ),
@@ -43,9 +43,10 @@ class TopBar extends StatelessWidget {
         HoverIconButton(
           Icons.keyboard_arrow_down,
           onPressed: () => context
-              .dispatch(const FetchEventsAction(EventsFetchType.nextWeek)),
+              .dispatch(const FetchEventsAction(EventsActionType.nextWeek)),
         ),
-        const Spacer(),
+        const BarItemsSeparator(),
+        const Expanded(child: ShownRangeText()),
         const WeekViewDropdown(),
         const BarItemsSeparator(),
         const ToggleThemeModeButton(),

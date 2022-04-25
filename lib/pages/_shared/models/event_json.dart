@@ -10,7 +10,7 @@ class EventsJson extends Equatable {
   factory EventsJson.fromJson(Map<String, dynamic> json) {
     return EventsJson(
       day: DateTime.parse(json['day']),
-      items: safeMap(json['items'], (item) => EventJson.fromJson(item)),
+      items: safeMap(json['items'], EventJson.fromJson),
     );
   }
 

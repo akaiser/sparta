@@ -25,8 +25,10 @@ extension DateTimeEx on DateTime {
 
   DateTime get subtractYear => copyWith(year: year - 1);
 
-  bool isSameDay(DateTime? other) =>
-      year == other?.year && month == other?.month && day == other?.day;
+  bool isSameDay(DateTime? other) => isSameMonth(other) && day == other?.day;
+
+  bool isSameMonth(DateTime? other) =>
+      year == other?.year && month == other?.month;
 
   String get toCommonIsoDate => DateFormat('yyyy-MM-dd').format(this);
 

@@ -7,18 +7,21 @@ class ValueConnector<T> extends StatelessWidget {
     required this.converter,
     required this.builder,
     this.onInit,
+    this.ignoreChange,
     Key? key,
   }) : super(key: key);
 
   final T Function(AppState state) converter;
   final ViewModelBuilder<T> builder;
   final void Function(AppState state)? onInit;
+  final bool Function(AppState state)? ignoreChange;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, T>(
       distinct: true,
       onInit: onInit != null ? (store) => onInit!(store.state) : null,
+      ignoreChange: ignoreChange,
       converter: (store) => converter(store.state),
       builder: builder,
     );

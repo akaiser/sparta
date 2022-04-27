@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
+import 'package:sparta/pages/_shared/state/visibility_connector.dart';
 import 'package:sparta/pages/workspace/left/date_picker/date_picker_controls.dart';
 import 'package:sparta/pages/workspace/left/date_picker/date_picker_days.dart';
 import 'package:sparta/pages/workspace/left/date_picker/day_names_short.dart';
@@ -29,20 +30,28 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: DatePickerControls(_pickerDateNotifier),
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: DatePickerControls(_pickerDateNotifier),
+            ),
+            verticalDivider,
+            const SizedBox(height: 8),
+            const DayNamesShort(),
+            const SizedBox(height: 8),
+            ValueListenableBuilder<DateTime>(
+              valueListenable: _pickerDateNotifier,
+              builder: (_, pickerDate, __) => DatePickerDays(pickerDate),
+            ),
+          ],
         ),
-        verticalDivider,
-        const SizedBox(height: 8),
-        const DayNamesShort(),
-        const SizedBox(height: 8),
-        ValueListenableBuilder<DateTime>(
-          valueListenable: _pickerDateNotifier,
-          builder: (_, pickerDate, __) => DatePickerDays(pickerDate),
-        ),
+        VisibilityConnector(
+          visible: (state) => state.eventsState.isLoading,
+          builder: (_) => const Positioned.fill(child: AbsorbPointer()),
+        )
       ],
     );
   }

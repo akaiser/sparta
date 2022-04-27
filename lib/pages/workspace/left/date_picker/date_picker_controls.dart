@@ -11,9 +11,9 @@ class DatePickerControls extends StatelessWidget {
 
   final ValueNotifier<DateTime> pickerDateNotifier;
 
-  void _updatePickerDate(DateTime pickerDate) {
-    pickerDateNotifier.value = pickerDate;
-  }
+  DateTime get _pickerDate => pickerDateNotifier.value;
+
+  void _setPickerDate(DateTime newDate) => pickerDateNotifier.value = newDate;
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +22,17 @@ class DatePickerControls extends StatelessWidget {
       converter: (state) => state.eventsState.focusedDate,
       ignoreChange: (state) {
         final focusedDate = state.eventsState.focusedDate;
-        if (!focusedDate.isSameMonth(pickerDateNotifier.value)) {
-          _updatePickerDate(focusedDate);
+        if (!focusedDate.isSameMonth(_pickerDate)) {
+          _setPickerDate(focusedDate);
         }
         return true;
       },
       builder: (context, _) {
-        final pickerDate = pickerDateNotifier.value;
         return Row(
           children: [
             HoverIconButton(
               Icons.chevron_left,
-              onPressed: () => _updatePickerDate(pickerDate.subtractMonth),
+              onPressed: () => _setPickerDate(_pickerDate.subtractMonth),
             ),
             Expanded(
               child: Padding(
@@ -52,7 +51,7 @@ class DatePickerControls extends StatelessWidget {
             ),
             HoverIconButton(
               Icons.chevron_right,
-              onPressed: () => _updatePickerDate(pickerDate.addMonth),
+              onPressed: () => _setPickerDate(_pickerDate.addMonth),
             ),
             ValueListenableBuilder<DateTime>(
               valueListenable: pickerDateNotifier,
@@ -60,12 +59,12 @@ class DatePickerControls extends StatelessWidget {
                 Icons.fiber_manual_record_outlined,
                 onPressed: pickerDate.isSameMonth(now)
                     ? null
-                    : () => _updatePickerDate(DateTime.now().midDay),
+                    : () => _setPickerDate(DateTime.now().midDay),
               ),
             ),
             HoverIconButton(
               Icons.chevron_left,
-              onPressed: () => _updatePickerDate(pickerDate.subtractYear),
+              onPressed: () => _setPickerDate(_pickerDate.subtractYear),
             ),
             Expanded(
               child: Padding(
@@ -84,7 +83,7 @@ class DatePickerControls extends StatelessWidget {
             ),
             HoverIconButton(
               Icons.chevron_right,
-              onPressed: () => _updatePickerDate(pickerDate.addYear),
+              onPressed: () => _setPickerDate(_pickerDate.addYear),
             ),
           ],
         );

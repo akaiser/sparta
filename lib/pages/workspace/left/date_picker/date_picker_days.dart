@@ -4,6 +4,7 @@ import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
+import 'package:sparta/pages/_shared/ui/hover_region.dart';
 import 'package:sparta/pages/_shared/ui/simple_grid_view.dart';
 import 'package:sparta/states/events_state.dart';
 
@@ -96,15 +97,24 @@ class _DateItem extends StatelessWidget {
                       shouldOverrideRefDate: !shownEventsDates.contains(date),
                     ),
                   ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: isFocussedDay
-                  ? context.td.focusColor
-                  : date.isSameMonth(pickerDate)
-                      ? null
-                      : context.td.primaryColorLight,
-              border: isCurrentDay ? currentDayBorder : null,
-            ),
+          child: HoverRegion(
+            builder: (context, isHovering, child) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: isFocussedDay
+                      ? context.td.focusColor
+                      : date.isSameMonth(pickerDate)
+                          ? null
+                          : context.td.primaryColorLight,
+                  border: isHovering
+                      ? Border.all(color: context.td.disabledColor)
+                      : isCurrentDay
+                          ? currentDayBorder
+                          : null,
+                ),
+                child: child!,
+              );
+            },
             child: child!,
           ),
         );

@@ -36,12 +36,12 @@ class FetchEventsAction extends _EventsAction {
 }
 
 class ResultFetchEventsAction extends _EventsAction {
-  const ResultFetchEventsAction(this.data);
+  const ResultFetchEventsAction(this.events);
 
-  final Map<DateTime, Iterable<EventModel>> data;
+  final Map<DateTime, Iterable<EventModel>> events;
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [events];
 }
 
 class ErrorFetchEventsAction extends _EventsAction {
@@ -56,12 +56,12 @@ class ErrorFetchEventsAction extends _EventsAction {
 bool _shouldLoadAndFetch(
   DateTime? refDate,
   EventsActionType actionType,
-  Map<DateTime, Iterable<EventModel>> data,
+  Map<DateTime, Iterable<EventModel>> events,
 ) {
   if (refDate != null) {
-    final fetchStartDate = refDate.toFetchStartDate(actionType).midDay;
-    final fetchEndDate = refDate.toFetchEndDate(actionType).midDay;
-    if (data[fetchStartDate] != null && data[fetchEndDate] != null) {
+    final startDate = refDate.toFetchStartDate(actionType).midDay;
+    final endDate = refDate.toFetchEndDate(actionType).midDay;
+    if (events[startDate] != null && events[endDate] != null) {
       return false;
     }
   }
@@ -82,14 +82,18 @@ EventsState eventsStateReducer(EventsState old, dynamic action) {
       return EventsState(
         refDate: newRefDate,
         focusedDate: focusedDate,
-        data: old.data,
-        isLoading: _shouldLoadAndFetch(newRefDate, action.actionType, old.data),
+        events: old.events,
+        isLoading: _shouldLoadAndFetch(
+          newRefDate,
+          action.actionType,
+          old.events,
+        ),
       );
     } else if (action is ResultFetchEventsAction) {
       return EventsState(
         refDate: old.refDate,
         focusedDate: old.focusedDate,
-        data: {...old.data, ...action.data},
+        events: {...old.events, ...action.events},
       );
     } else if (action is ErrorFetchEventsAction) {
       // TODO handle errors in views
@@ -132,25 +136,41 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
 class EventsState extends Equatable {
   const EventsState({
     DateTime? refDate,
-    this.focusedDate,
-    this.data = const {},
+    DateTime? focusedDate,
+    this.events = const {},
     this.exception,
     this.isLoading = false,
-  }) : _refDate = refDate;
+  })  : _refDate = refDate,
+        _focusedDate = focusedDate;
 
   final DateTime? _refDate;
-  final DateTime? focusedDate;
-  final Map<DateTime, Iterable<EventModel>> data;
+  final DateTime? _focusedDate;
+  final Map<DateTime, Iterable<EventModel>> events;
   final Exception? exception;
   final bool isLoading;
 
   DateTime get refDate => (_refDate ?? DateTime.now()).midDay;
 
+  DateTime get focusedDate => (_focusedDate ?? DateTime.now()).midDay;
+
+  Map<DateTime, Iterable<EventModel>> get shownEvents {
+    final filtered = <DateTime, Iterable<EventModel>>{};
+    for (var i = 0; i < 14; i++) {
+      final day = refDate.startOfWeek.add(Duration(days: i));
+      final singleWhere = events.entries.singleWhere(
+        (entry) => entry.key.isSameDay(day),
+        orElse: () => MapEntry(day, const []),
+      );
+      filtered[singleWhere.key] = singleWhere.value;
+    }
+    return filtered;
+  }
+
   @override
   List<Object?> get props => [
         refDate,
         focusedDate,
-        data,
+        events,
         exception,
         isLoading,
       ];

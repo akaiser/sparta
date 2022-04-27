@@ -18,75 +18,55 @@ class Days extends StatelessWidget {
       onInit: (_) => context.dispatch(
         const FetchEventsAction(EventsActionType.init),
       ),
-      converter: (state) {
-        final startOfWeek = state.eventsState.refDate.startOfWeek;
-        final filtered = _filteredEvents(startOfWeek, state.eventsState.data);
-        return _State(
-          startOfWeek,
-          state.eventsState.focusedDate,
-          Map.fromEntries(filtered),
-        );
-      },
+      converter: (state) => _State(
+        state.eventsState.refDate.startOfWeek.lastDayOfMonth.day,
+        state.eventsState.focusedDate,
+        state.eventsState.shownEvents,
+        isWorkWeek: state.settingsState.isWorkWeek,
+      ),
       builder: (context, state) {
         final now = DateTime.now();
         final dateFormat = DateFormat.MMMd(context.lc);
 
-        final dates = state.events.keys;
-        final lastDayOfMonth = state.startOfWeek.lastDayOfMonth.day;
+        final dates = state.shownEvents.keys;
+        final isWorkWeek = state.isWorkWeek;
+        final lastDayOfMonth = state.lastDayOfMonth;
 
-        return ValueConnector<bool>(
-          converter: (state) => state.settingsState.isWorkWeek,
-          builder: (context, isWorkWeek) {
-            return SimpleGridView(
-              columnCount: isWorkWeek ? 5 : 7,
-              rowCount: 2,
-              cellPadding: 0.1,
-              gridBackgroundColor: gridBackgroundColor,
-              cellBuilder: (context, xIndex, yIndex) {
-                final cellIndex = xIndex + yIndex * 7;
-                final date = dates.elementAt(cellIndex);
-                final printMonth = date.day == 1 ||
-                    date.day == lastDayOfMonth ||
-                    cellIndex == 0 ||
-                    (!isWorkWeek && cellIndex == 13) ||
-                    (isWorkWeek && cellIndex == 11);
+        return SimpleGridView(
+          columnCount: isWorkWeek ? 5 : 7,
+          rowCount: 2,
+          cellPadding: 0.1,
+          gridBackgroundColor: gridBackgroundColor,
+          cellBuilder: (context, xIndex, yIndex) {
+            final cellIndex = xIndex + yIndex * 7;
+            final date = dates.elementAt(cellIndex);
+            final printMonth = date.day == 1 ||
+                date.day == lastDayOfMonth ||
+                cellIndex == 0 ||
+                (!isWorkWeek && cellIndex == 13) ||
+                (isWorkWeek && cellIndex == 11);
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _DayHeader(
-                      '${printMonth ? dateFormat.format(date) : date.day}',
-                      isCurrentDay: date.isSameDay(now),
-                    ),
-                    const SizedBox(height: 0.2),
-                    Expanded(
-                      child: _DayBody(
-                        date,
-                        state.events[date]!,
-                        isFocussedDay: date.isSameDay(state.focusedDate),
-                      ),
-                    ),
-                  ],
-                );
-              },
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _DayHeader(
+                  '${printMonth ? dateFormat.format(date) : date.day}',
+                  isCurrentDay: date.isSameDay(now),
+                ),
+                const SizedBox(height: 0.2),
+                Expanded(
+                  child: _DayBody(
+                    date,
+                    state.shownEvents[date]!,
+                    isFocussedDay: date.isSameDay(state.focusedDate),
+                  ),
+                ),
+              ],
             );
           },
         );
       },
     );
-  }
-
-  Iterable<MapEntry<DateTime, Iterable<EventModel>>> _filteredEvents(
-    DateTime startOfWeek,
-    Map<DateTime, Iterable<EventModel>> events,
-  ) sync* {
-    for (var i = 0; i < 14; i++) {
-      final day = startOfWeek.add(Duration(days: i));
-      yield events.entries.singleWhere(
-        (entry) => entry.key.isSameDay(day),
-        orElse: () => MapEntry(day, const []),
-      );
-    }
   }
 }
 
@@ -183,15 +163,22 @@ class _Event extends StatelessWidget {
 
 class _State extends Equatable {
   const _State(
-    this.startOfWeek,
+    this.lastDayOfMonth,
     this.focusedDate,
-    this.events,
-  );
+    this.shownEvents, {
+    required this.isWorkWeek,
+  });
 
-  final DateTime startOfWeek;
+  final int lastDayOfMonth;
   final DateTime? focusedDate;
-  final Map<DateTime, Iterable<EventModel>> events;
+  final Map<DateTime, Iterable<EventModel>> shownEvents;
+  final bool isWorkWeek;
 
   @override
-  List<Object?> get props => [startOfWeek, focusedDate, events];
+  List<Object?> get props => [
+        lastDayOfMonth,
+        focusedDate,
+        shownEvents,
+        isWorkWeek,
+      ];
 }

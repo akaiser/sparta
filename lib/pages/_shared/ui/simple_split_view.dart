@@ -6,12 +6,14 @@ class SimpleSplitView extends StatelessWidget {
     required this.left,
     required this.right,
     required this.leftViewVisible,
+    this.initLeftWidth,
     Key? key,
   }) : super(key: key);
 
   final Widget left;
   final Widget right;
   final bool leftViewVisible;
+  final double? initLeftWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class SimpleSplitView extends StatelessWidget {
           right: right,
           maxWidth: constrains.maxWidth,
           leftViewVisible: leftViewVisible,
+          initLeftWidth: initLeftWidth,
         );
       },
     );
@@ -34,6 +37,7 @@ class _SimpleSplitView extends StatefulWidget {
     required this.right,
     required this.maxWidth,
     required this.leftViewVisible,
+    required this.initLeftWidth,
     Key? key,
   }) : super(key: key);
 
@@ -41,6 +45,7 @@ class _SimpleSplitView extends StatefulWidget {
   final Widget right;
   final double maxWidth;
   final bool leftViewVisible;
+  final double? initLeftWidth;
 
   @override
   _SimpleSplitViewState createState() => _SimpleSplitViewState();
@@ -52,7 +57,8 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
   @override
   void initState() {
     super.initState();
-    _leftWidthNotifier = ValueNotifier(widget.maxWidth / 3.5);
+    final initLeftWidth = widget.initLeftWidth ?? (widget.maxWidth / 3.5);
+    _leftWidthNotifier = ValueNotifier(initLeftWidth);
   }
 
   @override

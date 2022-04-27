@@ -45,10 +45,7 @@ class DatePickerDays extends StatelessWidget {
     final now = DateTime.now();
     final dateItems = _dateItems;
     return ValueConnector<_State>(
-      converter: (state) => _State(
-        state.eventsState.focusedDate,
-        state.eventsState.shownEvents.keys,
-      ),
+      converter: (state) => _State(state.eventsState.shownEvents.keys),
       builder: (context, state) => SimpleGridView(
         columnCount: _columnCount,
         rowCount: _rowCount,
@@ -61,7 +58,6 @@ class DatePickerDays extends StatelessWidget {
             pickerDate,
             state.shownEventsDates,
             isCurrentDay: date.isSameDay(now),
-            isFocussedDay: date.isSameDay(state.focusedDate),
           );
         },
       ),
@@ -75,7 +71,6 @@ class _DateItem extends StatelessWidget {
     this.pickerDate,
     this.shownEventsDates, {
     required this.isCurrentDay,
-    required this.isFocussedDay,
     Key? key,
   }) : super(key: key);
 
@@ -83,38 +78,43 @@ class _DateItem extends StatelessWidget {
   final DateTime pickerDate;
   final Iterable<DateTime> shownEventsDates;
   final bool isCurrentDay;
-  final bool isFocussedDay;
 
   @override
   Widget build(BuildContext context) {
     final fontWeight = isCurrentDay ? FontWeight.bold : FontWeight.normal;
 
-    return GestureDetector(
-      onTap: isFocussedDay
-          ? null
-          : () => context.dispatch(
-                FetchEventsAction(
-                  EventsActionType.picker,
-                  focusedDate: date,
-                  shouldOverrideRefDate: !shownEventsDates.contains(date),
-                ),
-              ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: isFocussedDay
-              ? context.td.focusColor
-              : date.isSameMonth(pickerDate)
-                  ? null
-                  : context.td.primaryColorLight,
-          border: isCurrentDay ? currentDayBorder : null,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Center(
-            child: Text(
-              '${date.day}',
-              style: context.tt.labelSmall.copyWith(fontWeight: fontWeight),
+    return ValueConnector2<bool>(
+      converter: (state) => date.isSameDay(state.eventsState.focusedDate),
+      builder: (context, isFocussedDay, child) {
+        return GestureDetector(
+          onTap: isFocussedDay
+              ? null
+              : () => context.dispatch(
+                    FetchEventsAction(
+                      EventsActionType.picker,
+                      focusedDate: date,
+                      shouldOverrideRefDate: !shownEventsDates.contains(date),
+                    ),
+                  ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: isFocussedDay
+                  ? context.td.focusColor
+                  : date.isSameMonth(pickerDate)
+                      ? null
+                      : context.td.primaryColorLight,
+              border: isCurrentDay ? currentDayBorder : null,
             ),
+            child: child!,
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Center(
+          child: Text(
+            '${date.day}',
+            style: context.tt.labelSmall.copyWith(fontWeight: fontWeight),
           ),
         ),
       ),
@@ -123,11 +123,10 @@ class _DateItem extends StatelessWidget {
 }
 
 class _State extends Equatable {
-  const _State(this.focusedDate, this.shownEventsDates);
+  const _State(this.shownEventsDates);
 
-  final DateTime focusedDate;
   final Iterable<DateTime> shownEventsDates;
 
   @override
-  List<Object?> get props => [focusedDate, shownEventsDates];
+  List<Object?> get props => [shownEventsDates];
 }

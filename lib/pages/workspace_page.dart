@@ -18,6 +18,7 @@ class WorkspacePage extends StatelessWidget {
               left: const LeftView(),
               right: const RightView(),
               leftViewVisible: isLeftViewVisible,
+              initLeftWidth: 260,
             );
           },
         ),

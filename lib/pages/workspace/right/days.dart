@@ -14,20 +14,22 @@ class Days extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final dateFormat = DateFormat.MMMd(context.lc);
+
     return ValueConnector<_State>(
       onInit: (_) => context.dispatch(
         const FetchEventsAction(EventsActionType.init),
       ),
-      converter: (state) => _State(
-        state.eventsState.refDate.startOfWeek.lastDayOfMonth.day,
-        state.eventsState.focusedDate,
-        state.eventsState.shownEvents,
-        isWorkWeek: state.settingsState.isWorkWeek,
-      ),
+      converter: (state) {
+        final eventsState = state.eventsState;
+        return _State(
+          isWorkWeek: state.settingsState.isWorkWeek,
+          lastDayOfMonth: eventsState.refDate.startOfWeek.lastDayOfMonth.day,
+          shownEvents: eventsState.shownEvents,
+        );
+      },
       builder: (context, state) {
-        final now = DateTime.now();
-        final dateFormat = DateFormat.MMMd(context.lc);
-
         final dates = state.shownEvents.keys;
         final isWorkWeek = state.isWorkWeek;
         final lastDayOfMonth = state.lastDayOfMonth;
@@ -58,7 +60,6 @@ class Days extends StatelessWidget {
                   child: _DayBody(
                     date,
                     state.shownEvents[date]!,
-                    isFocussedDay: date.isSameDay(state.focusedDate),
                   ),
                 ),
               ],
@@ -104,37 +105,42 @@ class _DayBody extends StatelessWidget {
   const _DayBody(
     this.date,
     this.events, {
-    required this.isFocussedDay,
     Key? key,
   }) : super(key: key);
 
   final DateTime date;
-  final bool isFocussedDay;
   final Iterable<EventModel> events;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: isFocussedDay
-          ? null
-          : () {
-              context.dispatch(
-                FetchEventsAction(
-                  EventsActionType.picker,
-                  focusedDate: date,
-                  shouldOverrideRefDate: false,
-                ),
-              );
-            },
-      child: ColoredBox(
-        color:
-            isFocussedDay ? context.td.primaryColorLight : context.td.cardColor,
-        child: ListView.builder(
-          key: PageStorageKey(date.truncate),
-          controller: ScrollController(),
-          itemCount: events.length,
-          itemBuilder: (_, index) => _Event(events.elementAt(index)),
-        ),
+    return ValueConnector2<bool>(
+      converter: (state) => date.isSameDay(state.eventsState.focusedDate),
+      builder: (context, isFocussedDay, child) {
+        return GestureDetector(
+          onTap: isFocussedDay
+              ? null
+              : () {
+                  context.dispatch(
+                    FetchEventsAction(
+                      EventsActionType.picker,
+                      focusedDate: date,
+                      shouldOverrideRefDate: false,
+                    ),
+                  );
+                },
+          child: ColoredBox(
+            color: isFocussedDay
+                ? context.td.primaryColorLight
+                : context.td.cardColor,
+            child: child!,
+          ),
+        );
+      },
+      child: ListView.builder(
+        key: PageStorageKey(date.truncate),
+        controller: ScrollController(),
+        itemCount: events.length,
+        itemBuilder: (_, index) => _Event(events.elementAt(index)),
       ),
     );
   }
@@ -162,23 +168,20 @@ class _Event extends StatelessWidget {
 }
 
 class _State extends Equatable {
-  const _State(
-    this.lastDayOfMonth,
-    this.focusedDate,
-    this.shownEvents, {
+  const _State({
     required this.isWorkWeek,
+    required this.lastDayOfMonth,
+    required this.shownEvents,
   });
 
-  final int lastDayOfMonth;
-  final DateTime? focusedDate;
-  final Map<DateTime, Iterable<EventModel>> shownEvents;
   final bool isWorkWeek;
+  final int lastDayOfMonth;
+  final Map<DateTime, Iterable<EventModel>> shownEvents;
 
   @override
   List<Object?> get props => [
-        lastDayOfMonth,
-        focusedDate,
-        shownEvents,
         isWorkWeek,
+        lastDayOfMonth,
+        shownEvents,
       ];
 }

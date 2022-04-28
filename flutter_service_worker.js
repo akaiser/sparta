@@ -3,27 +3,27 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "main.dart.js": "8ce2d3d83373f73e6b17be90ede91663",
-"index.html": "8e32d7ba3f00462ff01bd8f4cef4173e",
-"/": "8e32d7ba3f00462ff01bd8f4cef4173e",
+  "index.html": "74f23d7a9ead3255c49294157ef61304",
+"/": "74f23d7a9ead3255c49294157ef61304",
+"manifest.json": "da120bf853febc19a4c2b2d800347f5e",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"version.json": "f0a79e583d429aed939dd0b59873bcae",
+"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
+"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
+"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"assets/FontManifest.json": "d206c20e4bcd897bf1a7b9e7c467265c",
+"assets/NOTICES": "79d26bd11f2c326559d4c35435f2f940",
 "assets/fonts/MaterialIcons-Regular.otf": "7e7a6cccddf6d7b20012a548461d5d81",
 "assets/AssetManifest.json": "671dc91f280c3e18b849ab449d7a4867",
-"assets/FontManifest.json": "d206c20e4bcd897bf1a7b9e7c467265c",
-"assets/google_fonts/OpenSans-Bold.ttf": "5bc6b8360236a197d59e55f72b02d4bf",
-"assets/google_fonts/OpenSans-Regular.ttf": "3eb5459d91a5743e0deaf2c7d7896b08",
 "assets/google_fonts/LICENSE.txt": "3b83ef96387f14655fc854ddc3c6bd57",
-"assets/NOTICES": "79d26bd11f2c326559d4c35435f2f940",
-"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"manifest.json": "a18fddf6690870cad4ab23d7f46d1ca7",
-"version.json": "f0a79e583d429aed939dd0b59873bcae",
-"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
+"assets/google_fonts/OpenSans-Regular.ttf": "3eb5459d91a5743e0deaf2c7d7896b08",
+"assets/google_fonts/OpenSans-Bold.ttf": "5bc6b8360236a197d59e55f72b02d4bf",
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
+"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
+"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
-"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487"
+"main.dart.js": "16cf7354b3a626727445704b8c0e9ce2"
 };
 
 // The application shell files that are downloaded before a service worker can

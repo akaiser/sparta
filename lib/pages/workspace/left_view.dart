@@ -13,10 +13,10 @@ class LeftView extends StatelessWidget {
     return Column(
       children: [
         const DatePicker(),
+        verticalDivider,
         Expanded(
           child: ListView(
             children: const [
-              verticalDivider,
               Calendars(),
               verticalDivider,
               Team(),

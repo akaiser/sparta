@@ -9,7 +9,6 @@ class SimpleGridView extends StatelessWidget {
     this.expandRows = true,
     this.cellPadding,
     this.gridBackgroundColor,
-    this.cellBackgroundColor,
     Key? key,
   })  : assert(columnCount > 0),
         assert(rowCount > 0),
@@ -27,7 +26,6 @@ class SimpleGridView extends StatelessWidget {
   final bool expandRows;
   final double? cellPadding;
   final Color? gridBackgroundColor;
-  final Color? cellBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +38,12 @@ class SimpleGridView extends StatelessWidget {
               columnCount,
               (xIndex) {
                 final cell = cellBuilder(context, xIndex, yIndex);
-                final coloredCell = cellBackgroundColor != null
-                    ? ColoredBox(
-                        color: cellBackgroundColor!,
-                        child: cell,
-                      )
-                    : cell;
-
                 final paddedCell = cellPadding != null
                     ? Padding(
                         padding: EdgeInsets.all(cellPadding!),
-                        child: coloredCell,
+                        child: cell,
                       )
-                    : coloredCell;
+                    : cell;
                 return expandColumns ? Expanded(child: paddedCell) : paddedCell;
               },
             ),

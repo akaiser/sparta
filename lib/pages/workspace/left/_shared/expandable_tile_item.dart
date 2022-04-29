@@ -5,16 +5,23 @@ import 'package:sparta/pages/_shared/extensions/build_context.dart';
 class ExpandableTileItem extends StatelessWidget {
   const ExpandableTileItem(
     this.title, {
+    this.leading,
     Key? key,
   }) : super(key: key);
 
   final String title;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      child: _ExpandableTileItemText(title),
+      child: Row(
+        children: [
+          if (leading != null) ...[leading!, const SizedBox(width: 6)],
+          _ExpandableTileItemText(title),
+        ],
+      ),
     );
   }
 }

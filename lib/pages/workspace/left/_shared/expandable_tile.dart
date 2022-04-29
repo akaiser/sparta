@@ -6,11 +6,12 @@ class ExpandableTile extends StatelessWidget {
   const ExpandableTile(
     this.title, {
     required this.children,
+    this.initiallyExpanded = false,
     Key? key,
   }) : super(key: key);
 
   final String title;
-
+  final bool initiallyExpanded;
   final List<ExpandableTileItem> children;
 
   @override
@@ -25,6 +26,7 @@ class ExpandableTile extends StatelessWidget {
         collapsedIconColor: context.td.disabledColor,
         textColor: context.td.hintColor,
         iconColor: context.td.hintColor,
+        initiallyExpanded: initiallyExpanded,
         title: Text(
           title,
           style: TextStyle(

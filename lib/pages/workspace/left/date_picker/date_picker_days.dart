@@ -102,12 +102,15 @@ class _DateItem extends StatelessWidget {
               return DecoratedBox(
                 decoration: BoxDecoration(
                   color: isFocussedDay
-                      ? context.td.focusColor
+                      ? context.td.secondaryHeaderColor
                       : date.isSameMonth(pickerDate)
                           ? null
                           : context.td.primaryColorLight,
                   border: isHovering
-                      ? Border.all(color: context.td.disabledColor)
+                      ? Border.all(
+                          width: 2,
+                          color: context.td.disabledColor,
+                        )
                       : isCurrentDay
                           ? currentDayBorder
                           : null,

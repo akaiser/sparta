@@ -28,6 +28,7 @@ class TopBar extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         ValueConnector<DateTime>(
+          ignoreChange: (state) => state.eventsState.isLoading,
           converter: (state) => state.eventsState.refDate,
           builder: (context, refDate) {
             return HoverIconButton(

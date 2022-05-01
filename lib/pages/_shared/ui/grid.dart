@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class SimpleGridView extends StatelessWidget {
-  const SimpleGridView({
+class Grid extends StatelessWidget {
+  const Grid({
     required this.columnCount,
     required this.rowCount,
     required this.cellBuilder,

@@ -11,12 +11,8 @@ class Event extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 20,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(color: context.td.disabledColor),
-          color: Colors.lightGreen,
-          borderRadius: const BorderRadius.all(Radius.circular(2)),
-        ),
+      child: ColoredBox(
+        color: Colors.lightGreen,
         child: Row(
           children: [
             Text(

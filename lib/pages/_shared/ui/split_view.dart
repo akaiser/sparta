@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
-class SimpleSplitView extends StatelessWidget {
-  const SimpleSplitView({
+class SplitView extends StatelessWidget {
+  const SplitView({
     required this.left,
     required this.right,
     required this.leftViewVisible,
@@ -19,7 +19,7 @@ class SimpleSplitView extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constrains) {
-        return _SimpleSplitView(
+        return _SplitView(
           left: left,
           right: right,
           maxWidth: constrains.maxWidth,
@@ -31,8 +31,8 @@ class SimpleSplitView extends StatelessWidget {
   }
 }
 
-class _SimpleSplitView extends StatefulWidget {
-  const _SimpleSplitView({
+class _SplitView extends StatefulWidget {
+  const _SplitView({
     required this.left,
     required this.right,
     required this.maxWidth,
@@ -48,10 +48,10 @@ class _SimpleSplitView extends StatefulWidget {
   final double? initLeftWidth;
 
   @override
-  _SimpleSplitViewState createState() => _SimpleSplitViewState();
+  _SplitViewState createState() => _SplitViewState();
 }
 
-class _SimpleSplitViewState extends State<_SimpleSplitView> {
+class _SplitViewState extends State<_SplitView> {
   late final ValueNotifier<double> _leftWidthNotifier;
 
   @override
@@ -97,6 +97,7 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
                 child: MouseRegion(
                   cursor: SystemMouseCursors.resizeLeftRight,
                   child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onPanUpdate: (details) {
                       final leftWidthCurrent = _leftWidthNotifier.value;
                       var leftWidthTemp = leftWidthCurrent + details.delta.dx;
@@ -109,10 +110,7 @@ class _SimpleSplitViewState extends State<_SimpleSplitView> {
                         _leftWidthNotifier.value = leftWidthTemp;
                       }
                     },
-                    child: const ColoredBox(
-                      color: Colors.transparent,
-                      child: SizedBox(width: 8),
-                    ),
+                    child: const SizedBox(width: 8),
                   ),
                 ),
               ),

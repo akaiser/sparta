@@ -33,20 +33,27 @@ class ValueConnector2<T> extends StatelessWidget {
     required this.converter,
     required this.builder,
     this.onInit,
+    this.ignoreChange,
     this.child,
+    this.onWillChange, // TODO verify usage
     Key? key,
   }) : super(key: key);
 
   final T Function(AppState state) converter;
   final ValueWidgetBuilder<T> builder;
   final void Function(AppState state)? onInit;
+  final bool Function(AppState state)? ignoreChange;
   final Widget? child;
+
+  final void Function(T? prev, T vm)? onWillChange;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, T>(
       distinct: true,
+      onWillChange: onWillChange,
       onInit: onInit != null ? (store) => onInit!(store.state) : null,
+      ignoreChange: ignoreChange,
       converter: (store) => converter(store.state),
       builder: (context, vm) => builder.call(context, vm, child),
     );

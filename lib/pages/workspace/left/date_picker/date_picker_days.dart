@@ -4,8 +4,8 @@ import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
+import 'package:sparta/pages/_shared/ui/grid.dart';
 import 'package:sparta/pages/_shared/ui/hover_region.dart';
-import 'package:sparta/pages/_shared/ui/simple_grid_view.dart';
 import 'package:sparta/states/events_state.dart';
 
 const _columnCount = 7;
@@ -47,7 +47,7 @@ class DatePickerDays extends StatelessWidget {
     final dateItems = _dateItems;
     return ValueConnector<_State>(
       converter: (state) => _State(state.eventsState.shownEvents.keys),
-      builder: (context, state) => SimpleGridView(
+      builder: (context, state) => Grid(
         columnCount: _columnCount,
         rowCount: _rowCount,
         expandRows: false,
@@ -57,7 +57,7 @@ class DatePickerDays extends StatelessWidget {
           return _DateItem(
             date,
             pickerDate,
-            state.shownEventsDates,
+            state.shownEventDates,
             isCurrentDay: date.isSameDay(now),
           );
         },
@@ -83,6 +83,7 @@ class _DateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fontWeight = isCurrentDay ? FontWeight.bold : FontWeight.normal;
+    final isSameMonth = date.isSameMonth(pickerDate);
 
     return ValueConnector2<bool>(
       converter: (state) => date.isSameDay(state.eventsState.focusedDate),
@@ -103,7 +104,7 @@ class _DateItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isFocussedDay
                       ? context.td.secondaryHeaderColor
-                      : date.isSameMonth(pickerDate)
+                      : isSameMonth
                           ? null
                           : context.td.primaryColorLight,
                   border: isHovering
@@ -136,10 +137,10 @@ class _DateItem extends StatelessWidget {
 }
 
 class _State extends Equatable {
-  const _State(this.shownEventsDates);
+  const _State(this.shownEventDates);
 
-  final Iterable<DateTime> shownEventsDates;
+  final Iterable<DateTime> shownEventDates;
 
   @override
-  List<Object?> get props => [shownEventsDates];
+  List<Object?> get props => [shownEventDates];
 }

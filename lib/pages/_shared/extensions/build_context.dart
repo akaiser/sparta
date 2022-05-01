@@ -7,7 +7,8 @@ import 'package:sparta/_themes.dart';
 extension BuildContextEx on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this)!;
 
-  dynamic get dispatch => StoreProvider.of<AppState>(this).dispatch;
+  Function(dynamic action) get dispatch =>
+      StoreProvider.of<AppState>(this, listen: false).dispatch;
 
   Locale get l => Localizations.localeOf(this);
 

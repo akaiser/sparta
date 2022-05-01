@@ -11,6 +11,7 @@ class ShownRangeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueConnector<_State>(
+      ignoreChange: (state) => state.eventsState.isLoading,
       converter: (state) {
         final refDate = state.eventsState.refDate;
         final isWorkWeek = state.settingsState.isWorkWeek;

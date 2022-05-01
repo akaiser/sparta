@@ -11,12 +11,14 @@ class ToggleLeftViewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
       converter: (state) => state.settingsState.isLeftViewVisible,
-      builder: (context, isLeftViewVisible) => HoverIconButton(
-        isLeftViewVisible ? Icons.menu_open : Icons.menu,
-        onPressed: () => context.dispatch(
-          const ToggleLeftViewVisibilityAction(),
-        ),
-      ),
+      builder: (context, isLeftViewVisible) {
+        return HoverIconButton(
+          isLeftViewVisible ? Icons.menu_open : Icons.menu,
+          onPressed: () => context.dispatch(
+            const ToggleLeftViewVisibilityAction(),
+          ),
+        );
+      },
     );
   }
 }

@@ -5,9 +5,8 @@ import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
-import 'package:sparta/pages/_shared/ui/simple_grid_view.dart';
-import 'package:sparta/pages/workspace/right/days/day_body.dart';
-import 'package:sparta/pages/workspace/right/days/day_header.dart';
+import 'package:sparta/pages/_shared/ui/grid.dart';
+import 'package:sparta/pages/workspace/right/days/day.dart';
 import 'package:sparta/states/events_state.dart';
 
 class Days extends StatelessWidget {
@@ -15,7 +14,9 @@ class Days extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     return ValueConnector<_State>(
+      ignoreChange: (state) => state.eventsState.isLoading,
       onInit: (_) => context.dispatch(
         const FetchEventsAction(EventsActionType.init),
       ),
@@ -32,7 +33,7 @@ class Days extends StatelessWidget {
         final isWorkWeek = state.isWorkWeek;
         final lastDayOfMonth = state.lastDayOfMonth;
 
-        return SimpleGridView(
+        return Grid(
           columnCount: isWorkWeek ? 5 : 7,
           rowCount: 2,
           cellPadding: 0.1,
@@ -46,27 +47,11 @@ class Days extends StatelessWidget {
                 (!isWorkWeek && cellIndex == 13) ||
                 (isWorkWeek && cellIndex == 11);
 
-            return GestureDetector(
-              onTap: () => context.dispatch(
-                FetchEventsAction(
-                  EventsActionType.picker,
-                  focusedDate: date,
-                  shouldOverrideRefDate: false,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  DayHeader(date, printMonth: printMonth),
-                  const SizedBox(height: 0.2),
-                  Expanded(
-                    child: DayBody(
-                      date.truncate.toString(),
-                      state.shownEvents[date]!,
-                    ),
-                  ),
-                ],
-              ),
+            return Day(
+              now: now,
+              date: date,
+              printMonth: printMonth,
+              events: state.shownEvents[date]!,
             );
           },
         );

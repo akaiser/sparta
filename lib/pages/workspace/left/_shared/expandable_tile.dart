@@ -30,8 +30,8 @@ class ExpandableTile extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
-            fontSize: context.tt.subtitle2.fontSize,
-            fontWeight: context.tt.subtitle2.fontWeight,
+            fontSize: context.tt.subtitle2?.fontSize,
+            fontWeight: context.tt.subtitle2?.fontWeight,
           ),
         ),
         children: children,

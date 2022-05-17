@@ -1,19 +1,24 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sparta/_states.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
+import 'package:sparta/pages/_shared/extensions/events.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
-import 'package:sparta/pages/_shared/ui/grid.dart';
 import 'package:sparta/pages/_shared/ui/hover_region.dart';
+import 'package:sparta/pages/_shared/ui/simple_grid.dart';
 import 'package:sparta/states/events_state.dart';
 
 const _columnCount = 7;
 const _rowCount = 6;
 const _availableSlots = _rowCount * _columnCount;
 
-class DatePickerDays extends StatelessWidget {
-  const DatePickerDays(this.pickerDate, {Key? key}) : super(key: key);
+class DatePickerBody extends StatelessWidget {
+  const DatePickerBody(
+    this.pickerDate, {
+    Key? key,
+  }) : super(key: key);
 
   final DateTime pickerDate;
 
@@ -45,81 +50,95 @@ class DatePickerDays extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final dateItems = _dateItems;
-    return ValueConnector<_State>(
-      converter: (state) => _State(state.eventsState.shownEvents.keys),
-      builder: (context, state) => Grid(
-        columnCount: _columnCount,
-        rowCount: _rowCount,
-        expandRows: false,
-        cellBuilder: (context, xIndex, yIndex) {
-          final cellIndex = xIndex + yIndex * _columnCount;
-          final date = dateItems.elementAt(cellIndex);
-          return _DateItem(
-            date,
-            pickerDate,
-            state.shownEventDates,
-            isCurrentDay: date.isSameDay(now),
-          );
-        },
-      ),
+    return SimpleGrid(
+      columnCount: _columnCount,
+      rowCount: _rowCount,
+      expandRows: false,
+      cellBuilder: (context, xIndex, yIndex) {
+        final cellIndex = xIndex + yIndex * _columnCount;
+        final date = dateItems.elementAt(cellIndex);
+        return _DateItem(
+          date,
+          isSameMonth: date.isSameMonth(pickerDate),
+          isCurrentDay: date.isSameDay(now),
+        );
+      },
+      leadingOffsetColumnBuilder: (context, yIndex) {
+        final textColor = context.td.disabledColor;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            '${dateItems.elementAt(yIndex * _columnCount).weekNumber}',
+            style: context.tt.labelSmall?.copyWith(color: textColor),
+            textAlign: TextAlign.center,
+          ),
+        );
+      },
     );
   }
 }
 
 class _DateItem extends StatelessWidget {
   const _DateItem(
-    this.date,
-    this.pickerDate,
-    this.shownEventsDates, {
+    this.date, {
+    required this.isSameMonth,
     required this.isCurrentDay,
     Key? key,
-  }) : super(key: key);
+  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null,
+        super(key: key);
 
   final DateTime date;
-  final DateTime pickerDate;
-  final Iterable<DateTime> shownEventsDates;
+  final bool isSameMonth;
   final bool isCurrentDay;
+
+  final FontWeight? _fontWeight;
 
   @override
   Widget build(BuildContext context) {
-    final fontWeight = isCurrentDay ? FontWeight.bold : FontWeight.normal;
-    final isSameMonth = date.isSameMonth(pickerDate);
-
-    return ValueConnector2<bool>(
+    return ValueConnector<bool>(
       converter: (state) => date.isSameDay(state.eventsState.focusedDate),
       builder: (context, isFocussedDay, child) {
         return GestureDetector(
           onTap: isFocussedDay
               ? null
-              : () => context.dispatch(
+              : () {
+                  final store = StoreProvider.of<AppState>(
+                    context,
+                    listen: false,
+                  );
+                  final eventsState = store.state.eventsState;
+                  store.dispatch(
                     FetchEventsAction(
                       EventsActionType.picker,
                       focusedDate: date,
-                      shouldOverrideRefDate: !shownEventsDates.contains(date),
+                      shouldOverrideRefDate: !eventsState //
+                          .events
+                          .toShownEvents(eventsState.refDate)
+                          .keys
+                          .contains(date),
                     ),
-                  ),
+                  );
+                },
           child: HoverRegion(
+            onHoverCursor: isFocussedDay ? SystemMouseCursors.basic : null,
             builder: (context, isHovering, child) {
               return DecoratedBox(
                 decoration: BoxDecoration(
                   color: isFocussedDay
-                      ? context.td.secondaryHeaderColor
-                      : isSameMonth
-                          ? null
-                          : context.td.primaryColorLight,
-                  border: isHovering
-                      ? Border.all(
-                          width: 2,
-                          color: context.td.disabledColor,
-                        )
+                      ? context.td.selectedRowColor
+                      : !isSameMonth
+                          ? context.td.primaryColorDark
+                          : null,
+                  border: isHovering && !isFocussedDay
+                      ? hoverDayBorder
                       : isCurrentDay
                           ? currentDayBorder
                           : null,
                 ),
-                child: child!,
+                child: child,
               );
             },
-            child: child!,
+            child: child,
           ),
         );
       },
@@ -128,19 +147,10 @@ class _DateItem extends StatelessWidget {
         child: Center(
           child: Text(
             '${date.day}',
-            style: context.tt.labelSmall.copyWith(fontWeight: fontWeight),
+            style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
           ),
         ),
       ),
     );
   }
-}
-
-class _State extends Equatable {
-  const _State(this.shownEventDates);
-
-  final Iterable<DateTime> shownEventDates;
-
-  @override
-  List<Object?> get props => [shownEventDates];
 }

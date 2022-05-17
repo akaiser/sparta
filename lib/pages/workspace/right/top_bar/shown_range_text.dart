@@ -21,7 +21,7 @@ class ShownRangeText extends StatelessWidget {
           refDate.addWeek.endOfWeek.subtract(endDateSubtractDuration),
         );
       },
-      builder: (context, state) {
+      builder: (context, state, _) {
         final start = state.start;
         final end = state.end;
         final startMonthText = start.month.toMonth.l10n(context.l10n);

@@ -28,7 +28,7 @@ class UserMenu extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               //shape: BoxShape.circle,
-              color: accentColor,
+              color: lightBlue,
               borderRadius: BorderRadius.all(Radius.circular(2)),
             ),
             child: Center(child: Text('AK')),

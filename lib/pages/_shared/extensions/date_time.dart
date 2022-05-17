@@ -32,6 +32,8 @@ extension DateTimeEx on DateTime {
 
   String get toCommonIsoDate => DateFormat('yyyy-MM-dd').format(this);
 
+  int get weekNumber => _weekNumber(this);
+
   DateTime copyWith({
     final int? year,
     final int? month,
@@ -45,4 +47,20 @@ extension DateTimeEx on DateTime {
       hour ?? this.hour,
     );
   }
+}
+
+int _weekNumber(DateTime date) {
+  final dayOfYear = int.parse(DateFormat('D').format(date));
+  final weekOfYear = ((dayOfYear - date.weekday + 10) / 7).floor();
+  return weekOfYear < 1
+      ? _numOfWeeks(date.year - 1)
+      : weekOfYear > _numOfWeeks(date.year)
+          ? 1
+          : weekOfYear;
+}
+
+int _numOfWeeks(int year) {
+  final dec28 = DateTime(year, 12, 28);
+  final dayOfDec28 = int.parse(DateFormat('D').format(dec28));
+  return ((dayOfDec28 - dec28.weekday + 10) / 7).floor();
 }

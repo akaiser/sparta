@@ -13,7 +13,7 @@ class WeekViewDropdown extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: ValueConnector<WeekView>(
         converter: (state) => state.settingsState.weekView,
-        builder: (context, selectedWeekView) {
+        builder: (context, selectedWeekView, _) {
           return DropdownButton<WeekView>(
             isDense: true,
             style: context.tt.bodyMedium,

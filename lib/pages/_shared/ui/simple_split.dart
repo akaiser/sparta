@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
-class SplitView extends StatelessWidget {
-  const SplitView({
+const _dividerWidth = 8.0;
+const _separatorWidth = 1.0;
+
+class SimpleSplit extends StatelessWidget {
+  const SimpleSplit({
     required this.left,
     required this.right,
     required this.leftViewVisible,
@@ -71,6 +74,19 @@ class _SplitViewState extends State<_SplitView> {
     return widget.maxWidth - leftWidth < 0 ? widget.maxWidth : leftWidth;
   }
 
+  void _updateLeftWidth(double dx) {
+    final leftWidthCurrent = _leftWidthNotifier.value;
+    var leftWidthTemp = leftWidthCurrent + dx;
+    if (leftWidthTemp < 0) {
+      leftWidthTemp = 0;
+    } else if (leftWidthTemp > widget.maxWidth) {
+      leftWidthTemp = widget.maxWidth;
+    }
+    if (leftWidthCurrent != leftWidthTemp) {
+      _leftWidthNotifier.value = leftWidthTemp;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -80,39 +96,22 @@ class _SplitViewState extends State<_SplitView> {
           visible: widget.leftViewVisible,
           child: Stack(
             children: [
-              ValueListenableBuilder<double>(
-                valueListenable: _leftWidthNotifier,
-                builder: (context, leftWidth, child) {
-                  return SizedBox(
+              Padding(
+                padding: const EdgeInsets.only(right: _separatorWidth),
+                child: ValueListenableBuilder<double>(
+                  valueListenable: _leftWidthNotifier,
+                  builder: (context, leftWidth, child) => SizedBox(
                     width: _leftWidthCalculated(leftWidth),
                     child: child,
-                  );
-                },
-                child: widget.left,
+                  ),
+                  child: widget.left,
+                ),
               ),
               Positioned(
                 top: 0,
                 right: 0,
                 bottom: 0,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.resizeLeftRight,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onPanUpdate: (details) {
-                      final leftWidthCurrent = _leftWidthNotifier.value;
-                      var leftWidthTemp = leftWidthCurrent + details.delta.dx;
-                      if (leftWidthTemp < 0) {
-                        leftWidthTemp = 0;
-                      } else if (leftWidthTemp > widget.maxWidth) {
-                        leftWidthTemp = widget.maxWidth;
-                      }
-                      if (leftWidthCurrent != leftWidthTemp) {
-                        _leftWidthNotifier.value = leftWidthTemp;
-                      }
-                    },
-                    child: const SizedBox(width: 8),
-                  ),
-                ),
+                child: _Separator(onDxUpdate: _updateLeftWidth),
               ),
             ],
           ),
@@ -124,7 +123,7 @@ class _SplitViewState extends State<_SplitView> {
                   ? [
                       BoxShadow(
                         blurRadius: 10,
-                        offset: const Offset(-4, 0),
+                        offset: const Offset(-5, 0),
                         color: context.td.primaryColorDark,
                       ),
                     ]
@@ -134,6 +133,36 @@ class _SplitViewState extends State<_SplitView> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _Separator extends StatelessWidget {
+  const _Separator({
+    required this.onDxUpdate,
+    Key? key,
+  }) : super(key: key);
+
+  final void Function(double dx) onDxUpdate;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.resizeColumn,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanUpdate: (details) => onDxUpdate(details.delta.dx),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(width: _dividerWidth),
+            SizedBox(
+              width: _separatorWidth,
+              child: ColoredBox(color: context.td.dividerColor),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

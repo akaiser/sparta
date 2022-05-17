@@ -9,26 +9,23 @@ class DayNames extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ValueConnector<bool>(
-        converter: (state) => state.settingsState.isWorkWeek,
-        builder: (context, isWorkWeek) => Row(
-          children: WeekDay.values
-              .take(isWorkWeek ? 5 : 7)
-              .map(
-                (weekDay) => Expanded(
-                  child: Center(
-                    child: Text(
-                      weekDay.l10n(context.l10n),
-                      style: context.tt.subtitle2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+    return ValueConnector<bool>(
+      converter: (state) => state.settingsState.isWorkWeek,
+      builder: (context, isWorkWeek, _) => Row(
+        children: WeekDay.values
+            .take(isWorkWeek ? 5 : 7)
+            .map(
+              (weekDay) => Expanded(
+                child: Center(
+                  child: Text(
+                    weekDay.l10n(context.l10n),
+                    style: context.tt.subtitle2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              )
-              .toUnmodifiableList,
-        ),
+              ),
+            )
+            .toUnmodifiableList,
       ),
     );
   }

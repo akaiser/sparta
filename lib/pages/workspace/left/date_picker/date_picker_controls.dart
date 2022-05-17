@@ -55,18 +55,13 @@ class _DatePickerControlsState extends State<DatePickerControls> {
           onPressed: () => _setPickerDate(_pickerDate.subtractMonth),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 2),
-            child: Center(
-              child: ValueListenableBuilder<DateTime>(
-                valueListenable: widget.pickerDateNotifier,
-                builder: (context, pickerDate, _) {
-                  return Text(
-                    pickerDate.month.toMonth.l10n(context.l10n),
-                    overflow: TextOverflow.ellipsis,
-                    style: context.tt.bodyMedium,
-                  );
-                },
+          child: Center(
+            child: ValueListenableBuilder<DateTime>(
+              valueListenable: widget.pickerDateNotifier,
+              builder: (context, pickerDate, _) => Text(
+                pickerDate.month.toMonth.l10n(context.l10n),
+                overflow: TextOverflow.ellipsis,
+                style: context.tt.bodyMedium,
               ),
             ),
           ),
@@ -75,33 +70,19 @@ class _DatePickerControlsState extends State<DatePickerControls> {
           Icons.chevron_right,
           onPressed: () => _setPickerDate(_pickerDate.addMonth),
         ),
-        ValueListenableBuilder<DateTime>(
-          valueListenable: widget.pickerDateNotifier,
-          builder: (context, pickerDate, _) {
-            return HoverIconButton(
-              Icons.fiber_manual_record_outlined,
-              onPressed: pickerDate.isSameMonth(DateTime.now())
-                  ? null
-                  : () => context
-                      .dispatch(const FetchEventsAction(EventsActionType.init)),
-            );
-          },
-        ),
+        _CircleButton(widget.pickerDateNotifier),
         HoverIconButton(
           Icons.chevron_left,
           onPressed: () => _setPickerDate(_pickerDate.subtractYear),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 2),
-            child: Center(
-              child: ValueListenableBuilder<DateTime>(
-                valueListenable: widget.pickerDateNotifier,
-                builder: (context, pickerDate, _) => Text(
-                  '${pickerDate.year}',
-                  overflow: TextOverflow.ellipsis,
-                  style: context.tt.bodyMedium,
-                ),
+          child: Center(
+            child: ValueListenableBuilder<DateTime>(
+              valueListenable: widget.pickerDateNotifier,
+              builder: (context, pickerDate, _) => Text(
+                '${pickerDate.year}',
+                overflow: TextOverflow.ellipsis,
+                style: context.tt.bodyMedium,
               ),
             ),
           ),
@@ -111,6 +92,30 @@ class _DatePickerControlsState extends State<DatePickerControls> {
           onPressed: () => _setPickerDate(_pickerDate.addYear),
         ),
       ],
+    );
+  }
+}
+
+class _CircleButton extends StatelessWidget {
+  const _CircleButton(
+    this.pickerDateNotifier, {
+    Key? key,
+  }) : super(key: key);
+
+  final ValueNotifier<DateTime> pickerDateNotifier;
+
+  static const _initAction = FetchEventsAction(EventsActionType.init);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<DateTime>(
+      valueListenable: pickerDateNotifier,
+      builder: (context, pickerDate, _) => HoverIconButton(
+        Icons.fiber_manual_record_outlined,
+        onPressed: pickerDate.isSameMonth(DateTime.now())
+            ? null
+            : () => context.dispatch(_initAction),
+      ),
     );
   }
 }

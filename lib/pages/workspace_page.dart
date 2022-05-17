@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
-import 'package:sparta/pages/_shared/ui/split_view.dart';
+import 'package:sparta/pages/_shared/ui/simple_split.dart';
 import 'package:sparta/pages/workspace/left_view.dart';
 import 'package:sparta/pages/workspace/right_view.dart';
 
@@ -13,8 +13,8 @@ class WorkspacePage extends StatelessWidget {
       body: SafeArea(
         child: ValueConnector<bool>(
           converter: (state) => state.settingsState.isLeftViewVisible,
-          builder: (context, isLeftViewVisible) {
-            return SplitView(
+          builder: (context, isLeftViewVisible, _) {
+            return SimpleSplit(
               left: const LeftView(),
               right: const RightView(),
               leftViewVisible: isLeftViewVisible,

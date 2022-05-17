@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
-import 'package:sparta/pages/_shared/state/visibility_connector.dart';
+import 'package:sparta/pages/_shared/state/value_connector.dart';
+import 'package:sparta/pages/workspace/left/date_picker/date_picker_body.dart';
 import 'package:sparta/pages/workspace/left/date_picker/date_picker_controls.dart';
-import 'package:sparta/pages/workspace/left/date_picker/date_picker_days.dart';
-import 'package:sparta/pages/workspace/left/date_picker/day_names_short.dart';
+import 'package:sparta/pages/workspace/left/date_picker/date_picker_header.dart';
 
 class DatePicker extends StatefulWidget {
   const DatePicker({Key? key}) : super(key: key);
@@ -30,29 +30,28 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: DatePickerControls(_pickerDateNotifier),
-            ),
-            verticalDivider,
-            const SizedBox(height: 8),
-            const DayNamesShort(),
-            const SizedBox(height: 8),
-            ValueListenableBuilder<DateTime>(
-              valueListenable: _pickerDateNotifier,
-              builder: (_, pickerDate, __) => DatePickerDays(pickerDate),
-            ),
-          ],
-        ),
-        VisibilityConnector(
-          visible: (state) => state.eventsState.isLoading,
-          builder: (_) => const Positioned.fill(child: AbsorbPointer()),
-        )
-      ],
+    return ValueConnector<bool>(
+      converter: (state) => state.eventsState.isLoading,
+      builder: (_, isLoading, child) => AbsorbPointer(
+        absorbing: isLoading,
+        child: child,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: DatePickerControls(_pickerDateNotifier),
+          ),
+          verticalDivider,
+          const SizedBox(height: 8),
+          const DatePickerHeader(),
+          const SizedBox(height: 9),
+          ValueListenableBuilder<DateTime>(
+            valueListenable: _pickerDateNotifier,
+            builder: (_, pickerDate, __) => DatePickerBody(pickerDate),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:sparta/_epics.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
+import 'package:sparta/pages/_shared/models/event_json.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/pages/_shared/util/try_and_catch.dart';
@@ -116,16 +117,16 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
           (actionType) => tryAndCatch(
             () async {
               final refDate = store.state.eventsState.refDate;
-              final eventsJson = await http.fetchEvents(
+              final json = await http.fetchEvents(
                 from: refDate.toFetchStartDate(actionType),
                 to: refDate.toFetchEndDate(actionType),
               );
 
-              final eventsModel = {
-                for (final events in eventsJson)
+              final model = {
+                for (final EventsJson events in json)
                   events.day.midDay: events.items.map(EventModel.fromJson),
               };
-              return ResultFetchEventsAction(eventsModel);
+              return ResultFetchEventsAction(model);
             },
             (exception) => ErrorFetchEventsAction(exception),
           ),
@@ -152,19 +153,6 @@ class EventsState extends Equatable {
   DateTime get refDate => (_refDate ?? DateTime.now()).midDay;
 
   DateTime get focusedDate => (_focusedDate ?? DateTime.now()).midDay;
-
-  Map<DateTime, Iterable<EventModel>> get shownEvents {
-    final filtered = <DateTime, Iterable<EventModel>>{};
-    for (var i = 0; i < 14; i++) {
-      final day = refDate.startOfWeek.add(Duration(days: i));
-      final singleWhere = events.entries.singleWhere(
-        (entry) => entry.key.isSameDay(day),
-        orElse: () => MapEntry(day, const []),
-      );
-      filtered[singleWhere.key] = singleWhere.value;
-    }
-    return filtered;
-  }
 
   @override
   List<Object?> get props => [

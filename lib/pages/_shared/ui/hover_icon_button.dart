@@ -33,7 +33,7 @@ class HoverIconButton extends StatelessWidget {
             color: isHovering ? context.td.focusColor : null,
             shape: BoxShape.circle,
           ),
-          child: child!,
+          child: child,
         ),
         child: Padding(
           padding: _iconPadding,

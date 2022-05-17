@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
-import 'package:redux_logging/redux_logging.dart';
 import 'package:sparta/_epics.dart';
 import 'package:sparta/_prefs.dart';
 import 'package:sparta/_states.dart';
@@ -22,7 +21,7 @@ final _store = Store<AppState>(
   initialState: const AppState(),
   middleware: [
     EpicMiddleware(appEpics()),
-    LoggingMiddleware.printer(),
+    //if (kDebugMode) LoggingMiddleware.printer(),
   ],
 );
 
@@ -49,7 +48,7 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
       converter: (state) => state.settingsState.isLightTheme,
-      builder: (context, isLightTheme) => MaterialApp(
+      builder: (context, isLightTheme, _) => MaterialApp(
         themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
         theme: Themes.lightTheme,
         darkTheme: Themes.darkTheme,

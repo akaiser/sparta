@@ -7,18 +7,16 @@ import 'package:sparta/states/settings_state.dart';
 class ToggleLeftViewButton extends StatelessWidget {
   const ToggleLeftViewButton({Key? key}) : super(key: key);
 
+  static const _action = ToggleLeftViewVisibilityAction();
+
   @override
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
       converter: (state) => state.settingsState.isLeftViewVisible,
-      builder: (context, isLeftViewVisible) {
-        return HoverIconButton(
-          isLeftViewVisible ? Icons.menu_open : Icons.menu,
-          onPressed: () => context.dispatch(
-            const ToggleLeftViewVisibilityAction(),
-          ),
-        );
-      },
+      builder: (context, isLeftViewVisible, _) => HoverIconButton(
+        isLeftViewVisible ? Icons.menu_open : Icons.menu,
+        onPressed: () => context.dispatch(_action),
+      ),
     );
   }
 }

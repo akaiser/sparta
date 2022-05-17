@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/workspace/right/days/event.dart';
 
@@ -15,16 +14,13 @@ class DayBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: context.td.cardColor,
-      child: ListView.separated(
-        key: PageStorageKey(listId),
-        controller: ScrollController(),
-        padding: const EdgeInsets.all(2),
-        itemCount: events.length,
-        itemBuilder: (_, index) => Event(events.elementAt(index)),
-        separatorBuilder: (_, __) => const SizedBox(height: 2),
-      ),
+    return ListView.separated(
+      key: PageStorageKey(listId),
+      controller: ScrollController(),
+      padding: const EdgeInsets.all(2),
+      itemCount: events.length,
+      itemBuilder: (_, index) => Event(events.elementAt(index)),
+      separatorBuilder: (_, __) => const SizedBox(height: 2),
     );
   }
 }

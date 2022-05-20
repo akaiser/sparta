@@ -21,7 +21,7 @@ class WeekViewDropdown extends StatelessWidget {
             focusColor: Colors.transparent,
             onChanged: (changedWeekView) {
               if (selectedWeekView != changedWeekView!) {
-                context.dispatch(SetWeekViewAction(changedWeekView));
+                context.store.dispatch(SetWeekViewAction(changedWeekView));
               }
             },
             items: WeekView.values

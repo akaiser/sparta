@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sparta/_states.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
@@ -29,12 +27,8 @@ class Day extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final store = StoreProvider.of<AppState>(
-          context,
-          listen: false,
-        );
-        if (!date.isSameDay(store.state.eventsState.focusedDate)) {
-          store.dispatch(
+        if (!date.isSameDay(context.store.state.eventsState.focusedDate)) {
+          context.store.dispatch(
             FetchEventsAction(
               EventsActionType.picker,
               focusedDate: date,

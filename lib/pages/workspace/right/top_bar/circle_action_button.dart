@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sparta/_states.dart';
+import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/extensions/events.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
@@ -66,21 +65,15 @@ class _ActionButton extends StatelessWidget {
     return ValueConnector<DateTime>(
       ignoreChange: (state) => state.eventsState.isLoading,
       converter: (state) => state.eventsState.refDate,
-      builder: (context, refDate, _) {
-        final store = StoreProvider.of<AppState>(context, listen: false);
-        return HoverIconButton(
-          Icons.fiber_manual_record_outlined,
-          onPressed: store
-                  .state //
-                  .eventsState
-                  .events
-                  .toShownEvents(refDate)
-                  .keys
-                  .contains(now)
-              ? null
-              : () => store.dispatch(_action),
-        );
-      },
+      builder: (context, refDate, _) => HoverIconButton(
+        Icons.fiber_manual_record_outlined,
+        onPressed: context.store.state.eventsState.events
+                .toShownEvents(refDate)
+                .keys
+                .contains(now)
+            ? null
+            : () => context.store.dispatch(_action),
+      ),
     );
   }
 }

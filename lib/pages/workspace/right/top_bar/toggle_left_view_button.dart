@@ -15,7 +15,7 @@ class ToggleLeftViewButton extends StatelessWidget {
       converter: (state) => state.settingsState.isLeftViewVisible,
       builder: (context, isLeftViewVisible, _) => HoverIconButton(
         isLeftViewVisible ? Icons.menu_open : Icons.menu,
-        onPressed: () => context.dispatch(_action),
+        onPressed: () => context.store.dispatch(_action),
       ),
     );
   }

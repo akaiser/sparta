@@ -20,10 +20,10 @@ class HoverRegion extends StatefulWidget {
   final Widget? child;
 
   @override
-  _HoverRegionState createState() => _HoverRegionState();
+  HoverRegionState createState() => HoverRegionState();
 }
 
-class _HoverRegionState extends State<HoverRegion> {
+class HoverRegionState extends State<HoverRegion> {
   bool _isHovering = false;
 
   @override

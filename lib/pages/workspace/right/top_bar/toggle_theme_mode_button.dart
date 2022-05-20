@@ -15,7 +15,7 @@ class ToggleThemeModeButton extends StatelessWidget {
       converter: (state) => state.settingsState.isLightTheme,
       builder: (context, isLightTheme, _) => HoverIconButton(
         isLightTheme ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-        onPressed: () => context.dispatch(_action),
+        onPressed: () => context.store.dispatch(_action),
       ),
     );
   }

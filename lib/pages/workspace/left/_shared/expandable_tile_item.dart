@@ -14,12 +14,12 @@ class ExpandableTileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _leading = leading;
+    final leading_ = leading;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
         children: [
-          if (_leading != null) ...[_leading, const SizedBox(width: 6)],
+          if (leading_ != null) ...[leading_, const SizedBox(width: 6)],
           _ExpandableTileItemText(title),
         ],
       ),

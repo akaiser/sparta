@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sparta/_states.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
@@ -102,12 +100,8 @@ class _DateItem extends StatelessWidget {
           onTap: isFocussedDay
               ? null
               : () {
-                  final store = StoreProvider.of<AppState>(
-                    context,
-                    listen: false,
-                  );
-                  final eventsState = store.state.eventsState;
-                  store.dispatch(
+                  final eventsState = context.store.state.eventsState;
+                  context.store.dispatch(
                     FetchEventsAction(
                       EventsActionType.picker,
                       focusedDate: date,

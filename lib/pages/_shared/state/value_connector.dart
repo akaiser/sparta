@@ -23,11 +23,11 @@ class ValueConnector<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _onInit = onInit;
+    final onInit_ = onInit;
     return StoreConnector<AppState, T>(
       distinct: true,
       onWillChange: onWillChange,
-      onInit: _onInit != null ? (store) => _onInit(store.state) : null,
+      onInit: onInit_ != null ? (store) => onInit_(store.state) : null,
       ignoreChange: ignoreChange,
       converter: (store) => converter(store.state),
       builder: (context, vm) => builder.call(context, vm, child),

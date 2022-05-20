@@ -17,7 +17,7 @@ class Days extends StatelessWidget {
     final now = DateTime.now();
     return ValueConnector<_State>(
       ignoreChange: (state) => state.eventsState.isLoading,
-      onInit: (_) => context.dispatch(
+      onInit: (_) => context.store.dispatch(
         const FetchEventsAction(EventsActionType.init),
       ),
       converter: (state) {

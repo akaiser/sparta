@@ -56,7 +56,7 @@ class _ArrowActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return HoverIconButton(
       icon,
-      onPressed: () => context.dispatch(FetchEventsAction(actionType)),
+      onPressed: () => context.store.dispatch(FetchEventsAction(actionType)),
     );
   }
 }

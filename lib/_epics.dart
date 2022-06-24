@@ -3,6 +3,7 @@ import 'package:sparta/_states.dart';
 import 'package:sparta/pages/_shared/network/_http_client.dart';
 import 'package:sparta/pages/_shared/network/events_http_client.dart';
 import 'package:sparta/states/events_state.dart';
+import 'package:sparta/states/focussed_date_state.dart';
 
 class TypedAppEpic<Action> extends TypedEpic<AppState, Action> {
   TypedAppEpic(
@@ -17,6 +18,7 @@ class TypedAppEpic<Action> extends TypedEpic<AppState, Action> {
 Epic<AppState> appEpics() {
   const httpClient = HttpClient();
   return combineEpics<AppState>([
+    focusDateEpic(),
     fetchEventsEpic(const EventsHttpClient(httpClient)),
   ]);
 }

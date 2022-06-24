@@ -7,7 +7,7 @@ import 'package:sparta/pages/workspace/left/date_picker/date_picker_controls.dar
 import 'package:sparta/pages/workspace/left/date_picker/date_picker_header.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({Key? key}) : super(key: key);
+  const DatePicker({super.key});
 
   @override
   State<DatePicker> createState() => _DatePickerState();

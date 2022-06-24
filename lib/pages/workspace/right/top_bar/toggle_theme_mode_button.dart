@@ -5,7 +5,7 @@ import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/settings_state.dart';
 
 class ToggleThemeModeButton extends StatelessWidget {
-  const ToggleThemeModeButton({Key? key}) : super(key: key);
+  const ToggleThemeModeButton({super.key});
 
   static const _action = ToggleThemeAction();
 

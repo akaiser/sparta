@@ -5,7 +5,7 @@ import 'package:sparta/pages/_shared/extensions/iterable.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 
 class DayNames extends StatelessWidget {
-  const DayNames({Key? key}) : super(key: key);
+  const DayNames({super.key});
 
   @override
   Widget build(BuildContext context) {

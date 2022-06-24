@@ -8,8 +8,8 @@ class HoverIconButton extends StatelessWidget {
   const HoverIconButton(
     this.iconData, {
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final IconData iconData;
   final VoidCallback? onPressed;

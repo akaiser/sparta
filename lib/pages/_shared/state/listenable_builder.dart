@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class ListenableBuilder<T, V> extends StatelessWidget {
-  const ListenableBuilder({
-    required this.listenable,
+  const ListenableBuilder(
+    this.listenable, {
     required this.converter,
     required this.builder,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueListenable<T> listenable;
   final V Function(T value) converter;

@@ -7,8 +7,7 @@ import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/events_state.dart';
 
 class DatePickerControls extends StatefulWidget {
-  const DatePickerControls(this.pickerDateNotifier, {Key? key})
-      : super(key: key);
+  const DatePickerControls(this.pickerDateNotifier, {super.key});
 
   final ValueNotifier<DateTime> pickerDateNotifier;
 
@@ -19,31 +18,35 @@ class DatePickerControls extends StatefulWidget {
 class _DatePickerControlsState extends State<DatePickerControls> {
   DateTime get _pickerDate => widget.pickerDateNotifier.value;
 
-  void _setPickerDate(newDate) => widget.pickerDateNotifier.value = newDate;
+  DateTime _updatePickerDate(DateTime newDate) =>
+      widget.pickerDateNotifier.value = newDate;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.store.onChange
-        .map((appState) => appState.eventsState)
-        .distinct()
-        .map((eventsState) => eventsState.focusedDate)
-        .where((focusedDate) => !_pickerDate.isSameMonth(focusedDate))
-        .listen((focusedDate) => _setPickerDate(focusedDate)));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.store.onChange
+          .map((appState) => appState.focussedDateState)
+          .distinct()
+          .map((focussedDateState) => focussedDateState.focusedDate)
+          .where((focusedDate) => !_pickerDate.isSameMonth(focusedDate))
+          .listen(_updatePickerDate),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     return Row(
       children: [
         HoverIconButton(
           Icons.chevron_left,
-          onPressed: () => _setPickerDate(_pickerDate.subtractMonth),
+          onPressed: () => _updatePickerDate(_pickerDate.subtractMonth),
         ),
         Expanded(
           child: Center(
             child: ListenableBuilder<DateTime, String>(
-              listenable: widget.pickerDateNotifier,
+              widget.pickerDateNotifier,
               converter: (date) => date.month.toMonth.l10n(context.l10n),
               builder: (context, text, _) => Text(
                 text,
@@ -55,21 +58,21 @@ class _DatePickerControlsState extends State<DatePickerControls> {
         ),
         HoverIconButton(
           Icons.chevron_right,
-          onPressed: () => _setPickerDate(_pickerDate.addMonth),
+          onPressed: () => _updatePickerDate(_pickerDate.addMonth),
         ),
         ListenableBuilder<DateTime, bool>(
-          listenable: widget.pickerDateNotifier,
-          converter: (pickerDate) => pickerDate.isSameMonth(DateTime.now()),
+          widget.pickerDateNotifier,
+          converter: (pickerDate) => pickerDate.isSameMonth(now),
           builder: (_, sameMonth, __) => _CircleButton(isSameMonth: sameMonth),
         ),
         HoverIconButton(
           Icons.chevron_left,
-          onPressed: () => _setPickerDate(_pickerDate.subtractYear),
+          onPressed: () => _updatePickerDate(_pickerDate.subtractYear),
         ),
         Expanded(
           child: Center(
             child: ListenableBuilder<DateTime, String>(
-              listenable: widget.pickerDateNotifier,
+              widget.pickerDateNotifier,
               converter: (pickerDate) => '${pickerDate.year}',
               builder: (context, text, _) => Text(
                 text,
@@ -81,7 +84,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
         ),
         HoverIconButton(
           Icons.chevron_right,
-          onPressed: () => _setPickerDate(_pickerDate.addYear),
+          onPressed: () => _updatePickerDate(_pickerDate.addYear),
         ),
       ],
     );
@@ -89,10 +92,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
 }
 
 class _CircleButton extends StatelessWidget {
-  const _CircleButton({
-    required this.isSameMonth,
-    Key? key,
-  }) : super(key: key);
+  const _CircleButton({required this.isSameMonth});
 
   static const _initAction = FetchEventsAction(EventsActionType.init);
 

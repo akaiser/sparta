@@ -5,7 +5,7 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/workspace/right/days/day_body.dart';
 import 'package:sparta/pages/workspace/right/days/day_header.dart';
-import 'package:sparta/states/events_state.dart';
+import 'package:sparta/states/focussed_date_state.dart';
 
 class Day extends StatelessWidget {
   const Day({
@@ -14,8 +14,8 @@ class Day extends StatelessWidget {
     required this.printMonth,
     required this.printWeekNumber,
     required this.events,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DateTime now;
   final DateTime date;
@@ -23,27 +23,29 @@ class Day extends StatelessWidget {
   final bool printWeekNumber;
   final Iterable<EventModel> events;
 
+  void _onNotFocussedDateTap(BuildContext context) {
+    if (!date.isSameDay(context.store.state.focussedDateState.focusedDate)) {
+      context.store.dispatch(FocusDateAction(date));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (!date.isSameDay(context.store.state.eventsState.focusedDate)) {
-          context.store.dispatch(
-            FetchEventsAction(
-              EventsActionType.picker,
-              focusedDate: date,
-              shouldOverrideRefDate: false,
-            ),
-          );
-        }
+      onTap: () => _onNotFocussedDateTap(context),
+      onSecondaryTap: () {
+        _onNotFocussedDateTap(context);
+        // TODO(albert): open right click menu(create event)
       },
       child: Column(
         children: [
-          DayHeader(
-            date,
-            printMonth: printMonth,
-            printWeekNumber: printWeekNumber,
-            isCurrentDay: date.isSameDay(now),
+          GestureDetector(
+            child: DayHeader(
+              date,
+              printMonth: printMonth,
+              printWeekNumber: printWeekNumber,
+              isCurrentDay: date.isSameDay(now),
+            ),
           ),
           verticalDivider,
           Expanded(
@@ -53,7 +55,11 @@ class Day extends StatelessWidget {
                   right: BorderSide(color: context.td.dividerColor),
                 ),
               ),
-              child: DayBody(date.truncate.toString(), events),
+              child: DayBody(
+                date.truncate.millisecondsSinceEpoch,
+                events: events,
+                onNotFocussedDateTap: _onNotFocussedDateTap,
+              ),
             ),
           ),
         ],

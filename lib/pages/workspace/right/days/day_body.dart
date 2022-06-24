@@ -4,23 +4,27 @@ import 'package:sparta/pages/workspace/right/days/event.dart';
 
 class DayBody extends StatelessWidget {
   const DayBody(
-    this.listId,
-    this.events, {
-    Key? key,
-  }) : super(key: key);
+    this.listId, {
+    required this.events,
+    required this.onNotFocussedDateTap,
+    super.key,
+  });
 
-  final String listId;
+  final int listId;
   final Iterable<EventModel> events;
+  final ValueSetter<BuildContext> onNotFocussedDateTap;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       key: PageStorageKey(listId),
       controller: ScrollController(),
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.fromLTRB(1, 1, 2, 0),
       itemCount: events.length,
-      itemBuilder: (_, index) => Event(events.elementAt(index)),
-      separatorBuilder: (_, __) => const SizedBox(height: 2),
+      itemBuilder: (_, index) => Event(
+        events.elementAt(index),
+        onNotFocussedDateTap: onNotFocussedDateTap,
+      ),
     );
   }
 }

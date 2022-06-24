@@ -1,11 +1,9 @@
 List<T> safeMap<T>(
   Iterable<dynamic>? items,
-  T Function(Map<String, dynamic>) itemMapper, {
-  bool Function(Map<String, dynamic>)? itemFilter,
-}) {
+  T Function(Map<String, dynamic>) itemMapper,
+) {
   return (items ?? <T>[])
-      .where((item) => itemFilter == null || itemFilter(item))
-      .map<T>((item) => itemMapper(item))
+      .map<T>((item) => itemMapper(item as Map<String, dynamic>))
       .where((item) => item != null)
       .toList(growable: false);
 }

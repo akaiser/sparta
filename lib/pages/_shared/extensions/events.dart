@@ -2,6 +2,10 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 
 extension EventsExt on Map<DateTime, Iterable<EventModel>> {
+  bool shownEventsContainDate(DateTime refDate, DateTime date) {
+    return toShownEvents(refDate).keys.contains(date);
+  }
+
   Map<DateTime, Iterable<EventModel>> toShownEvents(DateTime refDate) {
     final filtered = <DateTime, Iterable<EventModel>>{};
     for (var i = 0; i < 14; i++) {

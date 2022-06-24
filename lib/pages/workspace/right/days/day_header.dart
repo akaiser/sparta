@@ -11,9 +11,8 @@ class DayHeader extends StatelessWidget {
     required this.printMonth,
     required this.printWeekNumber,
     required this.isCurrentDay,
-    Key? key,
-  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null,
-        super(key: key);
+    super.key,
+  }) : _fontWeight = isCurrentDay ? FontWeight.bold : null;
 
   final DateTime date;
   final bool printMonth;
@@ -26,12 +25,12 @@ class DayHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final dateFormat = DateFormat.MMMd(context.lc);
     return ValueConnector<bool>(
-      converter: (state) => date.isSameDay(state.eventsState.focusedDate),
+      converter: (state) => date.isSameDay(state.focussedDateState.focusedDate),
       builder: (context, isFocusedDate, child) {
         return DecoratedBox(
           decoration: BoxDecoration(
             color: isFocusedDate
-                ? context.td.selectedRowColor
+                ? context.td.primaryColorDark
                 : context.td.highlightColor,
             border: isCurrentDay
                 ? currentDayBorder
@@ -69,8 +68,7 @@ class _Text extends StatelessWidget {
     this.text, {
     this.fontColor,
     this.fontWeight,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color? fontColor;

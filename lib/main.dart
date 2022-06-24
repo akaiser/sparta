@@ -42,7 +42,7 @@ Future<void> main() async {
 }
 
 class _App extends StatelessWidget {
-  const _App({Key? key}) : super(key: key);
+  const _App();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _App extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: const WorkspacePage(),
-        // TODO
+        // TODO(albert): finish
         //initialRoute: LoginPage.route,
         //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
       ),

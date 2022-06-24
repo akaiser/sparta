@@ -3,7 +3,7 @@ import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
 class UserMenu extends StatelessWidget {
-  const UserMenu({Key? key}) : super(key: key);
+  const UserMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class UserMenu extends StatelessWidget {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      child: PopupMenuButton(
+      child: PopupMenuButton<String>(
         tooltip: '',
         itemBuilder: (context) {
           final textStyle = context.tt.bodyMedium;

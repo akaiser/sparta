@@ -2,21 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
-import 'package:sparta/pages/_shared/extensions/events.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/hover_region.dart';
 import 'package:sparta/pages/_shared/ui/simple_grid.dart';
-import 'package:sparta/states/events_state.dart';
+import 'package:sparta/states/focussed_date_state.dart';
 
 const _columnCount = 7;
 const _rowCount = 6;
 const _availableSlots = _rowCount * _columnCount;
 
 class DatePickerBody extends StatelessWidget {
-  const DatePickerBody(
-    this.pickerDate, {
-    Key? key,
-  }) : super(key: key);
+  const DatePickerBody(this.pickerDate, {super.key});
 
   final DateTime pickerDate;
 
@@ -81,9 +77,7 @@ class _DateItem extends StatelessWidget {
     this.date, {
     required this.isSameMonth,
     required this.isCurrentDay,
-    Key? key,
-  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null,
-        super(key: key);
+  }) : _fontWeight = isCurrentDay ? FontWeight.bold : null;
 
   final DateTime date;
   final bool isSameMonth;
@@ -94,34 +88,26 @@ class _DateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueConnector<bool>(
-      converter: (state) => date.isSameDay(state.eventsState.focusedDate),
+      converter: (state) => date.isSameDay(state.focussedDateState.focusedDate),
       builder: (context, isFocussedDay, child) {
         return GestureDetector(
           onTap: isFocussedDay
               ? null
-              : () {
-                  final eventsState = context.store.state.eventsState;
-                  context.store.dispatch(
-                    FetchEventsAction(
-                      EventsActionType.picker,
-                      focusedDate: date,
-                      shouldOverrideRefDate: !eventsState //
-                          .events
-                          .toShownEvents(eventsState.refDate)
-                          .keys
-                          .contains(date),
+              : () => context.store.dispatch(
+                    FocusDateAction(
+                      date,
+                      checkShownEvents: true,
                     ),
-                  );
-                },
+                  ),
           child: HoverRegion(
             onHoverCursor: isFocussedDay ? SystemMouseCursors.basic : null,
             builder: (context, isHovering, child) {
               return DecoratedBox(
                 decoration: BoxDecoration(
                   color: isFocussedDay
-                      ? context.td.selectedRowColor
+                      ? context.td.primaryColorDark
                       : !isSameMonth
-                          ? context.td.primaryColorDark
+                          ? context.td.selectedRowColor
                           : null,
                   border: isHovering && !isFocussedDay
                       ? hoverDayBorder
@@ -138,11 +124,10 @@ class _DateItem extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(4),
-        child: Center(
-          child: Text(
-            '${date.day}',
-            style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
-          ),
+        child: Text(
+          '${date.day}',
+          textAlign: TextAlign.center,
+          style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
         ),
       ),
     );

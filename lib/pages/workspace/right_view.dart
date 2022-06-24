@@ -8,46 +8,55 @@ import 'package:sparta/pages/workspace/right/days.dart';
 import 'package:sparta/pages/workspace/right/top_bar.dart';
 
 class RightView extends StatelessWidget {
-  const RightView({Key? key}) : super(key: key);
+  const RightView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.td.scaffoldBackgroundColor,
       child: Stack(
-        children: [
-          Column(
-            children: const [
-              Padding(
-                padding: EdgeInsets.fromLTRB(9, 8, 8, 8),
-                child: TopBar(),
-              ),
-              verticalDivider,
-              SizedBox(height: 8),
-              DayNames(),
-              SizedBox(height: 8),
-              Expanded(child: Days()),
-            ],
-          ),
-          VisibilityConnector(
-            visible: (state) => state.eventsState.isLoading,
-            builder: (context) => const _LoadingOverlay(),
-          ),
+        children: const [
+          _Body(),
+          _LoadingOverlay(),
         ],
       ),
     );
   }
 }
 
-class _LoadingOverlay extends StatelessWidget {
-  const _LoadingOverlay({Key? key}) : super(key: key);
+class _Body extends StatelessWidget {
+  const _Body();
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
-      child: FadeIn(
-        child: ColoredBox(
-          color: Color.fromRGBO(0, 0, 0, 0.2),
+    return Column(
+      children: const [
+        Padding(
+          padding: EdgeInsets.fromLTRB(9, 8, 8, 8),
+          child: TopBar(),
+        ),
+        verticalDivider,
+        SizedBox(height: 8),
+        DayNames(),
+        SizedBox(height: 8),
+        Expanded(child: Days()),
+      ],
+    );
+  }
+}
+
+class _LoadingOverlay extends StatelessWidget {
+  const _LoadingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityConnector(
+      visible: (state) => state.eventsState.isLoading,
+      builder: (context) => const SizedBox.expand(
+        child: FadeIn(
+          child: ColoredBox(
+            color: Color.fromRGBO(0, 0, 0, 0.25),
+          ),
         ),
       ),
     );

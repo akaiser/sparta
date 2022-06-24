@@ -6,7 +6,7 @@ import 'package:sparta/pages/workspace/left/notes/notes.dart';
 import 'package:sparta/pages/workspace/left/team/team.dart';
 
 class LeftView extends StatelessWidget {
-  const LeftView({Key? key}) : super(key: key);
+  const LeftView({super.key});
 
   @override
   Widget build(BuildContext context) {

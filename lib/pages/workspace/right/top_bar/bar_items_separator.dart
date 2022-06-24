@@ -3,7 +3,7 @@ import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
 class BarItemsSeparator extends StatelessWidget {
-  const BarItemsSeparator({Key? key}) : super(key: key);
+  const BarItemsSeparator({super.key});
 
   @override
   Widget build(BuildContext context) {

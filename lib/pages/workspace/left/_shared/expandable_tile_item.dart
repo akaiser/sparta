@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
@@ -6,8 +5,8 @@ class ExpandableTileItem extends StatelessWidget {
   const ExpandableTileItem(
     this.title, {
     this.leading,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final Widget? leading;
@@ -15,23 +14,24 @@ class ExpandableTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final leading_ = leading;
+    final itemText = _ExpandableTileItemText(title);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      child: Row(
-        children: [
-          if (leading_ != null) ...[leading_, const SizedBox(width: 6)],
-          _ExpandableTileItemText(title),
-        ],
-      ),
+      padding: const EdgeInsets.fromLTRB(10, 6, 2, 6),
+      child: leading_ != null
+          ? Row(
+              children: [
+                leading_,
+                const SizedBox(width: 6),
+                Flexible(child: itemText),
+              ],
+            )
+          : itemText,
     );
   }
 }
 
 class _ExpandableTileItemText extends StatelessWidget {
-  const _ExpandableTileItemText(
-    this.title, {
-    Key? key,
-  }) : super(key: key);
+  const _ExpandableTileItemText(this.title);
 
   final String title;
 
@@ -40,6 +40,7 @@ class _ExpandableTileItemText extends StatelessWidget {
     return Text(
       title,
       style: context.tt.labelMedium,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

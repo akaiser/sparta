@@ -7,8 +7,8 @@ class ExpandableTile extends StatelessWidget {
     this.title, {
     required this.children,
     this.initiallyExpanded = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final bool initiallyExpanded;
@@ -19,7 +19,7 @@ class ExpandableTile extends StatelessWidget {
     return Theme(
       data: context.td.copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        tilePadding: const EdgeInsets.only(left: 16, right: 10),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 10),
         expandedAlignment: Alignment.centerLeft,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         collapsedTextColor: context.td.disabledColor,
@@ -33,6 +33,7 @@ class ExpandableTile extends StatelessWidget {
             fontSize: context.tt.subtitle2?.fontSize,
             fontWeight: context.tt.subtitle2?.fontWeight,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
         children: children,
       ),

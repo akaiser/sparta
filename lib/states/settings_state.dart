@@ -6,9 +6,6 @@ abstract class _SettingsAction extends Equatable {
   const _SettingsAction();
 
   @override
-  bool? get stringify => true;
-
-  @override
   List<Object?> get props => [];
 }
 

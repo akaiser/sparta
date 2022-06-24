@@ -3,16 +3,10 @@ import 'package:flutter/widgets.dart';
 
 class ClickableRegion extends MouseRegion {
   const ClickableRegion({
-    required Widget child,
+    required Widget super.child,
     SystemMouseCursor? cursor,
-    PointerEnterEventListener? onEnter,
-    PointerExitEventListener? onExit,
-    Key? key,
-  }) : super(
-          key: key,
-          cursor: cursor ?? SystemMouseCursors.click,
-          onEnter: onEnter,
-          onExit: onExit,
-          child: child,
-        );
+    super.onEnter,
+    super.onExit,
+    super.key,
+  }) : super(cursor: cursor ?? SystemMouseCursors.click);
 }

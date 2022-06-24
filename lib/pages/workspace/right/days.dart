@@ -10,7 +10,7 @@ import 'package:sparta/pages/workspace/right/days/day.dart';
 import 'package:sparta/states/events_state.dart';
 
 class Days extends StatelessWidget {
-  const Days({Key? key}) : super(key: key);
+  const Days({super.key});
 
   @override
   Widget build(BuildContext context) {

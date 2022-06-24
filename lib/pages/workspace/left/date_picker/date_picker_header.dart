@@ -4,7 +4,7 @@ import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/iterable.dart';
 
 class DatePickerHeader extends StatelessWidget {
-  const DatePickerHeader({Key? key}) : super(key: key);
+  const DatePickerHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

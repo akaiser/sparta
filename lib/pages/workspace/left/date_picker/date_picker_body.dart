@@ -12,10 +12,7 @@ const _rowCount = 6;
 const _availableSlots = _rowCount * _columnCount;
 
 class DatePickerBody extends StatelessWidget {
-  const DatePickerBody(
-    this.pickerDate, {
-    super.key,
-  });
+  const DatePickerBody(this.pickerDate, {super.key});
 
   final DateTime pickerDate;
 

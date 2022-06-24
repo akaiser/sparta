@@ -8,7 +8,5 @@ class ClickableRegion extends MouseRegion {
     super.onEnter,
     super.onExit,
     super.key,
-  }) : super(
-          cursor: cursor ?? SystemMouseCursors.click,
-        );
+  }) : super(cursor: cursor ?? SystemMouseCursors.click);
 }

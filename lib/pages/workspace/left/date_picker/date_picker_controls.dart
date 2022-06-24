@@ -25,7 +25,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback(
+    WidgetsBinding.instance.addPostFrameCallback(
       (_) => context.store.onChange
           .map((appState) => appState.focussedDateState)
           .distinct()

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 
@@ -32,10 +31,7 @@ class ExpandableTileItem extends StatelessWidget {
 }
 
 class _ExpandableTileItemText extends StatelessWidget {
-  const _ExpandableTileItemText(
-    this.title, {
-    super.key,
-  });
+  const _ExpandableTileItemText(this.title);
 
   final String title;
 

@@ -44,7 +44,6 @@ class _SplitView extends StatefulWidget {
     required this.leftViewVisible,
     required this.dividerBorderColor,
     required this.initLeftWidth,
-    super.key,
   });
 
   final Widget left;
@@ -146,7 +145,6 @@ class _Divider extends StatelessWidget {
   const _Divider({
     required this.onDxUpdate,
     required this.dividerBorderColor,
-    super.key,
   });
 
   final ValueSetter<double> onDxUpdate;

@@ -27,7 +27,7 @@ class Calendars extends StatelessWidget {
 }
 
 class _Dot extends StatelessWidget {
-  const _Dot(this.color, {super.key});
+  const _Dot(this.color);
 
   final Color color;
 

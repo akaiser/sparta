@@ -84,7 +84,7 @@ class Event extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge(this.color, {super.key});
+  const _Badge(this.color);
 
   final Color color;
 

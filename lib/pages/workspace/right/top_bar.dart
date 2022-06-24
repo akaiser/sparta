@@ -43,11 +43,7 @@ class TopBar extends StatelessWidget {
 }
 
 class _ArrowActionButton extends StatelessWidget {
-  const _ArrowActionButton(
-    this.icon,
-    this.actionType, {
-    super.key,
-  });
+  const _ArrowActionButton(this.icon, this.actionType);
 
   final IconData icon;
   final EventsActionType actionType;

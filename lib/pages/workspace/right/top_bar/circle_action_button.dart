@@ -27,7 +27,7 @@ class CircleActionButton extends StatelessWidget {
 }
 
 class _ErrorButton extends StatelessWidget {
-  const _ErrorButton({super.key});
+  const _ErrorButton();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _ErrorButton extends StatelessWidget {
 }
 
 class _LoadingSpinner extends StatelessWidget {
-  const _LoadingSpinner({super.key});
+  const _LoadingSpinner();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _LoadingSpinner extends StatelessWidget {
 }
 
 class _ActionButton extends StatelessWidget {
-  const _ActionButton({super.key});
+  const _ActionButton();
 
   static const _action = FetchEventsAction(EventsActionType.init);
 

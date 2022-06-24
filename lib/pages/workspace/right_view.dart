@@ -25,9 +25,7 @@ class RightView extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    super.key,
-  });
+  const _Body();
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +46,7 @@ class _Body extends StatelessWidget {
 }
 
 class _LoadingOverlay extends StatelessWidget {
-  const _LoadingOverlay({
-    super.key,
-  });
+  const _LoadingOverlay();
 
   @override
   Widget build(BuildContext context) {

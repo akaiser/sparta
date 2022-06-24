@@ -92,10 +92,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
 }
 
 class _CircleButton extends StatelessWidget {
-  const _CircleButton({
-    required this.isSameMonth,
-    super.key,
-  });
+  const _CircleButton({required this.isSameMonth});
 
   static const _initAction = FetchEventsAction(EventsActionType.init);
 

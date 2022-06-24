@@ -80,8 +80,7 @@ class _DateItem extends StatelessWidget {
     this.date, {
     required this.isSameMonth,
     required this.isCurrentDay,
-    super.key,
-  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null;
+  }) : _fontWeight = isCurrentDay ? FontWeight.bold : null;
 
   final DateTime date;
   final bool isSameMonth;

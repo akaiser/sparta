@@ -32,7 +32,7 @@ class _ErrorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(right: 2), // TODO
+      padding: EdgeInsets.only(right: 2), // TODO(albert): check
       child: Icon(Icons.error_outline, size: 20),
     );
   }
@@ -65,15 +65,14 @@ class _ActionButton extends StatelessWidget {
     return ValueConnector<DateTime>(
       ignoreChange: (state) => state.eventsState.isLoading,
       converter: (state) => state.eventsState.refDate,
-      builder: (context, refDate, _) => HoverIconButton(
-        Icons.fiber_manual_record_outlined,
-        onPressed: context.store.state.eventsState.events
-                .toShownEvents(refDate)
-                .keys
-                .contains(now)
-            ? null
-            : () => context.store.dispatch(_action),
-      ),
+      builder: (context, refDate, _) {
+        final events = context.store.state.eventsState.events;
+        final dateIsShown = events.shownEventsContainDate(refDate, now);
+        return HoverIconButton(
+          Icons.fiber_manual_record_outlined,
+          onPressed: dateIsShown ? null : () => context.store.dispatch(_action),
+        );
+      },
     );
   }
 }

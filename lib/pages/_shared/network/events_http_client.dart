@@ -44,7 +44,8 @@ class EventsHttpClient {
     //print('from: ${from.toCommonIsoDate}');
     //print('to: ${to.toCommonIsoDate}');
     //print('###############');
-    await Future.delayed(const Duration(seconds: 1)); // TODO remove
+    // TODO(albert): remove
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     //final response = await client.get(
     //  '$_host/$_path?from=${from.toCommonIsoDate}&to=${to.toCommonIsoDate}',
@@ -65,9 +66,13 @@ class EventsHttpClient {
   }
 
   Map<String, dynamic> _dummyDay(DateTime day) {
-    return {
+    final random = Random();
+    return <String, dynamic>{
       'day': '$day',
-      'items': List.generate(Random().nextInt(25), (index) => {'id': index}),
+      'items': List.generate(
+        random.nextInt(25),
+        (index) => {'id': random.nextInt(1000)},
+      ),
     };
   }
 }

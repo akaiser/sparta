@@ -57,7 +57,7 @@ class _App extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: const WorkspacePage(),
-        // TODO
+        // TODO(albert): finish
         //initialRoute: LoginPage.route,
         //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
       ),

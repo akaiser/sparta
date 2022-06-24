@@ -9,8 +9,8 @@ class SimpleGrid extends StatelessWidget {
     this.expandRows = true,
     this.leadingOffsetColumnBuilder,
     Key? key,
-  })  : assert(columnCount > 0),
-        assert(rowCount > 0),
+  })  : assert(columnCount > 0, 'columnCount must be greater than 0'),
+        assert(rowCount > 0, 'rowCount must be greater than 0'),
         super(key: key);
 
   final int columnCount;

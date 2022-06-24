@@ -26,12 +26,12 @@ class DayHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final dateFormat = DateFormat.MMMd(context.lc);
     return ValueConnector<bool>(
-      converter: (state) => date.isSameDay(state.eventsState.focusedDate),
+      converter: (state) => date.isSameDay(state.focussedDateState.focusedDate),
       builder: (context, isFocusedDate, child) {
         return DecoratedBox(
           decoration: BoxDecoration(
             color: isFocusedDate
-                ? context.td.selectedRowColor
+                ? context.td.primaryColorDark
                 : context.td.highlightColor,
             border: isCurrentDay
                 ? currentDayBorder

@@ -35,11 +35,11 @@ class Themes {
     return ThemeData(
       fontFamily: _fontFamily,
       brightness: Brightness.dark,
-      selectedRowColor: const Color.fromRGBO(117, 117, 117, 1),
+      selectedRowColor: Colors.black26,
       dividerColor: primary,
       highlightColor: _black,
       primaryColorLight: const Color.fromRGBO(37, 37, 37, 1),
-      primaryColorDark: Colors.black26,
+      primaryColorDark: const Color.fromRGBO(117, 117, 117, 1),
     );
   }
 }
@@ -63,7 +63,7 @@ class AppTextTheme {
 const sonstiges = Color.fromRGBO(128, 64, 0, 1); // brown
 const auslieferung = Color.fromRGBO(0, 0, 0, 1); // black
 const mietwagen = Color.fromRGBO(255, 0, 0, 1); // red
-const urlaub = Color.fromRGBO(0, 255, 0, 1); // green
+const urlaub = Color.fromRGBO(139, 195, 74, 1); // green
 const schulung = Color.fromRGBO(192, 192, 192, 1); // gray
 const feiertage = Color.fromRGBO(255, 128, 0, 1); // orange
 const werkstatt = Color.fromRGBO(151, 151, 255, 1); // blue

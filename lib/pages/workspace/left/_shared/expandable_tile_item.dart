@@ -15,14 +15,18 @@ class ExpandableTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final leading_ = leading;
+    final itemText = _ExpandableTileItemText(title);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      child: Row(
-        children: [
-          if (leading_ != null) ...[leading_, const SizedBox(width: 6)],
-          _ExpandableTileItemText(title),
-        ],
-      ),
+      padding: const EdgeInsets.fromLTRB(10, 6, 2, 6),
+      child: leading_ != null
+          ? Row(
+              children: [
+                leading_,
+                const SizedBox(width: 6),
+                Flexible(child: itemText),
+              ],
+            )
+          : itemText,
     );
   }
 }
@@ -40,6 +44,7 @@ class _ExpandableTileItemText extends StatelessWidget {
     return Text(
       title,
       style: context.tt.labelMedium,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

@@ -13,7 +13,7 @@ class UserMenu extends StatelessWidget {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      child: PopupMenuButton(
+      child: PopupMenuButton<String>(
         tooltip: '',
         itemBuilder: (context) {
           final textStyle = context.tt.bodyMedium;

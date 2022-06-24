@@ -1,14 +1,14 @@
-import 'package:flutter/widgets.dart';
-import 'package:sparta/pages/_shared/extensions/build_context.dart';
+import 'package:flutter/material.dart';
 
 const _dividerWidth = 8.0;
-const _separatorWidth = 1.0;
+const _dividerBorderWidth = 1.0;
 
 class SimpleSplit extends StatelessWidget {
   const SimpleSplit({
     required this.left,
     required this.right,
     required this.leftViewVisible,
+    required this.dividerBorderColor,
     this.initLeftWidth,
     Key? key,
   }) : super(key: key);
@@ -16,6 +16,7 @@ class SimpleSplit extends StatelessWidget {
   final Widget left;
   final Widget right;
   final bool leftViewVisible;
+  final Color dividerBorderColor;
   final double? initLeftWidth;
 
   @override
@@ -27,6 +28,7 @@ class SimpleSplit extends StatelessWidget {
           right: right,
           maxWidth: constrains.maxWidth,
           leftViewVisible: leftViewVisible,
+          dividerBorderColor: dividerBorderColor,
           initLeftWidth: initLeftWidth,
         );
       },
@@ -40,6 +42,7 @@ class _SplitView extends StatefulWidget {
     required this.right,
     required this.maxWidth,
     required this.leftViewVisible,
+    required this.dividerBorderColor,
     required this.initLeftWidth,
     Key? key,
   }) : super(key: key);
@@ -48,6 +51,7 @@ class _SplitView extends StatefulWidget {
   final Widget right;
   final double maxWidth;
   final bool leftViewVisible;
+  final Color dividerBorderColor;
   final double? initLeftWidth;
 
   @override
@@ -97,7 +101,7 @@ class _SplitViewState extends State<_SplitView> {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: _separatorWidth),
+                padding: const EdgeInsets.only(right: _dividerBorderWidth),
                 child: ValueListenableBuilder<double>(
                   valueListenable: _leftWidthNotifier,
                   builder: (context, leftWidth, child) => SizedBox(
@@ -111,23 +115,24 @@ class _SplitViewState extends State<_SplitView> {
                 top: 0,
                 right: 0,
                 bottom: 0,
-                child: _Separator(onDxUpdate: _updateLeftWidth),
+                child: _Divider(
+                  onDxUpdate: _updateLeftWidth,
+                  dividerBorderColor: widget.dividerBorderColor,
+                ),
               ),
             ],
           ),
         ),
         Expanded(
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              boxShadow: widget.leftViewVisible
-                  ? [
-                      BoxShadow(
-                        blurRadius: 10,
-                        offset: const Offset(-5, 0),
-                        color: context.td.primaryColorDark,
-                      ),
-                    ]
-                  : null,
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10,
+                  offset: Offset(-5, 0),
+                  color: Colors.black26,
+                ),
+              ],
             ),
             child: widget.right,
           ),
@@ -137,13 +142,15 @@ class _SplitViewState extends State<_SplitView> {
   }
 }
 
-class _Separator extends StatelessWidget {
-  const _Separator({
+class _Divider extends StatelessWidget {
+  const _Divider({
     required this.onDxUpdate,
+    required this.dividerBorderColor,
     Key? key,
   }) : super(key: key);
 
-  final void Function(double dx) onDxUpdate;
+  final ValueSetter<double> onDxUpdate;
+  final Color dividerBorderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -157,8 +164,8 @@ class _Separator extends StatelessWidget {
           children: [
             const SizedBox(width: _dividerWidth),
             SizedBox(
-              width: _separatorWidth,
-              child: ColoredBox(color: context.td.dividerColor),
+              width: _dividerBorderWidth,
+              child: ColoredBox(color: dividerBorderColor),
             ),
           ],
         ),

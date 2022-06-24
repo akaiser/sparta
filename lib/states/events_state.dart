@@ -16,24 +16,19 @@ enum EventsActionType {
 
 abstract class _EventsAction extends Equatable {
   const _EventsAction();
-
-  @override
-  bool? get stringify => true;
 }
 
 class FetchEventsAction extends _EventsAction {
   const FetchEventsAction(
     this.actionType, {
-    this.focusedDate,
-    this.shouldOverrideRefDate = true,
+    this.overriddenRefDate,
   });
 
   final EventsActionType actionType;
-  final DateTime? focusedDate;
-  final bool shouldOverrideRefDate;
+  final DateTime? overriddenRefDate;
 
   @override
-  List<Object?> get props => [actionType, focusedDate, shouldOverrideRefDate];
+  List<Object?> get props => [actionType, overriddenRefDate];
 }
 
 class ResultFetchEventsAction extends _EventsAction {
@@ -72,35 +67,24 @@ bool _shouldLoadAndFetch(
 EventsState eventsStateReducer(EventsState old, dynamic action) {
   if (action is _EventsAction) {
     if (action is FetchEventsAction) {
-      final newRefDate =
-          (action.shouldOverrideRefDate ? action.focusedDate : null) ??
-              old.refDate.toNewRefDate(action.actionType)?.midDay;
-
-      final focusedDate = action.actionType != EventsActionType.init
-          ? action.focusedDate ?? old.focusedDate
-          : null;
+      final actionType = action.actionType;
+      final newRefDate = action.overriddenRefDate ??
+          old.refDate.toNewRefDate(actionType)?.midDay;
 
       return EventsState(
         refDate: newRefDate,
-        focusedDate: focusedDate,
         events: old.events,
-        isLoading: _shouldLoadAndFetch(
-          newRefDate,
-          action.actionType,
-          old.events,
-        ),
+        isLoading: _shouldLoadAndFetch(newRefDate, actionType, old.events),
       );
     } else if (action is ResultFetchEventsAction) {
       return EventsState(
         refDate: old.refDate,
-        focusedDate: old.focusedDate,
         events: {...old.events, ...action.events},
       );
     } else if (action is ErrorFetchEventsAction) {
-      // TODO handle errors in views
+      // TODO(albert): handle errors in views
       return EventsState(
         refDate: old.refDate,
-        focusedDate: old.focusedDate,
         exception: action.exception,
       );
     }
@@ -113,7 +97,7 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
     (actions, store) => actions
         .where((_) => store.state.eventsState.isLoading)
         .map((action) => action.actionType)
-        .asyncMap(
+        .asyncMap<_EventsAction>(
           (actionType) => tryAndCatch(
             () async {
               final refDate = store.state.eventsState.refDate;
@@ -128,7 +112,7 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
               };
               return ResultFetchEventsAction(model);
             },
-            (exception) => ErrorFetchEventsAction(exception),
+            ErrorFetchEventsAction.new,
           ),
         ),
   );
@@ -137,27 +121,21 @@ TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
 class EventsState extends Equatable {
   const EventsState({
     DateTime? refDate,
-    DateTime? focusedDate,
     this.events = const {},
     this.exception,
     this.isLoading = false,
-  })  : _refDate = refDate,
-        _focusedDate = focusedDate;
+  }) : _refDate = refDate;
 
   final DateTime? _refDate;
-  final DateTime? _focusedDate;
   final Map<DateTime, Iterable<EventModel>> events;
   final Exception? exception;
   final bool isLoading;
 
   DateTime get refDate => (_refDate ?? DateTime.now()).midDay;
 
-  DateTime get focusedDate => (_focusedDate ?? DateTime.now()).midDay;
-
   @override
   List<Object?> get props => [
         refDate,
-        focusedDate,
         events,
         exception,
         isLoading,

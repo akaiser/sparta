@@ -5,7 +5,7 @@ import 'package:sparta/pages/workspace/left/_shared/expandable_tile.dart';
 import 'package:sparta/pages/workspace/left/_shared/expandable_tile_item.dart';
 
 class Calendars extends StatelessWidget {
-  const Calendars({Key? key}) : super(key: key);
+  const Calendars({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class Calendars extends StatelessWidget {
 }
 
 class _Dot extends StatelessWidget {
-  const _Dot(this.color, {Key? key}) : super(key: key);
+  const _Dot(this.color, {super.key});
 
   final Color color;
 

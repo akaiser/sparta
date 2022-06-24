@@ -5,8 +5,8 @@ class AnimatedFade extends StatelessWidget {
     this.showFirstNotifier, {
     required this.firstChild,
     required this.secondChild,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueNotifier<bool> showFirstNotifier;
   final Widget firstChild;

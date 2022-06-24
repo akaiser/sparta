@@ -14,8 +14,8 @@ class Day extends StatelessWidget {
     required this.printMonth,
     required this.printWeekNumber,
     required this.events,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DateTime now;
   final DateTime date;

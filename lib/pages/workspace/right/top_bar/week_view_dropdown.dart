@@ -6,7 +6,7 @@ import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/states/settings_state.dart';
 
 class WeekViewDropdown extends StatelessWidget {
-  const WeekViewDropdown({Key? key}) : super(key: key);
+  const WeekViewDropdown({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import 'package:sparta/pages/workspace/right/top_bar/week_view_dropdown.dart';
 import 'package:sparta/states/events_state.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({Key? key}) : super(key: key);
+  const TopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,8 @@ class _ArrowActionButton extends StatelessWidget {
   const _ArrowActionButton(
     this.icon,
     this.actionType, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final IconData icon;
   final EventsActionType actionType;

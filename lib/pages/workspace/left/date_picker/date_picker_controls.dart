@@ -7,8 +7,7 @@ import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/events_state.dart';
 
 class DatePickerControls extends StatefulWidget {
-  const DatePickerControls(this.pickerDateNotifier, {Key? key})
-      : super(key: key);
+  const DatePickerControls(this.pickerDateNotifier, {super.key});
 
   final ValueNotifier<DateTime> pickerDateNotifier;
 
@@ -95,8 +94,8 @@ class _DatePickerControlsState extends State<DatePickerControls> {
 class _CircleButton extends StatelessWidget {
   const _CircleButton({
     required this.isSameMonth,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const _initAction = FetchEventsAction(EventsActionType.init);
 

@@ -6,7 +6,7 @@ import 'package:sparta/pages/workspace/left_view.dart';
 import 'package:sparta/pages/workspace/right_view.dart';
 
 class WorkspacePage extends StatelessWidget {
-  const WorkspacePage({Key? key}) : super(key: key);
+  const WorkspacePage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,8 +7,8 @@ class DayBody extends StatelessWidget {
     this.listId, {
     required this.events,
     required this.onNotFocussedDateTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int listId;
   final Iterable<EventModel> events;

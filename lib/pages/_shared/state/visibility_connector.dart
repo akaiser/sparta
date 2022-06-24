@@ -6,8 +6,8 @@ class VisibilityConnector extends StatelessWidget {
   const VisibilityConnector({
     required this.visible,
     required this.builder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool Function(AppState state) visible;
   final WidgetBuilder builder;

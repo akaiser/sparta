@@ -4,7 +4,7 @@ import 'package:sparta/pages/workspace/left/_shared/expandable_tile.dart';
 import 'package:sparta/pages/workspace/left/_shared/expandable_tile_item.dart';
 
 class Team extends StatelessWidget {
-  const Team({Key? key}) : super(key: key);
+  const Team({super.key});
 
   @override
   Widget build(BuildContext context) {

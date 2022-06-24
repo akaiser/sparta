@@ -6,8 +6,8 @@ class ExpandableTileItem extends StatelessWidget {
   const ExpandableTileItem(
     this.title, {
     this.leading,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final Widget? leading;
@@ -34,8 +34,8 @@ class ExpandableTileItem extends StatelessWidget {
 class _ExpandableTileItemText extends StatelessWidget {
   const _ExpandableTileItemText(
     this.title, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
 

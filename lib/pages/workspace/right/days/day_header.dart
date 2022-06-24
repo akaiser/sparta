@@ -11,9 +11,8 @@ class DayHeader extends StatelessWidget {
     required this.printMonth,
     required this.printWeekNumber,
     required this.isCurrentDay,
-    Key? key,
-  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null,
-        super(key: key);
+    super.key,
+  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null;
 
   final DateTime date;
   final bool printMonth;
@@ -69,8 +68,8 @@ class _Text extends StatelessWidget {
     this.text, {
     this.fontColor,
     this.fontWeight,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
   final Color? fontColor;

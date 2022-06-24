@@ -5,7 +5,7 @@ import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/settings_state.dart';
 
 class ToggleLeftViewButton extends StatelessWidget {
-  const ToggleLeftViewButton({Key? key}) : super(key: key);
+  const ToggleLeftViewButton({super.key});
 
   static const _action = ToggleLeftViewVisibilityAction();
 

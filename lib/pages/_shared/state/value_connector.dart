@@ -10,8 +10,8 @@ class ValueConnector<T> extends StatelessWidget {
     this.ignoreChange,
     this.child,
     this.onWillChange, // TODO(albert): verify usage
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final T Function(AppState state) converter;
   final ValueWidgetBuilder<T> builder;

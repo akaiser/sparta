@@ -6,7 +6,7 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 
 class ShownRangeText extends StatelessWidget {
-  const ShownRangeText({Key? key}) : super(key: key);
+  const ShownRangeText({super.key});
 
   @override
   Widget build(BuildContext context) {

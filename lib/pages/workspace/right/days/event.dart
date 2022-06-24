@@ -16,8 +16,8 @@ class Event extends StatelessWidget {
   const Event(
     this.event, {
     required this.onNotFocussedDateTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final EventModel event;
   final ValueSetter<BuildContext> onNotFocussedDateTap;
@@ -84,7 +84,7 @@ class Event extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge(this.color, {Key? key}) : super(key: key);
+  const _Badge(this.color, {super.key});
 
   final Color color;
 

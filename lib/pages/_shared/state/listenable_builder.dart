@@ -7,8 +7,8 @@ class ListenableBuilder<T, V> extends StatelessWidget {
     required this.converter,
     required this.builder,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueListenable<T> listenable;
   final V Function(T value) converter;

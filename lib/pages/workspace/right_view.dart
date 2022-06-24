@@ -8,7 +8,7 @@ import 'package:sparta/pages/workspace/right/days.dart';
 import 'package:sparta/pages/workspace/right/top_bar.dart';
 
 class RightView extends StatelessWidget {
-  const RightView({Key? key}) : super(key: key);
+  const RightView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class RightView extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class _Body extends StatelessWidget {
 
 class _LoadingOverlay extends StatelessWidget {
   const _LoadingOverlay({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

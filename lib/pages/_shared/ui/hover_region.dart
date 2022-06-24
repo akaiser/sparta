@@ -7,8 +7,8 @@ class HoverRegion extends StatefulWidget {
     required this.builder,
     this.onHoverCursor,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget Function(
     BuildContext context,

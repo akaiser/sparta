@@ -14,8 +14,8 @@ const _availableSlots = _rowCount * _columnCount;
 class DatePickerBody extends StatelessWidget {
   const DatePickerBody(
     this.pickerDate, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DateTime pickerDate;
 
@@ -80,9 +80,8 @@ class _DateItem extends StatelessWidget {
     this.date, {
     required this.isSameMonth,
     required this.isCurrentDay,
-    Key? key,
-  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null,
-        super(key: key);
+    super.key,
+  })  : _fontWeight = isCurrentDay ? FontWeight.bold : null;
 
   final DateTime date;
   final bool isSameMonth;

@@ -8,7 +8,7 @@ import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
 import 'package:sparta/states/events_state.dart';
 
 class CircleActionButton extends StatelessWidget {
-  const CircleActionButton({Key? key}) : super(key: key);
+  const CircleActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CircleActionButton extends StatelessWidget {
 }
 
 class _ErrorButton extends StatelessWidget {
-  const _ErrorButton({Key? key}) : super(key: key);
+  const _ErrorButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _ErrorButton extends StatelessWidget {
 }
 
 class _LoadingSpinner extends StatelessWidget {
-  const _LoadingSpinner({Key? key}) : super(key: key);
+  const _LoadingSpinner({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _LoadingSpinner extends StatelessWidget {
 }
 
 class _ActionButton extends StatelessWidget {
-  const _ActionButton({Key? key}) : super(key: key);
+  const _ActionButton({super.key});
 
   static const _action = FetchEventsAction(EventsActionType.init);
 

@@ -7,8 +7,8 @@ class ExpandableTile extends StatelessWidget {
     this.title, {
     required this.children,
     this.initiallyExpanded = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final bool initiallyExpanded;

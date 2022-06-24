@@ -10,8 +10,8 @@ class SimpleSplit extends StatelessWidget {
     required this.leftViewVisible,
     required this.dividerBorderColor,
     this.initLeftWidth,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget left;
   final Widget right;
@@ -44,8 +44,8 @@ class _SplitView extends StatefulWidget {
     required this.leftViewVisible,
     required this.dividerBorderColor,
     required this.initLeftWidth,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget left;
   final Widget right;
@@ -146,8 +146,8 @@ class _Divider extends StatelessWidget {
   const _Divider({
     required this.onDxUpdate,
     required this.dividerBorderColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueSetter<double> onDxUpdate;
   final Color dividerBorderColor;

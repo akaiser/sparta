@@ -22,7 +22,7 @@ class ExpandableTileItem extends StatelessWidget {
               children: [
                 leading_,
                 const SizedBox(width: 6),
-                Flexible(child: itemText),
+                Expanded(child: itemText),
               ],
             )
           : itemText,
@@ -40,7 +40,8 @@ class _ExpandableTileItemText extends StatelessWidget {
     return Text(
       title,
       style: context.tt.labelMedium,
-      overflow: TextOverflow.ellipsis,
+      overflow: TextOverflow.fade,
+      softWrap: false,
     );
   }
 }

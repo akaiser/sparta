@@ -16,12 +16,12 @@ class DayNames extends StatelessWidget {
             .take(isWorkWeek ? 5 : 7)
             .map(
               (weekDay) => Expanded(
-                child: Center(
-                  child: Text(
-                    weekDay.l10n(context.l10n),
-                    style: context.tt.subtitle2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: Text(
+                  weekDay.l10n(context.l10n),
+                  style: context.tt.subtitle2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
                 ),
               ),
             )

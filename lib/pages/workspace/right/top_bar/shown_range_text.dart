@@ -30,8 +30,9 @@ class ShownRangeText extends StatelessWidget {
           start.month == end.month
               ? '${start.day} - ${end.day} $startMonthText'
               : '${start.day} $startMonthText - ${end.day} $endMonthText',
-          overflow: TextOverflow.ellipsis,
           style: context.tt.bodyMedium,
+          overflow: TextOverflow.fade,
+          softWrap: false,
         );
       },
     );

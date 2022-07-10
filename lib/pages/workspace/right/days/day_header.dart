@@ -51,10 +51,14 @@ class DayHeader extends StatelessWidget {
                 '${date.weekNumber}',
                 fontColor: context.td.disabledColor,
               ),
-            const Spacer(),
-            _Text(
-              '${printMonth ? dateFormat.format(date) : date.day}',
-              fontWeight: _fontWeight,
+            Expanded(
+              child: _Text(
+                '${printMonth ? dateFormat.format(date) : date.day}',
+                textAlign: TextAlign.right,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                fontWeight: _fontWeight,
+              ),
             ),
           ],
         ),
@@ -66,11 +70,18 @@ class DayHeader extends StatelessWidget {
 class _Text extends StatelessWidget {
   const _Text(
     this.text, {
+    this.textAlign,
+    this.overflow,
+    this.softWrap,
     this.fontColor,
     this.fontWeight,
   });
 
   final String text;
+
+  final TextOverflow? overflow;
+  final TextAlign? textAlign;
+  final bool? softWrap;
   final Color? fontColor;
   final FontWeight? fontWeight;
 
@@ -78,6 +89,9 @@ class _Text extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
+      overflow: overflow,
+      softWrap: softWrap,
       style: context.tt.labelSmall?.copyWith(
         color: fontColor,
         fontWeight: fontWeight,

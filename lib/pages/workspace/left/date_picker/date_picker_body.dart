@@ -128,6 +128,8 @@ class _DateItem extends StatelessWidget {
           '${date.day}',
           textAlign: TextAlign.center,
           style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
+          overflow: TextOverflow.fade,
+          softWrap: false,
         ),
       ),
     );

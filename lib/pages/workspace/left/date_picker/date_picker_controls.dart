@@ -44,16 +44,10 @@ class _DatePickerControlsState extends State<DatePickerControls> {
           onPressed: () => _updatePickerDate(_pickerDate.subtractMonth),
         ),
         Expanded(
-          child: Center(
-            child: ListenableBuilder<DateTime, String>(
-              widget.pickerDateNotifier,
-              converter: (date) => date.month.toMonth.l10n(context.l10n),
-              builder: (context, text, _) => Text(
-                text,
-                overflow: TextOverflow.ellipsis,
-                style: context.tt.bodyMedium,
-              ),
-            ),
+          child: ListenableBuilder<DateTime, String>(
+            widget.pickerDateNotifier,
+            converter: (date) => date.month.toMonth.l10n(context.l10n),
+            builder: (context, text, _) => _Text(text),
           ),
         ),
         HoverIconButton(
@@ -70,16 +64,10 @@ class _DatePickerControlsState extends State<DatePickerControls> {
           onPressed: () => _updatePickerDate(_pickerDate.subtractYear),
         ),
         Expanded(
-          child: Center(
-            child: ListenableBuilder<DateTime, String>(
-              widget.pickerDateNotifier,
-              converter: (pickerDate) => '${pickerDate.year}',
-              builder: (context, text, _) => Text(
-                text,
-                overflow: TextOverflow.ellipsis,
-                style: context.tt.bodyMedium,
-              ),
-            ),
+          child: ListenableBuilder<DateTime, String>(
+            widget.pickerDateNotifier,
+            converter: (pickerDate) => '${pickerDate.year}',
+            builder: (context, text, _) => _Text(text),
           ),
         ),
         HoverIconButton(
@@ -103,6 +91,23 @@ class _CircleButton extends StatelessWidget {
     return HoverIconButton(
       Icons.fiber_manual_record_outlined,
       onPressed: isSameMonth ? null : () => context.store.dispatch(_initAction),
+    );
+  }
+}
+
+class _Text extends StatelessWidget {
+  const _Text(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: context.tt.bodyMedium,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.fade,
+      softWrap: false,
     );
   }
 }

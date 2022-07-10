@@ -9,16 +9,17 @@ class DatePickerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 36),
+      padding: const EdgeInsets.only(left: 32),
       child: Row(
         children: WeekDay.values
             .map(
               (weekDay) => Expanded(
                 child: Text(
                   weekDay.l10nShort(context.l10n),
-                  overflow: TextOverflow.ellipsis,
                   style: context.tt.subtitle2,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
                 ),
               ),
             )

@@ -12,7 +12,7 @@ const RESOURCES = {
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "main.dart.js": "c9d58b151ad9d2cbfd857018c19ba12d",
 "manifest.json": "72bce0dc58902568b3ab2dc980cf9ed9",
-"version.json": "fe605ca0582ceb3af5a4c16da0c6ed2b",
+"version.json": "ecd2d1e1452f45bc932dcaa89b634985",
 "flutter.js": "eb2682e33f25cd8f1fc59011497c35f8",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",

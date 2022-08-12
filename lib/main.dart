@@ -12,6 +12,7 @@ import 'package:sparta/_states.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
+import 'package:sparta/pages/_shared/ui/fade_in.dart';
 import 'package:sparta/pages/workspace_page.dart';
 
 final _store = Store<AppState>(
@@ -49,7 +50,7 @@ class _App extends StatelessWidget {
         onGenerateTitle: (context) => context.l10n.app_name,
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: const WorkspacePage(),
+        home: const FadeIn(child: WorkspacePage()),
         // TODO(albert): finish
         //initialRoute: LoginPage.route,
         //routes: {WorkspacePage.route: (_) => const WorkspacePage()},

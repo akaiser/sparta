@@ -17,13 +17,13 @@ extension DateTimeEx on DateTime {
 
   DateTime get subtractWeek => subtract(const Duration(days: 7));
 
-  DateTime get addMonth => copyWith(month: month + 1);
+  DateTime get addMonth => _copyWith(month: month + 1);
 
-  DateTime get subtractMonth => copyWith(month: month - 1);
+  DateTime get subtractMonth => _copyWith(month: month - 1);
 
-  DateTime get addYear => copyWith(year: year + 1);
+  DateTime get addYear => _copyWith(year: year + 1);
 
-  DateTime get subtractYear => copyWith(year: year - 1);
+  DateTime get subtractYear => _copyWith(year: year - 1);
 
   bool isSameDay(DateTime? other) => isSameMonth(other) && day == other?.day;
 
@@ -34,7 +34,7 @@ extension DateTimeEx on DateTime {
 
   int get weekNumber => _weekNumber(this);
 
-  DateTime copyWith({
+  DateTime _copyWith({
     final int? year,
     final int? month,
     final int? day,

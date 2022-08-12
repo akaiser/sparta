@@ -60,11 +60,11 @@ class AppTextTheme {
   TextStyle? get labelMedium => _textTheme.labelMedium;
 }
 
-const sonstiges = Color.fromRGBO(128, 64, 0, 1); // brown
-const auslieferung = Color.fromRGBO(0, 0, 0, 1); // black
-const mietwagen = Color.fromRGBO(255, 0, 0, 1); // red
-const urlaub = Color.fromRGBO(139, 195, 74, 1); // green
-const schulung = Color.fromRGBO(192, 192, 192, 1); // gray
-const feiertage = Color.fromRGBO(255, 128, 0, 1); // orange
-const werkstatt = Color.fromRGBO(151, 151, 255, 1); // blue
-const geburtstage = Color.fromRGBO(255, 255, 0, 1); // yellow
+const sonstiges = Color.fromRGBO(128, 64, 0, 1);
+const auslieferung = Color.fromRGBO(0, 0, 0, 1);
+const mietwagen = Color.fromRGBO(255, 0, 0, 1);
+const urlaub = Color.fromRGBO(139, 195, 74, 1);
+const schulung = Color.fromRGBO(192, 192, 192, 1);
+const feiertage = Color.fromRGBO(255, 128, 0, 1);
+const werkstatt = Color.fromRGBO(151, 151, 255, 1);
+const geburtstage = Color.fromRGBO(255, 255, 0, 1);

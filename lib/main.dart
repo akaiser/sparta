@@ -18,10 +18,7 @@ import 'package:sparta/pages/workspace_page.dart';
 final _store = Store<AppState>(
   appStateReducer,
   initialState: const AppState(),
-  middleware: [
-    EpicMiddleware(appEpics()),
-    //if (kDebugMode) LoggingMiddleware.printer(),
-  ],
+  middleware: [EpicMiddleware(appEpics())],
 );
 
 Future<void> main() async {

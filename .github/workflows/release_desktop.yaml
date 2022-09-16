@@ -1,17 +1,17 @@
-name: Release All
+name: Release Desktop
 on:
   push:
     tags:
       - "v*.*.*"
 jobs:
-  release:
+  release-desktop:
     strategy:
       matrix:
         include:
           #- platform: linux
           #  runs-on: ubuntu-latest
           #  build-dir: build/linux/x64/release/bundle
-          - platform: macos
+          - platform:ø macos
             runs-on: macos-latest
             build-dir: build/macos/Build/Products/Release
           - platform: windows
@@ -30,10 +30,11 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: "zip"
-          filename: ${{github.ref_name}}-${{ matrix.platform }}-x64.zip
+          filename: desktop-${{github.ref_name}}-${{ matrix.platform }}-x64.zip
           directory: ${{ matrix.build-dir }}
       - name: Upload
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{ matrix.build-dir }}/${{github.ref_name}}-${{ matrix.platform }}-x64.zip
+          artifacts: desktop-${{ matrix.build-dir }}/${{github.ref_name}}-${{ matrix.platform }}-x64.zip
           token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true

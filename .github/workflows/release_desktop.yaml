@@ -35,6 +35,6 @@ jobs:
       - name: Upload
         uses: ncipollo/release-action@v1
         with:
-          artifacts: desktop-${{ matrix.build-dir }}/${{github.ref_name}}-${{ matrix.platform }}-x64.zip
+          artifacts: ${{ matrix.build-dir }}/desktop-${{github.ref_name}}-${{ matrix.platform }}-x64.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true

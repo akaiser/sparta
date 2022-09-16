@@ -2,7 +2,7 @@ name: Release Android
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "x*.*.*"
 jobs:
   release:
     runs-on: ubuntu-latest

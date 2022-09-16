@@ -1,0 +1,87 @@
+name: Release All
+on:
+  push:
+    tags:
+      - "x*.*.*"
+jobs:
+  release-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.3.2'
+          channel: 'stable'
+      - name: Build
+        run: flutter build apk --split-per-abi --release
+      - name: Upload
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-linux-x64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.2"
+          channel: "stable"
+      - name: Build
+        run: flutter build linux
+      - name: Zip
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: ${{github.ref_name}}-linux-x64.zip
+          directory: build/linux/x64/release/bundle
+      - name: Upload
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/linux/x64/release/bundle/${{github.ref_name}}-linux-x64.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-macos-x64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.2"
+          channel: "stable"
+      - name: Build
+        run: flutter build macos
+      - name: Zip
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: ${{github.ref_name}}-macos-x64.zip
+          directory: build/macos/Build/Products/Release
+      - name: Upload
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/macos/Build/Products/Release/${{github.ref_name}}-macos-x64.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-windows-x64:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.2"
+          channel: "stable"
+      - name: Build
+        run: flutter build windows
+      - name: Zip
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: ${{github.ref_name}}-windows-x64.zip
+          directory: build/windows/runner/Release
+      - name: Upload
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/windows/runner/Release/${{github.ref_name}}-windows-x64.zip
+          token: ${{ secrets.GITHUB_TOKEN }}

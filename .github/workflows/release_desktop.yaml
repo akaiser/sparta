@@ -11,7 +11,7 @@ jobs:
           #- platform: linux
           #  runs-on: ubuntu-latest
           #  build-dir: build/linux/x64/release/bundle
-          - platform:ø macos
+          - platform: macos
             runs-on: macos-latest
             build-dir: build/macos/Build/Products/Release
           - platform: windows

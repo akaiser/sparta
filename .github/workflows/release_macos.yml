@@ -23,5 +23,5 @@ jobs:
       - name: Release to Github
         uses: ncipollo/release-action@v1
         with:
-          artifacts: sparta-${{github.ref_name}}-macos.zip
+          artifacts: build/macos/Build/Products/Release/sparta-${{github.ref_name}}-macos.zip
           token: ${{ secrets.GITHUB_TOKEN }}

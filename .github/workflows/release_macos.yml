@@ -12,7 +12,6 @@ jobs:
         with:
           flutter-version: '3.3.2'
           channel: 'stable'
-          architecture: arm64
       - name: Build
         run: flutter build macos
       - name: Release to Github

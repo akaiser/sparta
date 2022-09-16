@@ -10,12 +10,18 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.3.2'
-          channel: 'stable'
+          flutter-version: "3.3.2"
+          channel: "stable"
       - name: Build
         run: flutter build macos
+      - name: Archive
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: sparta-${{github.ref_name}}-macos.zip
+          directory: build/macos/Build/Products/Release
       - name: Release to Github
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/macos/Build/Products/Release/sparta.app"
+          artifacts: sparta-${{github.ref_name}}-macos.zip
           token: ${{ secrets.GITHUB_TOKEN }}

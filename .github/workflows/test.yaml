@@ -15,4 +15,4 @@ jobs:
       - run: flutter analyze
       - run: flutter format -n --set-exit-if-changed .
       - run: flutter test
-      - run: flutter test integration_test -d linux
+      - run: flutter test integration_test -d macos

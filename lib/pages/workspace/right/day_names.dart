@@ -25,7 +25,7 @@ class DayNames extends StatelessWidget {
                 ),
               ),
             )
-            .toUnmodifiableList,
+            .unmodifiable,
       ),
     );
   }

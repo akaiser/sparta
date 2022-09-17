@@ -3,6 +3,7 @@ import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
+import 'package:sparta/pages/_shared/ui/bordered.dart';
 import 'package:sparta/pages/_shared/ui/clickable_region.dart';
 import 'package:sparta/states/focussed_event_state.dart';
 
@@ -22,9 +23,9 @@ class Event extends StatelessWidget {
   final EventModel event;
   final ValueSetter<BuildContext> onNotFocussedDateTap;
 
-  // TODO(albert): badges will be part of event later
-  static const badges = [
-    _Badge(Colors.black),
+  // TODO(albert): badges will be part of an event later
+  static const badges = <Widget>[
+    _Badge(Colors.redAccent),
     _Badge(Colors.black),
   ];
 
@@ -43,6 +44,7 @@ class Event extends StatelessWidget {
         child: ValueConnector<bool>(
           converter: (state) => state.focussedEventState.eventId == event.id,
           builder: (context, isFocussed, child) => GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: isFocussed ? null : () => _onEventTap(context),
             onSecondaryTap: () {
               _onEventTap(context);
@@ -70,10 +72,7 @@ class Event extends StatelessWidget {
                   ),
                 ),
                 _itemsSpacer,
-                for (final badge in badges) ...[
-                  badge,
-                  _itemsSpacer,
-                ],
+                ...badges.expand((badge) => [badge, _itemsSpacer]),
               ],
             ),
           ),
@@ -83,17 +82,12 @@ class Event extends StatelessWidget {
   }
 }
 
-class _Badge extends StatelessWidget {
-  const _Badge(this.color);
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: _eventBadgeWidth,
-      height: _eventBadgeHeight,
-      child: ColoredBox(color: color),
-    );
-  }
+class _Badge extends Bordered {
+  const _Badge(super.backgroundColor)
+      : super(
+          child: const SizedBox(
+            width: _eventBadgeWidth,
+            height: _eventBadgeHeight,
+          ),
+        );
 }

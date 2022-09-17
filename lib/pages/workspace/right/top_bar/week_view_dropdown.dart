@@ -31,7 +31,7 @@ class WeekViewDropdown extends StatelessWidget {
                     child: Text(weekView.l10n(context.l10n)),
                   ),
                 )
-                .toUnmodifiableList,
+                .unmodifiable,
           );
         },
       ),

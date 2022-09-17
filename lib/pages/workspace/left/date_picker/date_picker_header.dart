@@ -23,7 +23,7 @@ class DatePickerHeader extends StatelessWidget {
                 ),
               ),
             )
-            .toUnmodifiableList,
+            .unmodifiable,
       ),
     );
   }

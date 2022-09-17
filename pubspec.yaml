@@ -1,6 +1,6 @@
 name: sparta
 description: Sparta
-version: 0.0.16
+version: 0.0.17
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
@@ -20,6 +20,8 @@ dependencies:
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   very_good_analysis: ^3.0.2
 

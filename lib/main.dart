@@ -27,30 +27,37 @@ Future<void> main() async {
   await Init.init();
 
   runZonedGuarded<void>(
-    () => runApp(StoreProvider(store: _store, child: const _App())),
-    (error, stack) => log('Some Explosion...', error: error, stackTrace: stack),
+    () => runApp(const App()),
+    (error, stack) => log(
+      'Some Explosion...',
+      error: error,
+      stackTrace: stack,
+    ),
   );
 }
 
-class _App extends StatelessWidget {
-  const _App();
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: (state) => state.settingsState.isLightTheme,
-      builder: (context, isLightTheme, _) => MaterialApp(
-        themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
-        theme: Themes.lightTheme,
-        darkTheme: Themes.darkTheme,
-        debugShowCheckedModeBanner: false,
-        onGenerateTitle: (context) => context.l10n.app_name,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: const FadeIn(child: WorkspacePage()),
-        // TODO(albert): finish
-        //initialRoute: LoginPage.route,
-        //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
+    return StoreProvider(
+      store: _store,
+      child: ValueConnector<bool>(
+        converter: (state) => state.settingsState.isLightTheme,
+        builder: (context, isLightTheme, _) => MaterialApp(
+          themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
+          theme: Themes.lightTheme,
+          darkTheme: Themes.darkTheme,
+          debugShowCheckedModeBanner: false,
+          onGenerateTitle: (context) => context.l10n.app_name,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const FadeIn(child: WorkspacePage()),
+          // TODO(albert): finish
+          //initialRoute: LoginPage.route,
+          //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
+        ),
       ),
     );
   }

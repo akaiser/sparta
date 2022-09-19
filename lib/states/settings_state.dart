@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:sparta/_prefs.dart';
+import 'package:sparta/_settings.dart';
 import 'package:sparta/l10n/mappers/week_view.dart';
 
 abstract class _SettingsAction extends Equatable {
@@ -30,15 +30,15 @@ SettingsState settingsStateReducer(SettingsState old, dynamic action) {
   if (action is _SettingsAction) {
     if (action is ToggleThemeAction) {
       final newIsLightTheme = !old.isLightTheme;
-      Prefs.setIsLightTheme(newIsLightTheme);
+      Settings.setIsLightTheme(newIsLightTheme);
       return old.copyWith(isLightTheme: newIsLightTheme);
     } else if (action is ToggleLeftViewVisibilityAction) {
       final newIsLeftViewVisible = !old.isLeftViewVisible;
-      Prefs.setIsLeftViewVisible(newIsLeftViewVisible);
+      Settings.setIsLeftViewVisible(newIsLeftViewVisible);
       return old.copyWith(isLeftViewVisible: newIsLeftViewVisible);
     } else if (action is SetWeekViewAction) {
       final newWeekView = action.weekView;
-      Prefs.setWeekView(newWeekView.name);
+      Settings.setWeekView(newWeekView.name);
       return old.copyWith(weekView: newWeekView);
     }
   }
@@ -58,18 +58,19 @@ class SettingsState extends Equatable {
   final bool? _isLeftViewVisible;
   final WeekView? _weekView;
 
-  bool get isLightTheme => _isLightTheme ?? Prefs.isLightTheme;
+  bool get isLightTheme => _isLightTheme ?? Settings.isLightTheme;
 
-  bool get isLeftViewVisible => _isLeftViewVisible ?? Prefs.isLeftViewVisible;
+  bool get isLeftViewVisible =>
+      _isLeftViewVisible ?? Settings.isLeftViewVisible;
 
-  WeekView get weekView => _weekView ?? Prefs.weekView.fromString;
+  WeekView get weekView => _weekView ?? Settings.weekView.fromString;
 
   bool get isWorkWeek => weekView == WeekView.workWeek;
 
   SettingsState copyWith({
-    final bool? isLightTheme,
-    final bool? isLeftViewVisible,
-    final WeekView? weekView,
+    bool? isLightTheme,
+    bool? isLeftViewVisible,
+    WeekView? weekView,
   }) {
     return SettingsState(
       isLightTheme: isLightTheme ?? this.isLightTheme,

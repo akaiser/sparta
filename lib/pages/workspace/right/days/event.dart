@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
+import 'package:sparta/pages/_shared/extensions/iterable.dart';
 import 'package:sparta/pages/_shared/models/event_model.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/bordered.dart';
@@ -72,7 +73,7 @@ class Event extends StatelessWidget {
                   ),
                 ),
                 _itemsSpacer,
-                ...badges.expand((badge) => [badge, _itemsSpacer]),
+                ...badges.append(_itemsSpacer),
               ],
             ),
           ),

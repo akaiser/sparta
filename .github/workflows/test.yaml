@@ -12,6 +12,7 @@ jobs:
         with:
           flutter-version: '3.3.2'
           channel: 'stable'
+      - run: flutter doctor
       - run: flutter analyze
       - run: flutter format -n --set-exit-if-changed .
       - run: flutter test

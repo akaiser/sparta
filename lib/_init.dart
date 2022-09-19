@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:sparta/_prefs.dart';
+import 'package:sparta/_settings.dart';
 import 'package:sparta/_web/_shared.dart';
 
 class Init {
@@ -9,7 +9,7 @@ class Init {
   static Future<void> init() {
     _initLicenses();
     return Future.wait([
-      Prefs.init(),
+      Settings.init(),
       _initWeb(),
     ]);
   }

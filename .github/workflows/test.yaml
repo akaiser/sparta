@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   test:
-    runs-on: macos-latest #TODO(albert) switch back to linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
@@ -15,4 +15,9 @@ jobs:
       - run: flutter analyze
       - run: flutter format -n --set-exit-if-changed .
       - run: flutter test
-      - run: flutter test integration_test -d macos
+      - run: sudo apt install -y ninja-build libgtk-3-dev
+      - name: flutter test integration_test
+        run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          flutter test integration_test -d linux

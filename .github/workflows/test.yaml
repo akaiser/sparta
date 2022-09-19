@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   test:
-    runs-on: macos-latest #TODO(albert) switch back to linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
@@ -15,4 +15,4 @@ jobs:
       - run: flutter analyze
       - run: flutter format -n --set-exit-if-changed .
       - run: flutter test
-      - run: flutter test integration_test -d macos
+      - run: flutter test integration_test -d linux

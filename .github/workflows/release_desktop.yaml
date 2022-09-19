@@ -8,9 +8,9 @@ jobs:
     strategy:
       matrix:
         include:
-          #- platform: linux
-          #  runs-on: ubuntu-latest
-          #  build-dir: build/linux/x64/release/bundle
+          - platform: linux
+            runs-on: ubuntu-latest
+            build-dir: build/linux/x64/release/bundle
           - platform: macos
             runs-on: macos-latest
             build-dir: build/macos/Build/Products/Release

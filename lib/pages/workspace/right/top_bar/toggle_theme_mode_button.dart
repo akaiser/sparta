@@ -10,13 +10,11 @@ class ToggleThemeModeButton extends StatelessWidget {
   static const _action = ToggleThemeAction();
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: (state) => state.settingsState.isLightTheme,
-      builder: (context, isLightTheme, _) => HoverIconButton(
-        isLightTheme ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-        onPressed: () => context.store.dispatch(_action),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ValueConnector<bool>(
+        converter: (state) => state.settingsState.isLightTheme,
+        builder: (context, isLightTheme, _) => HoverIconButton(
+          isLightTheme ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+          onPressed: () => context.store.dispatch(_action),
+        ),
+      );
 }

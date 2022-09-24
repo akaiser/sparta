@@ -87,12 +87,11 @@ class _CircleButton extends StatelessWidget {
   final bool isSameMonth;
 
   @override
-  Widget build(BuildContext context) {
-    return HoverIconButton(
-      Icons.fiber_manual_record_outlined,
-      onPressed: isSameMonth ? null : () => context.store.dispatch(_initAction),
-    );
-  }
+  Widget build(BuildContext context) => HoverIconButton(
+        Icons.fiber_manual_record_outlined,
+        onPressed:
+            isSameMonth ? null : () => context.store.dispatch(_initAction),
+      );
 }
 
 class _Text extends StatelessWidget {
@@ -101,13 +100,11 @@ class _Text extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: context.tt.bodyMedium,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.fade,
-      softWrap: false,
-    );
-  }
+  Widget build(BuildContext context) => Text(
+        text,
+        style: context.tt.bodyMedium,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      );
 }

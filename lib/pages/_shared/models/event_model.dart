@@ -4,11 +4,7 @@ import 'package:sparta/pages/_shared/models/event_json.dart';
 class EventModel extends Equatable {
   const EventModel({required this.id});
 
-  factory EventModel.fromJson(EventJson json) {
-    return EventModel(
-      id: json.id,
-    );
-  }
+  factory EventModel.fromJson(EventJson json) => EventModel(id: json.id);
 
   final int id;
 

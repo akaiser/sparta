@@ -13,12 +13,9 @@ class VisibilityConnector extends StatelessWidget {
   final WidgetBuilder builder;
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: visible,
-      builder: (context, shouldShow, _) {
-        return shouldShow ? builder(context) : const SizedBox();
-      },
-    );
-  }
+  Widget build(BuildContext context) => ValueConnector<bool>(
+        converter: visible,
+        builder: (context, shouldShow, _) =>
+            shouldShow ? builder(context) : const SizedBox(),
+      );
 }

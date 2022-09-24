@@ -11,47 +11,41 @@ class CircleActionButton extends StatelessWidget {
   const CircleActionButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<_State>(
-      converter: (state) => _State(
-        hasError: state.eventsState.exception != null,
-        isLoading: state.eventsState.isLoading,
-      ),
-      builder: (context, state, _) => state.isLoading
-          ? const _LoadingSpinner()
-          : state.hasError
-              ? const _ErrorButton()
-              : const _ActionButton(),
-    );
-  }
+  Widget build(BuildContext context) => ValueConnector<_State>(
+        converter: (state) => _State(
+          hasError: state.eventsState.exception != null,
+          isLoading: state.eventsState.isLoading,
+        ),
+        builder: (context, state, _) => state.isLoading
+            ? const _LoadingSpinner()
+            : state.hasError
+                ? const _ErrorButton()
+                : const _ActionButton(),
+      );
 }
 
 class _ErrorButton extends StatelessWidget {
   const _ErrorButton();
 
   @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(right: 2), // TODO(albert): check
-      child: Icon(Icons.error_outline, size: 20),
-    );
-  }
+  Widget build(BuildContext context) => const Padding(
+        padding: EdgeInsets.only(right: 2), // TODO(albert): check
+        child: Icon(Icons.error_outline, size: 20),
+      );
 }
 
 class _LoadingSpinner extends StatelessWidget {
   const _LoadingSpinner();
 
   @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(left: 7, right: 7),
-      child: SizedBox(
-        height: 14,
-        width: 14,
-        child: CircularProgressIndicator(strokeWidth: 2.4),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 7),
+        child: SizedBox(
+          height: 14,
+          width: 14,
+          child: CircularProgressIndicator(strokeWidth: 2.4),
+        ),
+      );
 }
 
 class _ActionButton extends StatelessWidget {

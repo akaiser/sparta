@@ -13,8 +13,12 @@ const sectionsDividerThickness = 1.0;
 
 const verticalDivider = Divider(height: 1, thickness: sectionsDividerThickness);
 
-final currentDayBorder = Border.all(width: 2, color: lightBlue);
-final hoverDayBorder = Border.all(width: 2, color: Colors.grey);
+const currentDayBorder = Border.fromBorderSide(
+  BorderSide(width: 2, color: lightBlue),
+);
+const hoverDayBorder = Border.fromBorderSide(
+  BorderSide(width: 2, color: Colors.grey),
+);
 
 class Themes {
   static ThemeData get lightTheme {

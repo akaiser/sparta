@@ -9,19 +9,19 @@ class WeekViewDropdown extends StatelessWidget {
   const WeekViewDropdown({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: ValueConnector<WeekView>(
-        converter: (state) => state.settingsState.weekView,
-        builder: (context, selectedWeekView, _) {
-          return DropdownButton<WeekView>(
+  Widget build(BuildContext context) => DropdownButtonHideUnderline(
+        child: ValueConnector<WeekView>(
+          converter: (state) => state.settingsState.weekView,
+          builder: (context, selectedWeekView, _) => DropdownButton<WeekView>(
             isDense: true,
             style: context.tt.bodyMedium,
             value: selectedWeekView,
             focusColor: Colors.transparent,
             onChanged: (changedWeekView) {
-              if (selectedWeekView != changedWeekView!) {
-                context.store.dispatch(SetWeekViewAction(changedWeekView));
+              if (selectedWeekView != changedWeekView) {
+                if (changedWeekView != null) {
+                  context.store.dispatch(SetWeekViewAction(changedWeekView));
+                }
               }
             },
             items: WeekView.values
@@ -32,9 +32,7 @@ class WeekViewDropdown extends StatelessWidget {
                   ),
                 )
                 .unmodifiable,
-          );
-        },
-      ),
-    );
-  }
+          ),
+        ),
+      );
 }

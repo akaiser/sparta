@@ -71,13 +71,12 @@ class SettingsState extends Equatable {
     bool? isLightTheme,
     bool? isLeftViewVisible,
     WeekView? weekView,
-  }) {
-    return SettingsState(
-      isLightTheme: isLightTheme ?? this.isLightTheme,
-      isLeftViewVisible: isLeftViewVisible ?? this.isLeftViewVisible,
-      weekView: weekView ?? this.weekView,
-    );
-  }
+  }) =>
+      SettingsState(
+        isLightTheme: isLightTheme ?? this.isLightTheme,
+        isLeftViewVisible: isLeftViewVisible ?? this.isLeftViewVisible,
+        weekView: weekView ?? this.weekView,
+      );
 
   @override
   List<Object?> get props => [

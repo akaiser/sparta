@@ -1,0 +1,33 @@
+name: Test UI
+on:
+  push:
+    branches-ignore:
+      - main
+jobs:
+  test-ui:
+    strategy:
+      matrix:
+        include:
+          - platform: linux
+            runs-on: ubuntu-latest
+            before-test: sudo apt install -y ninja-build libgtk-3-dev
+            before-run: |
+              export DISPLAY=:99
+              sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          - platform: macos
+            runs-on: macos-latest
+          - platform: windows
+            runs-on: windows-latest
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.2"
+          channel: "stable"
+      - if: ${{ matrix.before-test }}
+        run: ${{ matrix.before-test }}
+      - name: integration_test
+        run: |
+          ${{ matrix.before-run }}
+          flutter test integration_test -d ${{ matrix.platform }}

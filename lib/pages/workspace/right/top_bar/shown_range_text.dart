@@ -9,34 +9,32 @@ class ShownRangeText extends StatelessWidget {
   const ShownRangeText({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<_State>(
-      ignoreChange: (state) => state.eventsState.isLoading,
-      converter: (state) {
-        final refDate = state.eventsState.refDate;
-        final isWorkWeek = state.settingsState.isWorkWeek;
-        final endDateSubtractDuration = Duration(days: isWorkWeek ? 2 : 0);
-        return _State(
-          refDate.startOfWeek,
-          refDate.addWeek.endOfWeek.subtract(endDateSubtractDuration),
-        );
-      },
-      builder: (context, state, _) {
-        final start = state.start;
-        final end = state.end;
-        final startMonthText = start.month.toMonth.l10n(context.l10n);
-        final endMonthText = end.month.toMonth.l10n(context.l10n);
-        return Text(
-          start.month == end.month
-              ? '${start.day} - ${end.day} $startMonthText'
-              : '${start.day} $startMonthText - ${end.day} $endMonthText',
-          style: context.tt.bodyMedium,
-          overflow: TextOverflow.fade,
-          softWrap: false,
-        );
-      },
-    );
-  }
+  Widget build(BuildContext context) => ValueConnector<_State>(
+        ignoreChange: (state) => state.eventsState.isLoading,
+        converter: (state) {
+          final refDate = state.eventsState.refDate;
+          final isWorkWeek = state.settingsState.isWorkWeek;
+          final endDateSubtractDuration = Duration(days: isWorkWeek ? 2 : 0);
+          return _State(
+            refDate.startOfWeek,
+            refDate.addWeek.endOfWeek.subtract(endDateSubtractDuration),
+          );
+        },
+        builder: (context, state, _) {
+          final start = state.start;
+          final end = state.end;
+          final startMonthText = start.month.toMonth.l10n(context.l10n);
+          final endMonthText = end.month.toMonth.l10n(context.l10n);
+          return Text(
+            start.month == end.month
+                ? '${start.day} - ${end.day} $startMonthText'
+                : '${start.day} $startMonthText - ${end.day} $endMonthText',
+            style: context.tt.bodyMedium,
+            overflow: TextOverflow.fade,
+            softWrap: false,
+          );
+        },
+      );
 }
 
 class _State extends Equatable {

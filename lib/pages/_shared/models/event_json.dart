@@ -7,12 +7,10 @@ class EventsJson extends Equatable {
     required this.items,
   });
 
-  factory EventsJson.fromJson(Map<String, dynamic> json) {
-    return EventsJson(
-      day: DateTime.parse(json['day'] as String),
-      items: safeMap(json['items'] as Iterable, EventJson.fromJson),
-    );
-  }
+  factory EventsJson.fromJson(Map<String, dynamic> json) => EventsJson(
+        day: DateTime.parse(json['day'] as String),
+        items: safeMap(json['items'] as Iterable, EventJson.fromJson),
+      );
 
   final DateTime day;
   final List<EventJson> items;
@@ -24,11 +22,8 @@ class EventsJson extends Equatable {
 class EventJson extends Equatable {
   const EventJson({required this.id});
 
-  factory EventJson.fromJson(Map<String, dynamic> json) {
-    return EventJson(
-      id: json['id'] as int,
-    );
-  }
+  factory EventJson.fromJson(Map<String, dynamic> json) =>
+      EventJson(id: json['id'] as int);
 
   final int id;
 

@@ -1,3 +1,4 @@
+// ignore_for_file: avoid-non-null-assertion
 // ignore_for_file: implementation_imports
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -86,11 +86,10 @@ class _DateItem extends StatelessWidget {
   final FontWeight? _fontWeight;
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: (state) => date.isSameDay(state.focussedDateState.focusedDate),
-      builder: (context, isFocussedDay, child) {
-        return GestureDetector(
+  Widget build(BuildContext context) => ValueConnector<bool>(
+        converter: (state) =>
+            date.isSameDay(state.focussedDateState.focusedDate),
+        builder: (context, isFocussedDay, child) => GestureDetector(
           onTap: isFocussedDay
               ? null
               : () => context.store.dispatch(
@@ -101,37 +100,33 @@ class _DateItem extends StatelessWidget {
                   ),
           child: HoverRegion(
             onHoverCursor: isFocussedDay ? SystemMouseCursors.basic : null,
-            builder: (context, isHovering, child) {
-              return DecoratedBox(
-                decoration: BoxDecoration(
-                  color: isFocussedDay
-                      ? context.td.primaryColorDark
-                      : !isSameMonth
-                          ? context.td.selectedRowColor
-                          : null,
-                  border: isHovering && !isFocussedDay
-                      ? hoverDayBorder
-                      : isCurrentDay
-                          ? currentDayBorder
-                          : null,
-                ),
-                child: child,
-              );
-            },
+            builder: (context, isHovering, child) => DecoratedBox(
+              decoration: BoxDecoration(
+                color: isFocussedDay
+                    ? context.td.primaryColorDark
+                    : !isSameMonth
+                        ? context.td.selectedRowColor
+                        : null,
+                border: isHovering && !isFocussedDay
+                    ? hoverDayBorder
+                    : isCurrentDay
+                        ? currentDayBorder
+                        : null,
+              ),
+              child: child,
+            ),
             child: child,
           ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(4),
-        child: Text(
-          '${date.day}',
-          textAlign: TextAlign.center,
-          style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
-          overflow: TextOverflow.fade,
-          softWrap: false,
         ),
-      ),
-    );
-  }
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Text(
+            '${date.day}',
+            textAlign: TextAlign.center,
+            style: context.tt.labelSmall?.copyWith(fontWeight: _fontWeight),
+            overflow: TextOverflow.fade,
+            softWrap: false,
+          ),
+        ),
+      );
 }

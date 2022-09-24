@@ -33,13 +33,11 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: CurvedAnimation(
-        parent: _controller,
-        curve: Curves.ease,
-      ),
-      child: widget.child,
-    );
-  }
+  Widget build(BuildContext context) => FadeTransition(
+        opacity: CurvedAnimation(
+          parent: _controller,
+          curve: Curves.ease,
+        ),
+        child: widget.child,
+      );
 }

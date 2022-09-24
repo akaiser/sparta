@@ -30,29 +30,28 @@ class SimpleGrid extends StatelessWidget {
   )? leadingOffsetColumnBuilder;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        rowCount,
-        (yIndex) {
-          final cells = List.generate(
-            columnCount,
-            (xIndex) {
-              final cell = cellBuilder(context, xIndex, yIndex);
-              return expandColumns ? Expanded(child: cell) : cell;
-            },
-          );
+  Widget build(BuildContext context) => Column(
+        children: List.generate(
+          rowCount,
+          (yIndex) {
+            final cells = List.generate(
+              columnCount,
+              (xIndex) {
+                final cell = cellBuilder(context, xIndex, yIndex);
+                return expandColumns ? Expanded(child: cell) : cell;
+              },
+            );
 
-          final row = Row(
-            children: [
-              if (leadingOffsetColumnBuilder != null)
-                leadingOffsetColumnBuilder!(context, yIndex),
-              ...cells,
-            ],
-          );
-          return expandRows ? Expanded(child: row) : row;
-        },
-      ),
-    );
-  }
+            final leadingOffsetColumnBuilderCopy = leadingOffsetColumnBuilder;
+            final row = Row(
+              children: [
+                if (leadingOffsetColumnBuilderCopy != null)
+                  leadingOffsetColumnBuilderCopy(context, yIndex),
+                ...cells,
+              ],
+            );
+            return expandRows ? Expanded(child: row) : row;
+          },
+        ),
+      );
 }

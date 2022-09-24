@@ -13,11 +13,9 @@ class AnimatedFade extends StatelessWidget {
   final Widget secondChild;
 
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: showFirstNotifier,
-      builder: (context, showFirst, _) {
-        return AnimatedCrossFade(
+  Widget build(BuildContext context) => ValueListenableBuilder<bool>(
+        valueListenable: showFirstNotifier,
+        builder: (context, showFirst, _) => AnimatedCrossFade(
           duration: const Duration(milliseconds: 300),
           firstChild: firstChild,
           secondChild: secondChild,
@@ -27,8 +25,6 @@ class AnimatedFade extends StatelessWidget {
             alignment: Alignment.center,
             children: [topChild, bottomChild],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

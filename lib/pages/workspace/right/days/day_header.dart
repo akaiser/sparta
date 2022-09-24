@@ -26,22 +26,20 @@ class DayHeader extends StatelessWidget {
     final dateFormat = DateFormat.MMMd(context.lc);
     return ValueConnector<bool>(
       converter: (state) => date.isSameDay(state.focussedDateState.focusedDate),
-      builder: (context, isFocusedDate, child) {
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: isFocusedDate
-                ? context.td.primaryColorDark
-                : context.td.highlightColor,
-            border: isCurrentDay
-                ? currentDayBorder
-                : Border(
-                    right: BorderSide(color: context.td.dividerColor),
-                    top: BorderSide(color: context.td.dividerColor),
-                  ),
-          ),
-          child: child,
-        );
-      },
+      builder: (context, isFocusedDate, child) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: isFocusedDate
+              ? context.td.primaryColorDark
+              : context.td.highlightColor,
+          border: isCurrentDay
+              ? currentDayBorder
+              : Border(
+                  right: BorderSide(color: context.td.dividerColor),
+                  top: BorderSide(color: context.td.dividerColor),
+                ),
+        ),
+        child: child,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: Row(
@@ -86,16 +84,14 @@ class _Text extends StatelessWidget {
   final FontWeight? fontWeight;
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      textAlign: textAlign,
-      overflow: overflow,
-      softWrap: softWrap,
-      style: context.tt.labelSmall?.copyWith(
-        color: fontColor,
-        fontWeight: fontWeight,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Text(
+        text,
+        textAlign: textAlign,
+        overflow: overflow,
+        softWrap: softWrap,
+        style: context.tt.labelSmall?.copyWith(
+          color: fontColor,
+          fontWeight: fontWeight,
+        ),
+      );
 }

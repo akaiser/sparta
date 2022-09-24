@@ -15,29 +15,27 @@ class ExpandableTile extends StatelessWidget {
   final List<ExpandableTileItem> children;
 
   @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: context.td.copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 10),
-        expandedAlignment: Alignment.centerLeft,
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        collapsedTextColor: context.td.disabledColor,
-        collapsedIconColor: context.td.disabledColor,
-        textColor: context.td.hintColor,
-        iconColor: context.td.hintColor,
-        initiallyExpanded: initiallyExpanded,
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: context.tt.subtitle2?.fontSize,
-            fontWeight: context.tt.subtitle2?.fontWeight,
+  Widget build(BuildContext context) => Theme(
+        data: context.td.copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+          expandedAlignment: Alignment.centerLeft,
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          collapsedTextColor: context.td.disabledColor,
+          collapsedIconColor: context.td.disabledColor,
+          textColor: context.td.hintColor,
+          iconColor: context.td.hintColor,
+          initiallyExpanded: initiallyExpanded,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: context.tt.subtitle2?.fontSize,
+              fontWeight: context.tt.subtitle2?.fontWeight,
+            ),
+            overflow: TextOverflow.fade,
+            softWrap: false,
           ),
-          overflow: TextOverflow.fade,
-          softWrap: false,
+          children: children,
         ),
-        children: children,
-      ),
-    );
-  }
+      );
 }

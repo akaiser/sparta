@@ -16,15 +16,13 @@ class ListenableBuilder<T, V> extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<T>(
-      valueListenable: listenable,
-      builder: (context, value, child) => builder(
-        context,
-        converter(value),
-        child,
-      ),
-      child: child,
-    );
-  }
+  Widget build(BuildContext context) => ValueListenableBuilder<T>(
+        valueListenable: listenable,
+        builder: (context, value, child) => builder(
+          context,
+          converter(value),
+          child,
+        ),
+        child: child,
+      );
 }

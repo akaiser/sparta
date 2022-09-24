@@ -29,29 +29,27 @@ class _DatePickerState extends State<DatePicker> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: (state) => state.eventsState.isLoading,
-      builder: (_, isLoading, child) => AbsorbPointer(
-        absorbing: isLoading,
-        child: child,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: DatePickerControls(_pickerDateNotifier),
-          ),
-          verticalDivider,
-          const SizedBox(height: 8),
-          const DatePickerHeader(),
-          const SizedBox(height: 9),
-          ValueListenableBuilder<DateTime>(
-            valueListenable: _pickerDateNotifier,
-            builder: (_, pickerDate, __) => DatePickerBody(pickerDate),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ValueConnector<bool>(
+        converter: (state) => state.eventsState.isLoading,
+        builder: (_, isLoading, child) => AbsorbPointer(
+          absorbing: isLoading,
+          child: child,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: DatePickerControls(_pickerDateNotifier),
+            ),
+            verticalDivider,
+            const SizedBox(height: 8),
+            const DatePickerHeader(),
+            const SizedBox(height: 9),
+            ValueListenableBuilder<DateTime>(
+              valueListenable: _pickerDateNotifier,
+              builder: (_, pickerDate, __) => DatePickerBody(pickerDate),
+            ),
+          ],
+        ),
+      );
 }

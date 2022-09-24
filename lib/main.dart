@@ -40,25 +40,23 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return StoreProvider(
-      store: _store,
-      child: ValueConnector<bool>(
-        converter: (state) => state.settingsState.isLightTheme,
-        builder: (context, isLightTheme, _) => MaterialApp(
-          themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
-          theme: Themes.lightTheme,
-          darkTheme: Themes.darkTheme,
-          debugShowCheckedModeBanner: false,
-          onGenerateTitle: (context) => context.l10n.app_name,
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: const FadeIn(child: WorkspacePage()),
-          // TODO(albert): finish
-          //initialRoute: LoginPage.route,
-          //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
+  Widget build(BuildContext context) => StoreProvider(
+        store: _store,
+        child: ValueConnector<bool>(
+          converter: (state) => state.settingsState.isLightTheme,
+          builder: (context, isLightTheme, _) => MaterialApp(
+            themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
+            theme: Themes.lightTheme,
+            darkTheme: Themes.darkTheme,
+            debugShowCheckedModeBanner: false,
+            onGenerateTitle: (context) => context.l10n.app_name,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: const FadeIn(child: WorkspacePage()),
+            // TODO(albert): finish
+            //initialRoute: LoginPage.route,
+            //routes: {WorkspacePage.route: (_) => const WorkspacePage()},
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

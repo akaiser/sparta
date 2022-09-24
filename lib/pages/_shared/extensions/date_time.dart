@@ -34,14 +34,18 @@ extension DateTimeEx on DateTime {
 
   int get weekNumber => _weekNumber(this);
 
-  DateTime _copyWith({int? year, int? month, int? day, int? hour}) {
-    return DateTime(
-      year ?? this.year,
-      month ?? this.month,
-      day ?? this.day,
-      hour ?? this.hour,
-    );
-  }
+  DateTime _copyWith({
+    int? year,
+    int? month,
+    int? day,
+    int? hour,
+  }) =>
+      DateTime(
+        year ?? this.year,
+        month ?? this.month,
+        day ?? this.day,
+        hour ?? this.hour,
+      );
 }
 
 int _weekNumber(DateTime date) {

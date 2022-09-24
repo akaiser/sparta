@@ -15,16 +15,14 @@ class DayBody extends StatelessWidget {
   final ValueSetter<BuildContext> onNotFocussedDateTap;
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      key: PageStorageKey(listId),
-      controller: ScrollController(),
-      padding: const EdgeInsets.fromLTRB(1, 1, 2, 0),
-      itemCount: events.length,
-      itemBuilder: (_, index) => Event(
-        events.elementAt(index),
-        onNotFocussedDateTap: onNotFocussedDateTap,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ListView.builder(
+        key: PageStorageKey(listId),
+        controller: ScrollController(),
+        padding: const EdgeInsets.only(left: 1, top: 1, right: 2),
+        itemCount: events.length,
+        itemBuilder: (_, index) => Event(
+          events.elementAt(index),
+          onNotFocussedDateTap: onNotFocussedDateTap,
+        ),
+      );
 }

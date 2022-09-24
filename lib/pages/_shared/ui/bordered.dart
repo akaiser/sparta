@@ -16,17 +16,15 @@ class Bordered extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: shape,
-        border: Border.all(
-          width: _borderWidth,
-          color: context.td.primaryColorDark,
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: shape,
+          border: Border.all(
+            width: _borderWidth,
+            color: context.td.primaryColorDark,
+          ),
         ),
-      ),
-      child: child,
-    );
-  }
+        child: child,
+      );
 }

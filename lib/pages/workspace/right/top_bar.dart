@@ -14,32 +14,30 @@ class TopBar extends StatelessWidget {
   const TopBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        ToggleLeftViewButton(),
-        BarItemsSeparator(),
-        _ArrowActionButton(
-          Icons.keyboard_arrow_up,
-          EventsActionType.previousWeek,
-        ),
-        SizedBox(width: 4),
-        CircleActionButton(),
-        SizedBox(width: 4),
-        _ArrowActionButton(
-          Icons.keyboard_arrow_down,
-          EventsActionType.nextWeek,
-        ),
-        BarItemsSeparator(),
-        Expanded(child: ShownRangeText()),
-        WeekViewDropdown(),
-        BarItemsSeparator(),
-        ToggleThemeModeButton(),
-        SizedBox(width: 8),
-        UserMenu(),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Row(
+        children: const [
+          ToggleLeftViewButton(),
+          BarItemsSeparator(),
+          _ArrowActionButton(
+            Icons.keyboard_arrow_up,
+            EventsActionType.previousWeek,
+          ),
+          SizedBox(width: 4),
+          CircleActionButton(),
+          SizedBox(width: 4),
+          _ArrowActionButton(
+            Icons.keyboard_arrow_down,
+            EventsActionType.nextWeek,
+          ),
+          BarItemsSeparator(),
+          Expanded(child: ShownRangeText()),
+          WeekViewDropdown(),
+          BarItemsSeparator(),
+          ToggleThemeModeButton(),
+          SizedBox(width: 8),
+          UserMenu(),
+        ],
+      );
 }
 
 class _ArrowActionButton extends StatelessWidget {
@@ -49,10 +47,8 @@ class _ArrowActionButton extends StatelessWidget {
   final EventsActionType actionType;
 
   @override
-  Widget build(BuildContext context) {
-    return HoverIconButton(
-      icon,
-      onPressed: () => context.store.dispatch(FetchEventsAction(actionType)),
-    );
-  }
+  Widget build(BuildContext context) => HoverIconButton(
+        icon,
+        onPressed: () => context.store.dispatch(FetchEventsAction(actionType)),
+      );
 }

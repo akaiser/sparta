@@ -6,35 +6,33 @@ class UserMenu extends StatelessWidget {
   const UserMenu({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-      ),
-      child: PopupMenuButton<String>(
-        tooltip: '',
-        itemBuilder: (context) {
-          final textStyle = context.tt.bodyMedium;
-          return [
-            PopupMenuItem(child: Text('Admin', style: textStyle)),
-            PopupMenuItem(child: Text('Logout', style: textStyle)),
-          ];
-        },
-        child: const SizedBox(
-          width: 28,
-          height: 28,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              //shape: BoxShape.circle,
-              color: lightBlue,
-              borderRadius: BorderRadius.all(Radius.circular(2)),
+  Widget build(BuildContext context) => Theme(
+        data: Theme.of(context).copyWith(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+        ),
+        child: PopupMenuButton<String>(
+          tooltip: '',
+          itemBuilder: (context) {
+            final textStyle = context.tt.bodyMedium;
+            return [
+              PopupMenuItem(child: Text('Admin', style: textStyle)),
+              PopupMenuItem(child: Text('Logout', style: textStyle)),
+            ];
+          },
+          child: const SizedBox(
+            width: 28,
+            height: 28,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                //shape: BoxShape.circle,
+                color: lightBlue,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+              child: Center(child: Text('AK')),
             ),
-            child: Center(child: Text('AK')),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

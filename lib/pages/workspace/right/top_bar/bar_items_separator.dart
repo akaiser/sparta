@@ -6,16 +6,14 @@ class BarItemsSeparator extends StatelessWidget {
   const BarItemsSeparator({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ColoredBox(
-        color: context.td.dividerColor,
-        child: const SizedBox(
-          width: sectionsDividerThickness,
-          height: 28,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ColoredBox(
+          color: context.td.dividerColor,
+          child: const SizedBox(
+            width: sectionsDividerThickness,
+            height: 28,
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

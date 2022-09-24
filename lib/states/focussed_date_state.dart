@@ -33,26 +33,24 @@ FocussedDateState focussedDateStateReducer(
   return old;
 }
 
-TypedAppEpic<FocusDateAction> focusDateEpic() {
-  return TypedAppEpic<FocusDateAction>(
-    (actions, store) => actions //
-        .where((action) => action.checkShownEvents)
-        .asyncMap((action) {
-      final overrideDate = action.date;
-      final eventsState = store.state.eventsState;
-      final dateIsShown = eventsState.events.shownEventsContainDate(
-        eventsState.refDate,
-        overrideDate,
-      );
-      if (!dateIsShown) {
-        return FetchEventsAction(
-          EventsActionType.picker,
-          overriddenRefDate: overrideDate,
+TypedAppEpic<FocusDateAction> focusDateEpic() => TypedAppEpic<FocusDateAction>(
+      (actions, store) => actions //
+          .where((action) => action.checkShownEvents)
+          .asyncMap((action) {
+        final overrideDate = action.date;
+        final eventsState = store.state.eventsState;
+        final dateIsShown = eventsState.events.shownEventsContainDate(
+          eventsState.refDate,
+          overrideDate,
         );
-      }
-    }),
-  );
-}
+        if (!dateIsShown) {
+          return FetchEventsAction(
+            EventsActionType.picker,
+            overriddenRefDate: overrideDate,
+          );
+        }
+      }),
+    );
 
 class FocussedDateState extends Equatable {
   const FocussedDateState({

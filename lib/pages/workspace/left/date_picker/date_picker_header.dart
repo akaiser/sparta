@@ -7,24 +7,22 @@ class DatePickerHeader extends StatelessWidget {
   const DatePickerHeader({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 32),
-      child: Row(
-        children: WeekDay.values
-            .map(
-              (weekDay) => Expanded(
-                child: Text(
-                  weekDay.l10nShort(context.l10n),
-                  style: context.tt.subtitle2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 32),
+        child: Row(
+          children: WeekDay.values
+              .map(
+                (weekDay) => Expanded(
+                  child: Text(
+                    weekDay.l10nShort(context.l10n),
+                    style: context.tt.subtitle2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
                 ),
-              ),
-            )
-            .unmodifiable,
-      ),
-    );
-  }
+              )
+              .unmodifiable,
+        ),
+      );
 }

@@ -36,12 +36,10 @@ class _ExpandableTileItemText extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: context.tt.labelMedium,
-      overflow: TextOverflow.fade,
-      softWrap: false,
-    );
-  }
+  Widget build(BuildContext context) => Text(
+        title,
+        style: context.tt.labelMedium,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      );
 }

@@ -4,20 +4,18 @@ import 'package:sparta/states/focussed_date_state.dart';
 import 'package:sparta/states/focussed_event_state.dart';
 import 'package:sparta/states/settings_state.dart';
 
-AppState appStateReducer(AppState state, dynamic action) {
-  return AppState(
-    eventsState: eventsStateReducer(state.eventsState, action),
-    focussedDateState: focussedDateStateReducer(
-      state.focussedDateState,
-      action,
-    ),
-    focussedEventState: focussedEventStateReducer(
-      state.focussedEventState,
-      action,
-    ),
-    settingsState: settingsStateReducer(state.settingsState, action),
-  );
-}
+AppState appStateReducer(AppState state, dynamic action) => AppState(
+      eventsState: eventsStateReducer(state.eventsState, action),
+      focussedDateState: focussedDateStateReducer(
+        state.focussedDateState,
+        action,
+      ),
+      focussedEventState: focussedEventStateReducer(
+        state.focussedEventState,
+        action,
+      ),
+      settingsState: settingsStateReducer(state.settingsState, action),
+    );
 
 class AppState extends Equatable {
   const AppState({

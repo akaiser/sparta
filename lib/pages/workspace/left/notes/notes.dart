@@ -7,13 +7,11 @@ class Notes extends StatelessWidget {
   const Notes({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ExpandableTile(
-      context.l10n.notes,
-      children: const [
-        ExpandableTileItem('TBD'),
-        ExpandableTileItem('TBD'),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => ExpandableTile(
+        context.l10n.notes,
+        children: const [
+          ExpandableTileItem('TBD'),
+          ExpandableTileItem('TBD'),
+        ],
+      );
 }

@@ -8,25 +8,23 @@ class DayNames extends StatelessWidget {
   const DayNames({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ValueConnector<bool>(
-      converter: (state) => state.settingsState.isWorkWeek,
-      builder: (context, isWorkWeek, _) => Row(
-        children: WeekDay.values
-            .take(isWorkWeek ? 5 : 7)
-            .map(
-              (weekDay) => Expanded(
-                child: Text(
-                  weekDay.l10n(context.l10n),
-                  style: context.tt.subtitle2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
+  Widget build(BuildContext context) => ValueConnector<bool>(
+        converter: (state) => state.settingsState.isWorkWeek,
+        builder: (context, isWorkWeek, _) => Row(
+          children: WeekDay.values
+              .take(isWorkWeek ? 5 : 7)
+              .map(
+                (weekDay) => Expanded(
+                  child: Text(
+                    weekDay.l10n(context.l10n),
+                    style: context.tt.subtitle2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
                 ),
-              ),
-            )
-            .unmodifiable,
-      ),
-    );
-  }
+              )
+              .unmodifiable,
+        ),
+      );
 }

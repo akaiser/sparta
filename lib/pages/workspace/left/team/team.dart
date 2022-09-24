@@ -7,17 +7,15 @@ class Team extends StatelessWidget {
   const Team({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ExpandableTile(
-      context.l10n.team,
-      children: const [
-        ExpandableTileItem('Les Grossman'),
-        ExpandableTileItem('Kirk Lazarus'),
-        ExpandableTileItem('Alpa Chino'),
-        ExpandableTileItem('Tugg Speedman'),
-        ExpandableTileItem('Jeff Portnoy'),
-        ExpandableTileItem('Rick Peck'),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => ExpandableTile(
+        context.l10n.team,
+        children: const [
+          ExpandableTileItem('Les Grossman'),
+          ExpandableTileItem('Kirk Lazarus'),
+          ExpandableTileItem('Alpa Chino'),
+          ExpandableTileItem('Tugg Speedman'),
+          ExpandableTileItem('Jeff Portnoy'),
+          ExpandableTileItem('Rick Peck'),
+        ],
+      );
 }

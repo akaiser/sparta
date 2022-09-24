@@ -9,23 +9,21 @@ class LeftView extends StatelessWidget {
   const LeftView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const DatePicker(),
-        verticalDivider,
-        Expanded(
-          child: ListView(
-            children: const [
-              Calendars(),
-              verticalDivider,
-              Team(),
-              verticalDivider,
-              Notes(),
-            ],
+  Widget build(BuildContext context) => Column(
+        children: [
+          const DatePicker(),
+          verticalDivider,
+          Expanded(
+            child: ListView(
+              children: const [
+                Calendars(),
+                verticalDivider,
+                Team(),
+                verticalDivider,
+                Notes(),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

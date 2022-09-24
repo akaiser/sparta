@@ -1,6 +1,24 @@
 include: package:very_good_analysis/analysis_options.yaml
 
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  rules:
+    - avoid-border-all
+    - avoid-non-null-assertion
+    - avoid-redundant-async
+    - avoid-returning-widgets
+    - no-equal-then-else
+    - prefer-conditional-expressions
+    - prefer-correct-edge-insets-constructor
+    - prefer-immediate-return
+    - prefer-iterable-of
+    - prefer-last
+
 linter:
   rules:
     depend_on_referenced_packages: false
+    prefer_expression_function_bodies: true
     public_member_api_docs: false

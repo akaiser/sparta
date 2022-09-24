@@ -20,20 +20,16 @@ class SimpleSplit extends StatelessWidget {
   final double? initLeftWidth;
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constrains) {
-        return _SplitView(
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constrains) => _SplitView(
           left: left,
           right: right,
           maxWidth: constrains.maxWidth,
           leftViewVisible: leftViewVisible,
           dividerBorderColor: dividerBorderColor,
           initLeftWidth: initLeftWidth,
-        );
-      },
-    );
-  }
+        ),
+      );
 }
 
 class _SplitView extends StatefulWidget {
@@ -73,9 +69,8 @@ class _SplitViewState extends State<_SplitView> {
     super.dispose();
   }
 
-  double _leftWidthCalculated(double leftWidth) {
-    return widget.maxWidth - leftWidth < 0 ? widget.maxWidth : leftWidth;
-  }
+  double _leftWidthCalculated(double leftWidth) =>
+      widget.maxWidth - leftWidth < 0 ? widget.maxWidth : leftWidth;
 
   void _updateLeftWidth(double dx) {
     final leftWidthCurrent = _leftWidthNotifier.value;
@@ -91,54 +86,52 @@ class _SplitViewState extends State<_SplitView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Visibility(
-          maintainState: true,
-          visible: widget.leftViewVisible,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: _dividerBorderWidth),
-                child: ValueListenableBuilder<double>(
-                  valueListenable: _leftWidthNotifier,
-                  builder: (context, leftWidth, child) => SizedBox(
-                    width: _leftWidthCalculated(leftWidth),
-                    child: child,
+  Widget build(BuildContext context) => Row(
+        children: [
+          Visibility(
+            maintainState: true,
+            visible: widget.leftViewVisible,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: _dividerBorderWidth),
+                  child: ValueListenableBuilder<double>(
+                    valueListenable: _leftWidthNotifier,
+                    builder: (context, leftWidth, child) => SizedBox(
+                      width: _leftWidthCalculated(leftWidth),
+                      child: child,
+                    ),
+                    child: widget.left,
                   ),
-                  child: widget.left,
                 ),
-              ),
-              Positioned(
-                top: 0,
-                right: 0,
-                bottom: 0,
-                child: _Divider(
-                  onDxUpdate: _updateLeftWidth,
-                  dividerBorderColor: widget.dividerBorderColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  offset: Offset(-5, 0),
-                  color: Colors.black26,
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: _Divider(
+                    onDxUpdate: _updateLeftWidth,
+                    dividerBorderColor: widget.dividerBorderColor,
+                  ),
                 ),
               ],
             ),
-            child: widget.right,
           ),
-        ),
-      ],
-    );
-  }
+          Expanded(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 10,
+                    offset: Offset(-5, 0),
+                    color: Colors.black26,
+                  ),
+                ],
+              ),
+              child: widget.right,
+            ),
+          ),
+        ],
+      );
 }
 
 class _Divider extends StatelessWidget {
@@ -151,23 +144,21 @@ class _Divider extends StatelessWidget {
   final Color dividerBorderColor;
 
   @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.resizeColumn,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onPanUpdate: (details) => onDxUpdate(details.delta.dx),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(width: _dividerWidth),
-            SizedBox(
-              width: _dividerBorderWidth,
-              child: ColoredBox(color: dividerBorderColor),
-            ),
-          ],
+  Widget build(BuildContext context) => MouseRegion(
+        cursor: SystemMouseCursors.resizeColumn,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onPanUpdate: (details) => onDxUpdate(details.delta.dx),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(width: _dividerWidth),
+              SizedBox(
+                width: _dividerBorderWidth,
+                child: ColoredBox(color: dividerBorderColor),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

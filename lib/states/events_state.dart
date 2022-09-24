@@ -92,31 +92,30 @@ EventsState eventsStateReducer(EventsState old, dynamic action) {
   return old;
 }
 
-TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) {
-  return TypedAppEpic<FetchEventsAction>(
-    (actions, store) => actions
-        .where((_) => store.state.eventsState.isLoading)
-        .map((action) => action.actionType)
-        .asyncMap<_EventsAction>(
-          (actionType) => tryAndCatch(
-            () async {
-              final refDate = store.state.eventsState.refDate;
-              final json = await http.fetchEvents(
-                from: refDate.toFetchStartDate(actionType),
-                to: refDate.toFetchEndDate(actionType),
-              );
+TypedAppEpic<FetchEventsAction> fetchEventsEpic(EventsHttpClient http) =>
+    TypedAppEpic<FetchEventsAction>(
+      (actions, store) => actions
+          .where((_) => store.state.eventsState.isLoading)
+          .map((action) => action.actionType)
+          .asyncMap<_EventsAction>(
+            (actionType) => tryAndCatch(
+              () async {
+                final refDate = store.state.eventsState.refDate;
+                final json = await http.fetchEvents(
+                  from: refDate.toFetchStartDate(actionType),
+                  to: refDate.toFetchEndDate(actionType),
+                );
 
-              final model = {
-                for (final EventsJson events in json)
-                  events.day.midDay: events.items.map(EventModel.fromJson),
-              };
-              return ResultFetchEventsAction(model);
-            },
-            ErrorFetchEventsAction.new,
+                final model = {
+                  for (final EventsJson events in json)
+                    events.day.midDay: events.items.map(EventModel.fromJson),
+                };
+                return ResultFetchEventsAction(model);
+              },
+              ErrorFetchEventsAction.new,
+            ),
           ),
-        ),
-  );
-}
+    );
 
 class EventsState extends Equatable {
   const EventsState({

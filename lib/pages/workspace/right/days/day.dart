@@ -30,40 +30,38 @@ class Day extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _onNotFocussedDateTap(context),
-      onSecondaryTap: () {
-        _onNotFocussedDateTap(context);
-        // TODO(albert): open right click menu(create event)
-      },
-      child: Column(
-        children: [
-          GestureDetector(
-            child: DayHeader(
-              date,
-              printMonth: printMonth,
-              printWeekNumber: printWeekNumber,
-              isCurrentDay: date.isSameDay(now),
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => _onNotFocussedDateTap(context),
+        onSecondaryTap: () {
+          _onNotFocussedDateTap(context);
+          // TODO(albert): open right click menu(create event)
+        },
+        child: Column(
+          children: [
+            GestureDetector(
+              child: DayHeader(
+                date,
+                printMonth: printMonth,
+                printWeekNumber: printWeekNumber,
+                isCurrentDay: date.isSameDay(now),
+              ),
             ),
-          ),
-          verticalDivider,
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(color: context.td.dividerColor),
+            verticalDivider,
+            Expanded(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(color: context.td.dividerColor),
+                  ),
+                ),
+                child: DayBody(
+                  date.truncate.millisecondsSinceEpoch,
+                  events: events,
+                  onNotFocussedDateTap: _onNotFocussedDateTap,
                 ),
               ),
-              child: DayBody(
-                date.truncate.millisecondsSinceEpoch,
-                events: events,
-                onNotFocussedDateTap: _onNotFocussedDateTap,
-              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

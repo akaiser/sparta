@@ -5,7 +5,7 @@ import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/value_connector.dart';
 import 'package:sparta/pages/_shared/ui/hover_region.dart';
 import 'package:sparta/pages/_shared/ui/simple_grid.dart';
-import 'package:sparta/states/focussed_date_state.dart';
+import 'package:sparta/states/focussed_day_state.dart';
 
 const _columnCount = 7;
 const _rowCount = 6;
@@ -88,14 +88,14 @@ class _DateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ValueConnector<bool>(
         converter: (state) =>
-            date.isSameDay(state.focussedDateState.focusedDate),
+            date.isSameDay(state.focussedDayState.focusedDate),
         builder: (context, isFocussedDay, child) => GestureDetector(
           onTap: isFocussedDay
               ? null
               : () => context.store.dispatch(
-                    FocusDateAction(
+                    FocusDayAction(
                       date,
-                      checkShownEvents: true,
+                      checkShownDayEvents: true,
                     ),
                   ),
           child: HoverRegion(
@@ -119,7 +119,7 @@ class _DateItem extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(6),
           child: Text(
             '${date.day}',
             textAlign: TextAlign.center,

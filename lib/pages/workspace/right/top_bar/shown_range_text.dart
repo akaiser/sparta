@@ -10,9 +10,9 @@ class ShownRangeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueConnector<_State>(
-        ignoreChange: (state) => state.eventsState.isLoading,
+        ignoreChange: (state) => state.dayEventsState.isLoading,
         converter: (state) {
-          final refDate = state.eventsState.refDate;
+          final refDate = state.dayEventsState.refDate;
           final isWorkWeek = state.settingsState.isWorkWeek;
           final endDateSubtractDuration = Duration(days: isWorkWeek ? 2 : 0);
           return _State(

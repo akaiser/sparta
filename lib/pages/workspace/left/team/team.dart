@@ -8,7 +8,7 @@ class Team extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ExpandableTile(
-        context.l10n.team,
+        Text(context.l10n.team),
         children: const [
           ExpandableTileItem('Les Grossman'),
           ExpandableTileItem('Kirk Lazarus'),

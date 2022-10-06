@@ -50,7 +50,7 @@ class _SplitView extends StatefulWidget {
   final double? initLeftWidth;
 
   @override
-  _SplitViewState createState() => _SplitViewState();
+  State<_SplitView> createState() => _SplitViewState();
 }
 
 class _SplitViewState extends State<_SplitView> {

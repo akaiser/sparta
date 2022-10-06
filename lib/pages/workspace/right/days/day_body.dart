@@ -1,28 +1,53 @@
-import 'package:flutter/widgets.dart';
-import 'package:sparta/pages/_shared/models/event_model.dart';
-import 'package:sparta/pages/workspace/right/days/event.dart';
+import 'package:flutter/material.dart';
+import 'package:sparta/pages/_shared/models/day_event_model.dart';
+import 'package:sparta/pages/workspace/right/days/day_event.dart';
 
-class DayBody extends StatelessWidget {
+class DayBody extends StatefulWidget {
   const DayBody(
     this.listId, {
-    required this.events,
-    required this.onNotFocussedDateTap,
+    required this.dayEvents,
+    required this.onNotFocussedDayTap,
     super.key,
   });
 
   final int listId;
-  final Iterable<EventModel> events;
-  final ValueSetter<BuildContext> onNotFocussedDateTap;
+  final Iterable<DayEventModel> dayEvents;
+  final ValueSetter<BuildContext> onNotFocussedDayTap;
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
-        key: PageStorageKey(listId),
-        controller: ScrollController(),
-        padding: const EdgeInsets.only(left: 1, top: 1, right: 2),
-        itemCount: events.length,
-        itemBuilder: (_, index) => Event(
-          events.elementAt(index),
-          onNotFocussedDateTap: onNotFocussedDateTap,
+  State<DayBody> createState() => _DayBodyState();
+}
+
+class _DayBodyState extends State<DayBody> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scrollbar(
+        controller: _scrollController,
+        child: ListView.builder(
+          key: PageStorageKey(widget.listId),
+          controller: _scrollController,
+          padding: const EdgeInsets.only(left: 2, top: 2, right: 3),
+          itemCount: widget.dayEvents.length,
+          itemBuilder: (context, index) {
+            final dayEvent = widget.dayEvents.elementAt(index);
+            return DayEvent(
+              dayEvent,
+              onNotFocussedDayTap: widget.onNotFocussedDayTap,
+            );
+          },
         ),
       );
 }

@@ -46,7 +46,7 @@ class _LoadingOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => VisibilityConnector(
-        visible: (state) => state.eventsState.isLoading,
+        visible: (state) => state.dayEventsState.isLoading,
         builder: (context) => const SizedBox.expand(
           child: FadeIn(
             child: ColoredBox(

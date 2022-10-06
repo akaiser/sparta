@@ -8,7 +8,7 @@ class Notes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ExpandableTile(
-        context.l10n.notes,
+        Text(context.l10n.notes),
         children: const [
           ExpandableTileItem('TBD'),
           ExpandableTileItem('TBD'),

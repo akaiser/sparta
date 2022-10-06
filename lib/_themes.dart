@@ -11,6 +11,8 @@ const gridBackgroundColor = Color.fromRGBO(0, 0, 0, 0.70);
 
 const sectionsDividerThickness = 1.0;
 
+const dayEventHeight = 24.0;
+
 const verticalDivider = Divider(height: 1, thickness: sectionsDividerThickness);
 
 const currentDayBorder = Border.fromBorderSide(
@@ -63,12 +65,3 @@ class AppTextTheme {
 
   TextStyle? get labelMedium => _textTheme.labelMedium;
 }
-
-const sonstiges = Color.fromRGBO(128, 64, 0, 1);
-const auslieferung = Color.fromRGBO(0, 0, 0, 1);
-const mietwagen = Color.fromRGBO(255, 0, 0, 1);
-const urlaub = Color.fromRGBO(139, 195, 74, 1);
-const schulung = Color.fromRGBO(192, 192, 192, 1);
-const feiertage = Color.fromRGBO(255, 128, 0, 1);
-const werkstatt = Color.fromRGBO(151, 151, 255, 1);
-const geburtstage = Color.fromRGBO(255, 255, 0, 1);

@@ -16,6 +16,6 @@ class VisibilityConnector extends StatelessWidget {
   Widget build(BuildContext context) => ValueConnector<bool>(
         converter: visible,
         builder: (context, shouldShow, _) =>
-            shouldShow ? builder(context) : const SizedBox(),
+            shouldShow ? builder(context) : const SizedBox.shrink(),
       );
 }

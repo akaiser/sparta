@@ -4,7 +4,7 @@ import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
 import 'package:sparta/pages/_shared/state/listenable_builder.dart';
 import 'package:sparta/pages/_shared/ui/hover_icon_button.dart';
-import 'package:sparta/states/events_state.dart';
+import 'package:sparta/states/day_events_state.dart';
 
 class DatePickerControls extends StatefulWidget {
   const DatePickerControls(this.pickerDateNotifier, {super.key});
@@ -26,7 +26,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => context.store.onChange
-          .map((appState) => appState.focussedDateState)
+          .map((appState) => appState.focussedDayState)
           .distinct()
           .map((focussedDateState) => focussedDateState.focusedDate)
           .where((focusedDate) => !_pickerDate.isSameMonth(focusedDate))
@@ -82,7 +82,7 @@ class _DatePickerControlsState extends State<DatePickerControls> {
 class _CircleButton extends StatelessWidget {
   const _CircleButton({required this.isSameMonth});
 
-  static const _initAction = FetchEventsAction(EventsActionType.init);
+  static const _initAction = FetchDayEventsAction(DayEventsActionType.init);
 
   final bool isSameMonth;
 

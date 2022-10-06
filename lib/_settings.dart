@@ -10,6 +10,8 @@ const _weekViewKey = '$_keyPrefix.week_view';
 class Settings {
   Settings._();
 
+  static final _instance = SharedPreferences.getInstance();
+
   static late bool isLightTheme;
   static late bool isLeftViewVisible;
   static late String weekView;
@@ -34,14 +36,15 @@ class Settings {
 
   // getOrSet //
 
-  static Future<bool> _getOrSetBool(String key, bool initValue) => _instance(
+  static Future<bool> _getOrSetBool(String key, bool initValue) =>
+      _instance.then(
         (prefs) async =>
             prefs.getBool(key) ??
             await prefs.setBool(key, initValue).then((_) => initValue),
       );
 
   static Future<String> _getOrSetString(String key, String initValue) =>
-      _instance(
+      _instance.then(
         (prefs) async =>
             prefs.getString(key) ??
             await prefs.setString(key, initValue).then((_) => initValue),
@@ -50,15 +53,8 @@ class Settings {
   // set //
 
   static Future<void> _setBool(String key, bool value) =>
-      _instance((prefs) => prefs.setBool(key, value));
+      _instance.then((prefs) => prefs.setBool(key, value));
 
   static Future<void> _setString(String key, String value) =>
-      _instance((prefs) => prefs.setString(key, value));
-
-  // misc //
-
-  static Future<R> _instance<R>(
-    Future<R> Function(SharedPreferences prefs) onPrefs,
-  ) =>
-      SharedPreferences.getInstance().then(onPrefs);
+      _instance.then((prefs) => prefs.setString(key, value));
 }

@@ -1,10 +1,10 @@
 name: sparta
 description: Sparta
-version: 0.0.18
+version: 0.0.19
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
-  flutter: ">=3.3.2"
+  flutter: ">=3.3.4"
 
 dependencies:
   equatable: ^2.0.5
@@ -19,7 +19,7 @@ dependencies:
   shared_preferences: ^2.0.15
 
 dev_dependencies:
-  dart_code_metrics: ^4.19.0
+  dart_code_metrics: ^4.19.1
   flutter_test:
     sdk: flutter
   integration_test:

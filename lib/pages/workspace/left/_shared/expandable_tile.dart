@@ -5,14 +5,14 @@ import 'package:sparta/pages/workspace/left/_shared/expandable_tile_item.dart';
 class ExpandableTile extends StatelessWidget {
   const ExpandableTile(
     this.title, {
-    required this.children,
+    this.children,
     this.initiallyExpanded = false,
     super.key,
   });
 
-  final String title;
+  final Widget title;
   final bool initiallyExpanded;
-  final List<ExpandableTileItem> children;
+  final List<ExpandableTileItem>? children;
 
   @override
   Widget build(BuildContext context) => Theme(
@@ -26,16 +26,16 @@ class ExpandableTile extends StatelessWidget {
           textColor: context.td.hintColor,
           iconColor: context.td.hintColor,
           initiallyExpanded: initiallyExpanded,
-          title: Text(
-            title,
+          title: DefaultTextStyle.merge(
             style: TextStyle(
               fontSize: context.tt.subtitle2?.fontSize,
               fontWeight: context.tt.subtitle2?.fontWeight,
             ),
             overflow: TextOverflow.fade,
             softWrap: false,
+            child: title,
           ),
-          children: children,
+          children: children ?? const [],
         ),
       );
 }

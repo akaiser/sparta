@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class FadeIn extends StatefulWidget {
   const FadeIn({
     required this.child,
-    this.millis = 300,
+    this.millis = 200,
     super.key,
   });
 
@@ -14,7 +14,7 @@ class FadeIn extends StatefulWidget {
   State<FadeIn> createState() => _FadeInState();
 }
 
-class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
+class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
@@ -23,7 +23,13 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.millis),
       vsync: this,
-    )..forward();
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    _controller.forward();
+    super.didChangeDependencies();
   }
 
   @override
@@ -34,10 +40,7 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => FadeTransition(
-        opacity: CurvedAnimation(
-          parent: _controller,
-          curve: Curves.ease,
-        ),
+        opacity: _controller.drive(CurveTween(curve: Curves.easeIn)),
         child: widget.child,
       );
 }

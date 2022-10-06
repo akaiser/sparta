@@ -10,6 +10,7 @@ dart_code_metrics:
     - avoid-non-null-assertion
     - avoid-redundant-async
     - avoid-returning-widgets
+    - avoid-wrapping-in-padding
     - no-equal-then-else
     - prefer-conditional-expressions
     - prefer-correct-edge-insets-constructor

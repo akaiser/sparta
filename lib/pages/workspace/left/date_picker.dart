@@ -30,7 +30,7 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) => ValueConnector<bool>(
-        converter: (state) => state.eventsState.isLoading,
+        converter: (state) => state.dayEventsState.isLoading,
         builder: (_, isLoading, child) => AbsorbPointer(
           absorbing: isLoading,
           child: child,

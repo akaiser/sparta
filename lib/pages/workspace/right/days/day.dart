@@ -2,50 +2,38 @@ import 'package:flutter/widgets.dart';
 import 'package:sparta/_themes.dart';
 import 'package:sparta/pages/_shared/extensions/build_context.dart';
 import 'package:sparta/pages/_shared/extensions/date_time.dart';
-import 'package:sparta/pages/_shared/models/event_model.dart';
+import 'package:sparta/pages/_shared/models/day_event_model.dart';
 import 'package:sparta/pages/workspace/right/days/day_body.dart';
-import 'package:sparta/pages/workspace/right/days/day_header.dart';
-import 'package:sparta/states/focussed_date_state.dart';
+import 'package:sparta/states/focussed_day_state.dart';
 
 class Day extends StatelessWidget {
   const Day({
-    required this.now,
     required this.date,
-    required this.printMonth,
-    required this.printWeekNumber,
-    required this.events,
+    required this.dayEvents,
+    required this.dayHeader,
     super.key,
   });
 
-  final DateTime now;
   final DateTime date;
-  final bool printMonth;
-  final bool printWeekNumber;
-  final Iterable<EventModel> events;
+  final Iterable<DayEventModel> dayEvents;
+  final Widget dayHeader;
 
-  void _onNotFocussedDateTap(BuildContext context) {
-    if (!date.isSameDay(context.store.state.focussedDateState.focusedDate)) {
-      context.store.dispatch(FocusDateAction(date));
+  void _onNotFocussedDayTap(BuildContext context) {
+    if (!date.isSameDay(context.store.state.focussedDayState.focusedDate)) {
+      context.store.dispatch(FocusDayAction(date));
     }
   }
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => _onNotFocussedDateTap(context),
+        onTap: () => _onNotFocussedDayTap(context),
         onSecondaryTap: () {
-          _onNotFocussedDateTap(context);
+          _onNotFocussedDayTap(context);
           // TODO(albert): open right click menu(create event)
         },
         child: Column(
           children: [
-            GestureDetector(
-              child: DayHeader(
-                date,
-                printMonth: printMonth,
-                printWeekNumber: printWeekNumber,
-                isCurrentDay: date.isSameDay(now),
-              ),
-            ),
+            dayHeader,
             verticalDivider,
             Expanded(
               child: DecoratedBox(
@@ -56,8 +44,8 @@ class Day extends StatelessWidget {
                 ),
                 child: DayBody(
                   date.truncate.millisecondsSinceEpoch,
-                  events: events,
-                  onNotFocussedDateTap: _onNotFocussedDateTap,
+                  dayEvents: dayEvents,
+                  onNotFocussedDayTap: _onNotFocussedDayTap,
                 ),
               ),
             ),

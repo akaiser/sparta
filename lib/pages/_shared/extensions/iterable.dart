@@ -1,9 +1,11 @@
 extension IterableEx<T> on Iterable<T> {
   List<T> get unmodifiable => List.unmodifiable(this);
 
-  Iterable<T> separate(T by) => [...append(by)]..removeLast();
+  Iterable<T> separate(T by) => length < 2 ? this : _exp(by).take(length + 1);
 
-  Iterable<T> append(T by) => expand((it) => [it, by]);
+  Iterable<T> append(T by) => isEmpty ? [by] : _exp(by);
+
+  Iterable<T> _exp(T by) => expand((it) => [it, by]);
 
   Iterable<R> mapIndexed<R>(R Function(int index, T element) mapper) sync* {
     var i = 0;

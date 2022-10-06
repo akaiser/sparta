@@ -8,7 +8,7 @@ import 'package:sparta/pages/workspace/right/top_bar/toggle_left_view_button.dar
 import 'package:sparta/pages/workspace/right/top_bar/toggle_theme_mode_button.dart';
 import 'package:sparta/pages/workspace/right/top_bar/user_menu.dart';
 import 'package:sparta/pages/workspace/right/top_bar/week_view_dropdown.dart';
-import 'package:sparta/states/events_state.dart';
+import 'package:sparta/states/day_events_state.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -20,14 +20,14 @@ class TopBar extends StatelessWidget {
           BarItemsSeparator(),
           _ArrowActionButton(
             Icons.keyboard_arrow_up,
-            EventsActionType.previousWeek,
+            DayEventsActionType.previousWeek,
           ),
           SizedBox(width: 4),
           CircleActionButton(),
           SizedBox(width: 4),
           _ArrowActionButton(
             Icons.keyboard_arrow_down,
-            EventsActionType.nextWeek,
+            DayEventsActionType.nextWeek,
           ),
           BarItemsSeparator(),
           Expanded(child: ShownRangeText()),
@@ -44,11 +44,13 @@ class _ArrowActionButton extends StatelessWidget {
   const _ArrowActionButton(this.icon, this.actionType);
 
   final IconData icon;
-  final EventsActionType actionType;
+  final DayEventsActionType actionType;
 
   @override
   Widget build(BuildContext context) => HoverIconButton(
         icon,
-        onPressed: () => context.store.dispatch(FetchEventsAction(actionType)),
+        onPressed: () => context.store.dispatch(
+          FetchDayEventsAction(actionType),
+        ),
       );
 }

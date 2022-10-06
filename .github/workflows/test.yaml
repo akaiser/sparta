@@ -13,5 +13,6 @@ jobs:
           flutter-version: '3.3.4'
           channel: 'stable'
       - run: flutter analyze
+      - run: flutter pub run dart_code_metrics:metrics analyze lib
       - run: flutter format -n --set-exit-if-changed .
       - run: flutter test

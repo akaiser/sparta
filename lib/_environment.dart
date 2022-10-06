@@ -1,3 +1,5 @@
+// ignore_for_file: comment_references
+
 /// Equivalent [kReleaseMode] without Flutter dependency
 const bool isReleaseMode = bool.fromEnvironment('dart.vm.product');
 

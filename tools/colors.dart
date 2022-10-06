@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 const sonstiges = Color.fromRGBO(128, 64, 0, 1);
@@ -24,4 +26,4 @@ void main() {
   runApp(const MaterialApp(home: Scaffold(body: Text('test'))));
 }
 
-int _convertColorTHex(Color color) => int.parse('${color.value}', radix: 16);
+//int _convertColorTHex(Color color) => int.parse('${color.value}', radix: 16);

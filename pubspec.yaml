@@ -19,7 +19,7 @@ dependencies:
   shared_preferences: ^2.0.15
 
 dev_dependencies:
-  dart_code_metrics: ^4.19.1
+  dart_code_metrics: ">=4.19.1 <6.0.0"
   flutter_test:
     sdk: flutter
   integration_test:
